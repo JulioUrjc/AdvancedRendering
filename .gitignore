@@ -4,7 +4,11 @@
 # User-specific files
 *.suo
 *.user
+*.userosscache
 *.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -20,6 +24,9 @@ bld/
 
 # Roslyn cache directories
 *.ide/
+
+# Visual Studo 2015 cache/options directory
+.vs/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -181,3 +188,12 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+
+# Visual Studio 6 build log
+*.plg
+
+# Visual Studio 6 workspace options file
+*.opt
