@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pic.h"
+#include "path.h"
 
 #ifdef _OS_X_
 #include <OpenGL/gl.h>
@@ -163,6 +164,7 @@ void display()
 		you may also want to precede it with your rotation/translation/scaling */
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 	glBegin(GL_POLYGON);
 
