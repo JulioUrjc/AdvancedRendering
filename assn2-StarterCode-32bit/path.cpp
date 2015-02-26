@@ -5,14 +5,14 @@
 #include <cstdlib>
 #include <time.h>
 
-path::path(){
+Path::Path(){
 	generateControlPoints();
 	generateCurve();
 
 	srand(time(NULL));
 }
 
-void path::generateControlPoints()
+void Path::generateControlPoints()
 {
 	////Create some initial control points
 	//////1
@@ -69,7 +69,7 @@ void path::generateControlPoints()
 }
 
 
-void path::generateCurve(){
+void Path::generateCurve(){
 	//step variables
 	int nSteps = 300;
 	float u = 0;
@@ -123,29 +123,29 @@ void path::generateCurve(){
 
 }
 
-float path::getRandom(){
+float Path::getRandom(){
 	return ((float)rand() / (RAND_MAX + 1)) * 1000;
 }
 
 
 
-std::vector<glm::vec4> path::getControlPointList(){
+std::vector<glm::vec4> Path::getControlPointList(){
 	return controlPointList;
 }
 
 
-std::vector<glm::vec3> path::getPointList(){
+std::vector<glm::vec3> Path::getPointList(){
 	return pointList;
 }
 
-std::vector<glm::vec3> path::getTangentList(){
+std::vector<glm::vec3> Path::getTangentList(){
 	return tangentList;
 }
 
-std::vector<glm::vec3> path::getBinormalList(){
+std::vector<glm::vec3> Path::getBinormalList(){
 	return binormalList;
 }
 
-int path::size(){
+int Path::size(){
 	return pointList.size();
 }

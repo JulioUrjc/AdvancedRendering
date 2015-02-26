@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pic.h"
-#include "path.h"
 
 #ifdef _OS_X_
 #include <OpenGL/gl.h>
@@ -39,6 +38,9 @@
 #endif
 
 #include "Splines.h"
+#include "Path.h"
+#include <vector>
+#include <iostream>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -165,8 +167,7 @@ void display()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-	glBegin(GL_POLYGON);
+	/*glBegin(GL_POLYGON);
 
 	glColor3f(1.0, 1.0, 1.0);
 	glVertex3f(-0.5, -0.5, 0.0);
@@ -177,8 +178,22 @@ void display()
 	glColor3f(1.0, 1.0, 0.0);
 	glVertex3f(0.5, -0.5, 0.0);
 
-	glEnd();
+	glEnd();*/
 
+	Path path = Path();
+	std::vector<glm::vec4> pointList = path.getControlPointList();
+	std::cout << pointList.size()<< std::endl;
+	glBegin(GL_POLYGON);
+	
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex3f(pointList[0].r, pointList[0].g, pointList[0].b);
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex3f(pointList[1].r, pointList[1].g, pointList[1].b);
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex3f(pointList[2].r, pointList[2].g, pointList[2].b);
+	
+	glEnd();
+	
 	glutSwapBuffers ();
 }
 
@@ -277,7 +292,7 @@ int main (int argc, char ** argv)
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	glutCreateWindow("15-462 Assignment 2 - Roller Coaster");
+	glutCreateWindow("Torrente Sanguineo");
 
 	/* tells glut to use a particular display function to redraw */
 	glutDisplayFunc(display);

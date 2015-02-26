@@ -3,7 +3,7 @@
 #include <vector>
 #include <glm\gtx\transform.hpp>
 
-class path{
+class Path{
 
 private:
 
@@ -25,8 +25,7 @@ private:
 	float getRandom();
 
 public:
-	path();
-	~path();
+	Path();
 
 	std::vector<glm::vec4> getControlPointList();
 	std::vector<glm::vec3> getPointList();
