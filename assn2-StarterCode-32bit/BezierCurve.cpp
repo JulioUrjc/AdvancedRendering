@@ -20,19 +20,19 @@ void BezierCurve::generateControlPoints()
 	//2
 	controlPointList.push_back(glm::vec4(-2000 + getRandom(), 500 + getRandom(), 2000 + getRandom(), 0));
 	//3
-	controlPointList.push_back(glm::vec4(-3000 + getRandom(), 500 + getRandom(), -2000 + getRandom(), 0));
-	//4
-	controlPointList.push_back(glm::vec4(1000 + getRandom(), 1500 + getRandom(), 1500 + getRandom(), 0));
-	//5
-	controlPointList.push_back(glm::vec4(1500 + getRandom(), 1000 + getRandom(), 1500 + getRandom(), 0));
-	//6
-	controlPointList.push_back(glm::vec4(1500 + getRandom(), 1000 + getRandom(), 1000 + getRandom(), 0));
-	//7
-	controlPointList.push_back(glm::vec4(5000 + getRandom(), 1000 + getRandom(), 500 + getRandom(),0));
-	//8
-	controlPointList.push_back(glm::vec4(6000 + getRandom(), 1500, 500, 0));
-	//8
-	controlPointList.push_back(glm::vec4(6000 + getRandom(), 2000, 0, 0));
+	//controlPointList.push_back(glm::vec4(-3000 + getRandom(), 500 + getRandom(), -2000 + getRandom(), 0));
+	////4
+	//controlPointList.push_back(glm::vec4(1000 + getRandom(), 1500 + getRandom(), 1500 + getRandom(), 0));
+	////5
+	//controlPointList.push_back(glm::vec4(1500 + getRandom(), 1000 + getRandom(), 1500 + getRandom(), 0));
+	////6
+	//controlPointList.push_back(glm::vec4(1500 + getRandom(), 1000 + getRandom(), 1000 + getRandom(), 0));
+	////7
+	//controlPointList.push_back(glm::vec4(5000 + getRandom(), 1000 + getRandom(), 500 + getRandom(),0));
+	////8
+	//controlPointList.push_back(glm::vec4(6000 + getRandom(), 1500, 500, 0));
+	////8
+	//controlPointList.push_back(glm::vec4(6000 + getRandom(), 2000, 0, 0));
 	//9
 	controlPointList.push_back(initialPoint);
 
@@ -64,7 +64,7 @@ void BezierCurve::generateControlPoints()
 
 void BezierCurve::generateCurve(){
 	// step variable
-	int nSteps = 300;
+	int nSteps = 5;
 
 	// Tension
 	float t= 0.5;

@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="VertexNormal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="Mesh.h" />
@@ -106,7 +108,6 @@
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
     <ClInclude Include="Splines.h" />
-    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vein.h" />
     <ClInclude Include="VertexNormal.h" />
   </ItemGroup>
