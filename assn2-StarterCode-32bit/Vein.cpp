@@ -1,7 +1,11 @@
 #include "Vein.h"
 
 //---------------------------------------------------------------------------
+<<<<<<< HEAD
 Vein::Vein(int NP, GLfloat radius, BezierCurve *curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
+=======
+Vein::Vein(int NP, GLfloat radius, BezierCurve* curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
+>>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 	this->NP = NP;
 	this->radius = radius;
 	this->curve = curve;

@@ -43,8 +43,13 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
+<<<<<<< HEAD
 BezierCurve *curve;
 Vein *vein;
+=======
+BezierCurve* curve;
+Vein* vein;
+>>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -162,6 +167,7 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	
 	/*glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 1.0);
 	glVertex3f(-0.5, -0.5, 0.0);
@@ -173,8 +179,14 @@ void display(){
 	glVertex3f(0.5, -0.5, 0.0);
 
 	glEnd();*/
+<<<<<<< HEAD
 	
 	vein->draw(false);
+=======
+
+	vein->draw(false);
+
+>>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 	glutSwapBuffers();
 }
 
@@ -265,7 +277,11 @@ int main (int argc, char ** argv){
 	
 	glInit(); /* do initialization */
 	curve = new BezierCurve();
+<<<<<<< HEAD
 	vein = new Vein(10,20,curve);
+=======
+	vein = new Vein(5, 10, curve);
+>>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 	glutMainLoop();
 	return 0;
 }
