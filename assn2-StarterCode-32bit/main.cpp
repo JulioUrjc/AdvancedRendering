@@ -25,7 +25,7 @@
 #include <GL/glut.h>
 #endif
 
-#include "Path.h"
+#include "BezierCurve.h"
 #include <vector>
 #include <iostream>
 
@@ -41,9 +41,9 @@ int g_iLeftMouseButton = 0;    /* 1 if pressed, 0 if not */
 int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
-/* - Path Variable - */
-Path path = Path();
-std::vector<glm::vec3> pointList = path.getPointList();
+/* - BezierCurve Variable - */
+BezierCurve curve = BezierCurve();
+std::vector<glm::vec3> pointList = curve.getPointList();
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -220,7 +220,7 @@ void glInit(){
 	glutPassiveMotionFunc(mouseidle);
 	/* callback for mouse button changes */
 	glutMouseFunc(mousebutton);
-
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Viewing frustum parameters
 	GLdouble xRight = 10, xLeft = -xRight, yTop = 10, yBot = -yTop, N = 1, F = 1000;
 
