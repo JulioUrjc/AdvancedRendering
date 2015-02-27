@@ -26,6 +26,7 @@
 #endif
 
 #include "BezierCurve.h"
+#include "Vein.h"
 #include <vector>
 #include <iostream>
 
@@ -42,8 +43,8 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-BezierCurve curve = BezierCurve();
-std::vector<PV3D*> pointList = curve.getPointList();
+BezierCurve *curve;
+Vein *vein;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -172,8 +173,8 @@ void display(){
 	glVertex3f(0.5, -0.5, 0.0);
 
 	glEnd();*/
-
-
+	
+	vein->draw(false);
 	glutSwapBuffers();
 }
 
@@ -261,9 +262,10 @@ void glInit(){
 int main (int argc, char ** argv){
 
 	glutInit(&argc,argv);
-
+	
 	glInit(); /* do initialization */
-
+	curve = new BezierCurve();
+	vein = new Vein(10,20,curve);
 	glutMainLoop();
 	return 0;
 }

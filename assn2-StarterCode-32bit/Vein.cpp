@@ -1,10 +1,12 @@
 #include "Vein.h"
 
 //---------------------------------------------------------------------------
-Vein::Vein(int NP, GLfloat radius, BezierCurve curve) : Mesh(NP*curve.nPoints(), NP*curve.nPoints(), NP*curve.nPoints()){
+Vein::Vein(int NP, GLfloat radius, BezierCurve *curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
 	this->NP = NP;
 	this->radius = radius;
 	this->curve = curve;
+
+	build();
 }
 
 Vein::~Vein(){}
@@ -15,14 +17,14 @@ void Vein::build(){
 	Poligon *poli = new Poligon(new PV3D(), NP, radius);                     // Poligono en el origen para desplazarlo al sistema de referencia
 	vector<PV3D*>* puntos = poli->getVertex();                               // local a cada punto de la curva.
 
-	for (int i = 0; i< curve.nPoints(); i++){								 // Esto ocurre en cada "sección" de la vena
+	for (int i = 0; i< curve->nPoints(); i++){								 // Esto ocurre en cada "sección" de la vena
 
-		PV3D* Tt = curve.getTangentList().at(i);           // Normalize Tangent in Point
-		PV3D* Bt = curve.getBinormalList().at(i);          // Binormal
-		PV3D* Nt = curve.getNormalList().at(i);
-		PV3D* Ct = curve.getPointList().at(i);             //Center Point with n steap
+		PV3D* Tt = curve->getTangentList().at(i);           // Normalize Tangent in Point
+		PV3D* Bt = curve->getBinormalList().at(i);          // Binormal
+		PV3D* Nt = curve->getNormalList().at(i);
+		PV3D* Ct = curve->getPointList().at(i);             //Center Point with n steap
 
-		for (int j = 0; j<NP; j++){									// Esto ocurre con cada uno de los vértices del polígono
+		for (int j = 0; j< NP; j++){								// Esto ocurre con cada uno de los vértices del polígono
 			int numV = NP*i + j;
 			PV3D* clon = puntos->at(j)->clone();					// Un clon del punto del polígono para trabajar
 			PV3D* punto = clon->matrixProduct(Nt, Bt, Tt, Ct);      // Transformacion del poligono al sistema de referencia local del punto
@@ -39,10 +41,10 @@ void Vein::build(){
 		faces->at(numFace) = new Face(4);
 		vector<VertexNormal*>* auxNormals = new vector<VertexNormal*>(4);
 
-		int a = (numFace) % (NP*curve.nPoints());
-		int b = (nextVertex(numFace)) % (NP*curve.nPoints());		// Teniendo cuidado de cerrar bien el círculo
-		int c = (nextVertex(numFace) + NP) % (NP*curve.nPoints());
-		int d = (numFace + NP) % (NP*curve.nPoints());
+		int a = (numFace) % (NP*curve->nPoints());
+		int b = (nextVertex(numFace)) % (NP*curve->nPoints());		// Teniendo cuidado de cerrar bien el círculo
+		int c = (nextVertex(numFace) + NP) % (NP*curve->nPoints());
+		int d = (numFace + NP) % (NP*curve->nPoints());
 
 		auxNormals->at(0) = new VertexNormal(a, numFace);
 		auxNormals->at(1) = new VertexNormal(b, numFace);

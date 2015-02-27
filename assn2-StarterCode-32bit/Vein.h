@@ -8,9 +8,9 @@ class Vein : public Mesh{
 	private:
 		int NP;
 		GLfloat radius;
-		BezierCurve curve;
+		BezierCurve *curve;
 	public:
-		Vein(int NP, GLfloat tam, BezierCurve curve);
+		Vein(int NP, GLfloat radius, BezierCurve *curve);
 		~Vein();
 
 		void build();
