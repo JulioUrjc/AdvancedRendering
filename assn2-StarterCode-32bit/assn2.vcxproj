@@ -88,13 +88,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Compass.cpp" />
+    <ClCompile Include="Face.cpp" />
     <ClCompile Include="Path.cpp" />
-    <ClCompile Include="starter.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Point3D.cpp" />
+    <ClCompile Include="Poligon.cpp" />
+    <ClCompile Include="VertexNormal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Compass.h" />
+    <ClInclude Include="Face.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Poligon.h" />
     <ClInclude Include="Splines.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="VertexNormal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
