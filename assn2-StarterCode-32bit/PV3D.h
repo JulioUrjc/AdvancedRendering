@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <math.h>
 
-class Point3D{
+class PV3D{
 private:
 	GLdouble corX;
 	GLdouble corY;
@@ -13,9 +13,9 @@ private:
 
 public:
 
-	Point3D();
-	~Point3D();
-	Point3D(GLdouble x, GLdouble y, GLdouble z);
+	PV3D();
+	~PV3D();
+	PV3D(GLdouble x, GLdouble y, GLdouble z);
 	GLdouble getX();
 	void setX(GLdouble x);
 	GLdouble getY();
@@ -26,12 +26,13 @@ public:
 	int getPv();
 	void setPv(int val);
 
-	Point3D* clone();
-	Point3D* addition(Point3D* v);
-	Point3D* subtraction(Point3D* v);
+	PV3D* clone();
+	PV3D* addition(PV3D* v);
+	PV3D* subtraction(PV3D* v);
+	PV3D* factor(float f);
 	void normalize();
 	GLdouble magnitude();
-	Point3D* crossProduct(Point3D* v);
-	Point3D* matrixProduct(Point3D* Nt, Point3D* Bt, Point3D* Tt, Point3D* Ct);
+	PV3D* crossProduct(PV3D* v);
+	PV3D* matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct);
 };
 

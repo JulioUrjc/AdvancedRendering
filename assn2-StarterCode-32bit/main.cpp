@@ -43,7 +43,7 @@ int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
 BezierCurve curve = BezierCurve();
-std::vector<glm::vec3> pointList = curve.getPointList();
+std::vector<PV3D*> pointList = curve.getPointList();
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -173,15 +173,6 @@ void display(){
 
 	glEnd();*/
 
-	glBegin(GL_LINES);
-		/*glColor3f(1.0, 1.0, 1.0);
-		glVertex3f(-0.5, -0.5, 0.0);*/
-		for (glm::vec3 vector : pointList){
-			glColor3f(1.0, 1.0, 0.0);
-			glVertex3f(vector.r, vector.g, vector.b);
-			//std::cout << vector.r << " " << vector.g << " " << vector.b << std::endl;
-		}
-	glEnd();
 
 	glutSwapBuffers();
 }

@@ -1,20 +1,20 @@
 #pragma once
 
-#include "Point3D.h"
+#include "PV3D.h"
 
 class Compass{
   private:
-	Point3D *pos;
+	PV3D *pos;
 	GLdouble dir;
 
   public:
 	Compass();
 	~Compass();
-	Compass(Point3D *p, GLdouble dir);
-	void setPos(Point3D *p);
+	Compass(PV3D *p, GLdouble dir);
+	void setPos(PV3D *p);
 	void setDir(GLdouble d);
 	GLdouble getDir();
-	Point3D* getPos();
+	PV3D* getPos();
 	void turn(GLdouble a);
 	void forward(GLdouble d);
 };

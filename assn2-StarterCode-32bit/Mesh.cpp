@@ -5,21 +5,21 @@ Mesh::Mesh(int nV, int nF, int nN){
 	numFaces = nF;
 	numNormals = nN;
 
-	vertex = new vector<Point3D*>(numVertex);
+	vertex = new vector<PV3D*>(numVertex);
 	faces = new vector<Face*>(numFaces);
-	normals = new vector<Point3D*>(numNormals);
+	normals = new vector<PV3D*>(numNormals);
 }
 Mesh::~Mesh(){
 	delete vertex;	delete faces;	delete normals;
 }
 
 //--------------------------------------------------------------------------
-//Point3D* Mesh::doVectorNormalNewell(Face* c){
+//PV3D* Mesh::doVectorNormalNewell(Face* c){
 //	GLdouble x = 0;
 //	GLdouble y = 0;
 //	GLdouble z = 0;
-//	Point3D* currentV;
-//	Point3D* nextV;
+//	PV3D* currentV;
+//	PV3D* nextV;
 //	for (int i = 0; i<c->getNumV(); i++){
 //		currentV = vertex->at(c->getVertexIndex(i));
 //		nextV = vertex->at(c->getVertexIndex((i + 1) % c->getNumV()));
@@ -27,7 +27,7 @@ Mesh::~Mesh(){
 //		y += (currentV->getZ() - nextV->getZ())*(currentV->getX() + nextV->getX());
 //		z += (currentV->getX() - nextV->getX())*(currentV->getY() + nextV->getY());
 //	}
-//	Point3D* aux = new Point3D(x, y, z);
+//	PV3D* aux = new PV3D(x, y, z);
 //	aux->normalize();
 //	return aux;
 //}

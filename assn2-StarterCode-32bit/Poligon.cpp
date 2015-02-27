@@ -1,20 +1,20 @@
 #include "Poligon.h"
 
-Poligon::Poligon(void){
+Poligon::Poligon(){
 	center = NULL;
 	vertex = NULL;
 }
-Poligon::Poligon(Point3D *c, int n, GLdouble radius){
+Poligon::Poligon(PV3D *c, int n, GLdouble radius){
 	this->center = c;
 	this->n_sides = n;
 	this->radius = radius;
 	this->calcula_vertices(this->center);
 }
-Poligon::~Poligon(void){
+Poligon::~Poligon(){
 	delete vertex;
 }
 //------------------------------------------------------------------
-void Poligon::calcula_vertices(Point3D* centroTemp){
+void Poligon::calcula_vertices(PV3D* centroTemp){
 	Compass *pencil = new Compass(centroTemp->clone(), 0);
 
 	//CaLculo del angulo en el que se divide la circunferencia
@@ -27,10 +27,10 @@ void Poligon::calcula_vertices(Point3D* centroTemp){
 	pencil->forward(radius);
 	pencil->turn(M_PI-beta);
 
-	Point3D *aux_p;
+	PV3D *aux_p;
 
 	//Poligon's Vertex;
-	this->vertex = new vector<Point3D*>();
+	this->vertex = new vector<PV3D*>();
 	for (int i = 0; i<n_sides; i++){
 		aux_p = pencil->getPos()->clone();
 		vertex->push_back(aux_p);
@@ -41,11 +41,11 @@ void Poligon::calcula_vertices(Point3D* centroTemp){
 }
 
 //------------------------------------------------------------------
-void Poligon::setVertex(vector<Point3D*> *v){
+void Poligon::setVertex(vector<PV3D*> *v){
 	delete this->vertex;
 	this->vertex = v;
 }
-void Poligon::setCenter(Point3D *p){
+void Poligon::setCenter(PV3D *p){
 	delete this->center;
 	this->center = p;
 }
@@ -54,10 +54,10 @@ void Poligon::setRadius(GLdouble r){
 }
 
 //------------------------------------------------------------------
-vector<Point3D*>* Poligon::getVertex(void){
+vector<PV3D*>* Poligon::getVertex(void){
 	return this->vertex;
 }
-Point3D* Poligon::getCenter(void){
+PV3D* Poligon::getCenter(void){
 	return this->center;
 }
 GLdouble Poligon::getRadius(void){

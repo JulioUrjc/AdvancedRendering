@@ -1,10 +1,10 @@
 #include "Compass.h"
 
 Compass::Compass(){
-	pos = new Point3D();
+	pos = new PV3D();
 	dir = 0;
 }
-Compass::Compass(Point3D *p, GLdouble d){
+Compass::Compass(PV3D *p, GLdouble d){
 	pos = p;
 	dir = d;
 }
@@ -12,7 +12,7 @@ Compass::~Compass(){
 	delete pos;
 }
 //-------------------------------------------------------
-void Compass::setPos(Point3D *p){
+void Compass::setPos(PV3D *p){
 	pos = p;
 }
 void Compass::setDir(GLdouble d){
@@ -22,7 +22,7 @@ void Compass::setDir(GLdouble d){
 GLdouble Compass::getDir(){
 	return dir;
 }
-Point3D* Compass::getPos(){
+PV3D* Compass::getPos(){
 	return pos;
 }
 //-------------------------------------------------------

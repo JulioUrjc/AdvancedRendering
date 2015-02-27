@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <glm\gtx\transform.hpp>
+#include "PV3D.h"
 
 class BezierCurve{
 
@@ -10,11 +11,13 @@ private:
 	//Control points
 	std::vector<glm::vec4> controlPointList;
 	//Interpolated curve
-	std::vector<glm::vec3> pointList;
+	std::vector<PV3D*> pointList;
 	//Tangent list
-	std::vector<glm::vec3> tangentList;
+	std::vector<PV3D*> tangentList;
+	//Normal list
+	std::vector<PV3D*> normalList;
 	//Binormal list
-	std::vector<glm::vec3> binormalList;
+	std::vector<PV3D*> binormalList;
 
 	void generateControlPoints();
 	void generateCurve();
@@ -24,9 +27,10 @@ public:
 	BezierCurve();
 
 	std::vector<glm::vec4> getControlPointList();
-	std::vector<glm::vec3> getPointList();
-	std::vector<glm::vec3> getTangentList();
-	std::vector<glm::vec3> getBinormalList();
-	int size();
+	std::vector<PV3D*> getPointList();
+	std::vector<PV3D*> getTangentList();
+	std::vector<PV3D*> getNormalList();
+	std::vector<PV3D*> getBinormalList();
+	int nPoints();
 };
 

@@ -28,7 +28,7 @@ void BezierCurve::generateControlPoints()
 	//6
 	controlPointList.push_back(glm::vec4(1500 + getRandom(), 1000 + getRandom(), 1000 + getRandom(), 0));
 	//7
-	controlPointList.push_back(glm::vec4(5000 + getRandom(), 1000 + getRandom(), 500, getRandom()));
+	controlPointList.push_back(glm::vec4(5000 + getRandom(), 1000 + getRandom(), 500 + getRandom(),0));
 	//8
 	controlPointList.push_back(glm::vec4(6000 + getRandom(), 1500, 500, 0));
 	//8
@@ -72,10 +72,6 @@ void BezierCurve::generateCurve(){
 								  -t,   0,     t,  0,
 							     2*t, t-3, 3-2*t, -t,
 								  -t, 2-t,   t-2,  t);
-	//glm::mat4x4 mMat = glm::mat4x4(	0,		2,		0,		0,
-	//									-1,		0,		1,		0,
-	//									2,		-5,		4,		-1,
-	//									-1,		3,		-3,		1);
 
 	for (int i = 2; i< controlPointList.size()+2; ++i){
 		for (int step = 0; step<nSteps; step++){
@@ -90,19 +86,25 @@ void BezierCurve::generateCurve(){
 			glm::vec4 p = pVec*(mMat*uVec);
 
 			//Adding vertex of interpolated point
-			pointList.push_back(glm::vec3(p.x, p.y, p.z));
+			pointList.push_back(new PV3D(p.x, p.y, p.z));
 		}
 	}
 
 	//Calculate tangents and binormals
 	for (int i = 2; i< pointList.size()+2; ++i){
 		//Tangent = t*([pi-1]-[pi+1])
-		glm::vec3 tangent = glm::normalize(t*(pointList[(i+1) % pointList.size()] - pointList[(i-1) % pointList.size()]));
+		PV3D* tangent = new PV3D();
+		tangent = (pointList[(i + 1) % pointList.size()]->subtraction(pointList[(i - 1) % pointList.size()]))->factor(t);
+		tangent->normalize();
+
 		tangentList.push_back(tangent);
 
 		//Binormal = Normal x Tangent
-		glm::vec3 normal = glm::normalize(glm::cross(tangent, glm::vec3(0,1,0)));
-		glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
+		PV3D* normal= tangent->crossProduct(new PV3D (0,1,0));
+		normal->normalize();
+		normalList.push_back(normal);
+		PV3D* binormal = normal->crossProduct(tangent);
+		binormal->normalize();
 		binormalList.push_back(binormal);
 	}
 
@@ -116,18 +118,22 @@ std::vector<glm::vec4> BezierCurve::getControlPointList(){
 	return controlPointList;
 }
 
-std::vector<glm::vec3> BezierCurve::getPointList(){
+std::vector<PV3D*> BezierCurve::getPointList(){
 	return pointList;
 }
 
-std::vector<glm::vec3> BezierCurve::getTangentList(){
+std::vector<PV3D*> BezierCurve::getTangentList(){
 	return tangentList;
 }
 
-std::vector<glm::vec3> BezierCurve::getBinormalList(){
+std::vector<PV3D*> BezierCurve::getNormalList(){
+	return normalList;
+}
+
+std::vector<PV3D*> BezierCurve::getBinormalList(){
 	return binormalList;
 }
 
-int BezierCurve::size(){
+int BezierCurve::nPoints(){
 	return pointList.size();
 }
