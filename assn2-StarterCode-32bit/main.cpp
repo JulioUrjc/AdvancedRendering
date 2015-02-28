@@ -27,6 +27,7 @@
 
 #include "BezierCurve.h"
 #include "Vein.h"
+//#include "Camera.h"
 #include <vector>
 #include <iostream>
 
@@ -45,6 +46,13 @@ int g_iRightMouseButton = 0;
 /* - BezierCurve Variable - */
 BezierCurve* curve;
 Vein* vein;
+<<<<<<< HEAD
+=======
+
+//Default camera
+//Camera camera(60.0f, 1.0f, 10.0f, 100000.0f, glm::vec3(0, 1000, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -161,7 +169,11 @@ void display(){
 	/* draw 1x1 cube about origin you may also want to precede it with your rotation/translation/scaling */
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+<<<<<<< HEAD
 	// Drawing axes
+=======
+	//curve->getPointList();
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 	glBegin(GL_LINES);
 	glColor3f(1.0, 0.0, 0.0);
 	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
@@ -172,7 +184,10 @@ void display(){
 	glColor3f(0.0, 0.0, 1.0);
 	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
 	glEnd();
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 	/*glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 1.0);
 	glVertex3f(-0.5, -0.5, 0.0);
@@ -186,6 +201,7 @@ void display(){
 	glEnd();*/
 
 	glBegin(GL_LINE_STRIP);
+<<<<<<< HEAD
 	
 	for (PV3D* punto: curve->getPointList()){
 		cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
@@ -193,6 +209,18 @@ void display(){
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
 	glEnd();
+=======
+	glColor3f(1.0, 1.0, 1.0);
+	//glVertex3f(-0.5, -0.5, 0.0);
+	for (glm::vec3 vector : curve->getPointList()){
+		std::cout << vector.x << " " << vector.y << " " << vector.z << std::endl;
+		glColor3f(1.0, 1.0, 0.0);
+		glVertex3f(vector.x, vector.y, vector.z);
+		//std::cout << vector.r << " " << vector.g << " " << vector.b << std::endl;
+	}
+	glEnd();
+
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 	//vein->draw(false);
 
 	glutSwapBuffers();
@@ -237,7 +265,11 @@ void glInit(){
 	GLdouble xRight = 10, xLeft = -xRight, yTop = 10, yBot = -yTop, N = 1, F = 1000;
 
 	//// Camera parameters
+<<<<<<< HEAD
 	GLdouble eyeX = 0.0, eyeY = 0.0, eyeZ = 400.0;
+=======
+	GLdouble eyeX = 0, eyeY = 0, eyeZ = 500.0;
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 	GLdouble lookX = 0.0, lookY = 0.0, lookZ = 0.0;
 	GLdouble upX = 0, upY = 1, upZ = 0;
 
@@ -285,9 +317,13 @@ int main (int argc, char ** argv){
 	
 	glInit(); /* do initialization */
 	curve = new BezierCurve();
+<<<<<<< HEAD
 
 	vein = new Vein(5,2,curve);
 
+=======
+	//vein = new Vein(5, 10, curve);
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 	glutMainLoop();
 	return 0;
 }

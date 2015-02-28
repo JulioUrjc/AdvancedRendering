@@ -4,6 +4,9 @@
 #include "Poligon.h"
 #include "BezierCurve.h"
 
+#include <vector>
+#include <glm\gtx\transform.hpp>
+
 class Vein : public Mesh{
 	private:
 		int NP;

@@ -51,8 +51,14 @@ void Mesh::draw(bool fill){
 			/*GLfloat nX = normals->at(iN)->getX();
 			GLfloat nY = normals->at(iN)->getY();
 			GLfloat nZ = normals->at(iN)->getZ();
+<<<<<<< HEAD
 			glNormal3f(nX, nY, nZ);*/
 			//Si hubiera coordenadas de textura, aqui se suministrarian
+=======
+
+			glNormal3f(nX, nY, nZ);
+			*///Si hubiera coordenadas de textura, aqui se suministrarian
+>>>>>>> 9f8cc669d8f05abf250e28931ac8e206df92084d
 			//las coordenadas de textura del vertice j con glTexCoor2f(c);
 			GLfloat vX = vertex->at(iV)->getX();
 			GLfloat vY = vertex->at(iV)->getY();
