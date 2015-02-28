@@ -18,9 +18,10 @@
 #pragma comment(lib, "win32/jpeg.lib")
 #pragma comment(lib, "win32/libtiff.lib")
 #pragma comment(lib, "win32/libpicio.lib")
-#pragma comment(lib, "glut32.lib")
-
+#pragma comment(lib, "libs/glut32.lib")
+#pragma comment(lib, "libs/glew32.lib")
 #else
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -205,17 +206,17 @@ void menufunc(int value){
 	}
 }
 
-//void gleInit(){
-//	GLenum err = glewInit();
-//	if (GLEW_OK != err){
-//		printf("Error: %s\n", glewGetErrorString(err));
-//	}
-//	const GLubyte *oglVersion = glGetString(GL_VERSION);
-//	printf("This system supports OpenGL Version %s.\n", oglVersion);
-//}
+void startGlew(){
+	GLenum err = glewInit();
+	if (GLEW_OK != err){
+		printf("Error: %s\n", glewGetErrorString(err));
+	}
+	const GLubyte *oglVersion = glGetString(GL_VERSION);
+	printf("This system supports OpenGL Version %s.\n", oglVersion);
+}
 
 /*	myinit - Function to add your initialization code */
-void glInit(){
+void startGlut(){
 	// Por defecto
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -233,7 +234,9 @@ void glInit(){
 	glutMotionFunc(mousedrag);			/* callback for mouse drags */
 	glutPassiveMotionFunc(mouseidle);	/* callback for idle mouse movement */
 	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
+}
+
+void camara(){
 	// Viewing frustum parameters
 	GLdouble xRight = 1.5, xLeft = -xRight, yTop = 1.5, yBot = -yTop, N = 0.1, F = 1000;
 
@@ -266,7 +269,7 @@ void glInit(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(xLeft, xRight, yBot, yTop, N, F);
-	
+
 	//// Viewport set up
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -285,10 +288,11 @@ int main (int argc, char ** argv){
 
 	glutInit(&argc,argv);
 	
-	glInit(); /* do initialization */
-	//gleInit();
+	startGlut(); /* do initialization */
+	startGlew();
 	curve = new BezierCurve();
 	vein = new Vein(20, 0.5, curve);
+	camara();
 	glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
 	/*camera.setVeinCurve(*curve);
 	camera.updateFromRollerCoaster();
