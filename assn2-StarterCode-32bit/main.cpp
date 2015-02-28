@@ -289,7 +289,7 @@ void glInit(){
 int main (int argc, char ** argv){
 
 	glutInit(&argc,argv);
-
+	
 	glInit(); /* do initialization */
 	curve = new BezierCurve();
 	//vein = new Vein(5, 10, curve);

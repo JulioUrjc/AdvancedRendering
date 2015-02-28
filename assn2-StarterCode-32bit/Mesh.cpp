@@ -34,7 +34,7 @@ Mesh::~Mesh(){
 //--------------------------------------------------------------------------
 void Mesh::draw(bool fill){
 
-	for (int i = 0; i<numFaces; i++){
+	for (int i = 0; i< numFaces; i++){
 		glLineWidth(1.0);
 		glColor3f(0, 0, 0);
 		if (!fill){
@@ -45,12 +45,13 @@ void Mesh::draw(bool fill){
 			glBegin(GL_POLYGON);
 			glColor3f(0, 0, 0);
 		}
-		for (int j = 0; j<faces->at(i)->getNumV(); j++){
+		for (int j = 0; j< faces->at(i)->getNumV(); j++){
 			int iN = faces->at(i)->getNormalIndex(j);
 			int iV = faces->at(i)->getVertexIndex(j);
 			/*GLfloat nX = normals->at(iN)->getX();
 			GLfloat nY = normals->at(iN)->getY();
 			GLfloat nZ = normals->at(iN)->getZ();
+
 			glNormal3f(nX, nY, nZ);
 			*///Si hubiera coordenadas de textura, aqui se suministrarian
 			//las coordenadas de textura del vertice j con glTexCoor2f(Åc);

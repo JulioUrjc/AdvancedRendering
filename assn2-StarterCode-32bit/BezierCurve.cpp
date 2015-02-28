@@ -110,38 +110,30 @@ void BezierCurve::generateControlPoints()
 //
 //}
 
-void BezierCurve::generateCurve()
-{
-	//step variables
+
+void BezierCurve::generateCurve(){
+	// step variable
 	int nSteps = 10;
-	float u = 0;
 
-	//Tension
-	float t = 0.5;
-	glm::mat4x4 mMat = glm::mat4x4(0, 1, 0, 0,
-		-t, 0, t, 0,
-		2 * t, t - 3, 3 - 2 * t, -t,
-		-t, 2 - t, t - 2, t);
-	//glm::mat4x4 mMat = glm::mat4x4(	0,		2,		0,		0,
-	//									-1,		0,		1,		0,
-	//									2,		-5,		4,		-1,
-	//									-1,		3,		-3,		1);
+	// Tension
+	float t= 0.5;
+	glm::mat4x4 mMat = glm::mat4x4(0,   1,     0,  0,
+								  -t,   0,     t,  0,
+							     2*t, t-3, 3-2*t, -t,
+								  -t, 2-t,   t-2,  t);
 
-	glm::vec4 p;
-	for (int i = 2; i < controlPointList.size() + 2; ++i)
-	{
-		for (int step = 0; step < nSteps; step++)
-		{
-			u = ((float)step) / ((float)nSteps);
+	for (int i = 2; i< controlPointList.size()+2; ++i){
+		for (int step = 0; step<nSteps; step++){
+			float u = ((float)step) / ((float)nSteps);
 
-			glm::vec4 uVec = glm::vec4(1, u, u*u, u*u*u);
-			glm::mat4x4 pVec = glm::mat4x4(controlPointList[(i - 2) % controlPointList.size()],
-				controlPointList[(i - 1) % controlPointList.size()],
-				controlPointList[(i) % controlPointList.size()],
-				controlPointList[(i + 1) % controlPointList.size()]);
+			glm::vec4   uVec = glm::vec4(1, u, u*u, u*u*u);
+			glm::mat4x4 pVec = glm::mat4x4(controlPointList[(i-2) % controlPointList.size()],
+										   controlPointList[(i-1) % controlPointList.size()],
+										   controlPointList[(i)   % controlPointList.size()],
+										   controlPointList[(i+1) % controlPointList.size()]);
 
 			//Interpolate
-			p = pVec*(mMat*uVec);
+			glm::vec4 p = pVec*(mMat*uVec);
 
 			//Adding vertex of interpolated point
 			pointList.push_back(glm::vec3(p.x, p.y, p.z));

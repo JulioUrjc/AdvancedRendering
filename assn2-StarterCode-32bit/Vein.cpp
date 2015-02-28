@@ -16,6 +16,7 @@
 //}
 
 Vein::Vein(int NP, GLfloat radius, BezierCurve* curve) : Mesh(NP*curve->size(), NP*curve->size(), NP*curve->size()){
+
 	this->NP = NP;
 	this->radius = radius;
 	this->curve = curve;
@@ -126,6 +127,7 @@ void Vein::draw(bool t){}
 //
 //	delete poli;
 //}
+
 //-------------------------------------------------------------------------
 int Vein::nextVertex(int v){
 	int vAux = v + 1;
