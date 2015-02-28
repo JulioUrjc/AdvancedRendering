@@ -43,13 +43,8 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-<<<<<<< HEAD
-BezierCurve *curve;
-Vein *vein;
-=======
 BezierCurve* curve;
 Vein* vein;
->>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -166,7 +161,17 @@ void display(){
 	/* draw 1x1 cube about origin you may also want to precede it with your rotation/translation/scaling */
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Drawing axes
+	glBegin(GL_LINES);
+	glColor3f(1.0, 0.0, 0.0);
+	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
 
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
+
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
+	glEnd();
 	
 	/*glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 1.0);
@@ -179,14 +184,17 @@ void display(){
 	glVertex3f(0.5, -0.5, 0.0);
 
 	glEnd();*/
-<<<<<<< HEAD
+
+	glBegin(GL_LINE_STRIP);
 	
-	vein->draw(false);
-=======
+	for (PV3D* punto: curve->getPointList()){
+		cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
+		glColor3f(0.0, 0.0, 1.0);
+		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
+	}
+	glEnd();
+	//vein->draw(false);
 
-	vein->draw(false);
-
->>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 	glutSwapBuffers();
 }
 
@@ -229,7 +237,7 @@ void glInit(){
 	GLdouble xRight = 10, xLeft = -xRight, yTop = 10, yBot = -yTop, N = 1, F = 1000;
 
 	//// Camera parameters
-	GLdouble eyeX = 100.0, eyeY = 100.0, eyeZ = 100.0;
+	GLdouble eyeX = 0.0, eyeY = 0.0, eyeZ = 400.0;
 	GLdouble lookX = 0.0, lookY = 0.0, lookZ = 0.0;
 	GLdouble upX = 0, upY = 1, upZ = 0;
 
@@ -277,11 +285,9 @@ int main (int argc, char ** argv){
 	
 	glInit(); /* do initialization */
 	curve = new BezierCurve();
-<<<<<<< HEAD
-	vein = new Vein(10,20,curve);
-=======
-	vein = new Vein(5, 10, curve);
->>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
+
+	vein = new Vein(5,2,curve);
+
 	glutMainLoop();
 	return 0;
 }

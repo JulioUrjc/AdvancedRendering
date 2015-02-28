@@ -15,11 +15,17 @@ void BezierCurve::generateControlPoints()
 {
 	////Create some initial control points
 	//////1
-	glm::vec4 initialPoint = glm::vec4(-0.5, -0.5, 0.0, 0.0);
-	//glm::vec4 initialPoint = glm::vec4(-2000 + getRandom(), 500 + getRandom(), 4000 + getRandom(), 0);
-	controlPointList.push_back(initialPoint);
+	//glm::vec4 initialPoint = glm::vec4(-60, -80, 0.0, 0.0);
+	////glm::vec4 initialPoint = glm::vec4(-2000 + getRandom(), 500 + getRandom(), 4000 + getRandom(), 0);
+	//controlPointList.push_back(initialPoint);
+	//initialPoint = glm::vec4(-30, 0, 0.0, 0.0);
+	//controlPointList.push_back(initialPoint);
+	//initialPoint = glm::vec4(0, 30, 0.0, 0.0);
+	//controlPointList.push_back(initialPoint);
+	//initialPoint = glm::vec4(30, 0, 0.0, 0.0);
+	//controlPointList.push_back(initialPoint);
 	//2
-	controlPointList.push_back(glm::vec4(-0.5, 0.5, 0.0, 0.0));
+	//controlPointList.push_back(glm::vec4(-0.5, 0.5, 0.0, 0.0));
 	//controlPointList.push_back(glm::vec4(-2000 + getRandom(), 500 + getRandom(), 2000 + getRandom(), 0));
 	//3
 	//controlPointList.push_back(glm::vec4(-3000 + getRandom(), 500 + getRandom(), -2000 + getRandom(), 0));
@@ -36,41 +42,37 @@ void BezierCurve::generateControlPoints()
 	////8
 	//controlPointList.push_back(glm::vec4(6000 + getRandom(), 2000, 0, 0));
 	//9
-	controlPointList.push_back(initialPoint);
+	//controlPointList.push_back(initialPoint);
 
 	//Create some initial control points
 	////1
-	//controlPointList.push_back(glm::vec4(1000,1000,1000,0));
+	controlPointList.push_back(glm::vec4(-4,5,0,0));
 
 	////2
-	//controlPointList.push_back(glm::vec4(1000,1000,2000,0));
+	controlPointList.push_back(glm::vec4(-2,-5,0,0));
 
 	////3
-	//controlPointList.push_back(glm::vec4(1000,1000,3000,0));
+	controlPointList.push_back(glm::vec4(0,0,0,0));
 
 	////4
-	//controlPointList.push_back(glm::vec4(2000,3000,3000,0));
+	controlPointList.push_back(glm::vec4(2,-5,0,0));
 
 	////5
-	//controlPointList.push_back(glm::vec4(3000,1000,3000,0));
+	controlPointList.push_back(glm::vec4(4,5,0,0));
 
-	////6
+	//////6
 	//controlPointList.push_back(glm::vec4(3000,2000,2000,0));
 
-	////7
+	//////7
 	//controlPointList.push_back(glm::vec4(3000,2000,1000,0));
 
-	////8
+	//////8
 	//controlPointList.push_back(glm::vec4(2000,3000,1000,0));
 }
 
 void BezierCurve::generateCurve(){
 	// step variable
-<<<<<<< HEAD
 	int nSteps = 10;
-=======
-	int nSteps = 5;
->>>>>>> 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344
 
 	// Tension
 	float t= 0.5;
@@ -80,7 +82,7 @@ void BezierCurve::generateCurve(){
 								  -t, 2-t,   t-2,  t);
 
 	for (int i = 2; i< controlPointList.size()+2; ++i){
-		for (int step = 0; step<nSteps; step++){
+		for (int step = 0; step< nSteps; step++){
 			float u = ((float)step) / ((float)nSteps);
 
 			glm::vec4   uVec = glm::vec4(1, u, u*u, u*u*u);
