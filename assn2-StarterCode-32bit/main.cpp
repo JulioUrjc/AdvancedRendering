@@ -192,10 +192,10 @@ void display(){
 	glBegin(GL_LINE_STRIP);
 	glColor3f(1.0, 1.0, 1.0);
 	//glVertex3f(-0.5, -0.5, 0.0);
-	for (glm::vec3 vector : curve->getPointList()){
-		std::cout << vector.x << " " << vector.y << " " << vector.z << std::endl;
+	for (PV3D* vector : curve->getPointList()){
+		std::cout << vector->getX() << " " << vector->getY() << " " << vector->getZ() << std::endl;
 		glColor3f(1.0, 1.0, 0.0);
-		glVertex3f(vector.x, vector.y, vector.z);
+		glVertex3f(vector->getX(), vector->getY(), vector->getZ());
 		//std::cout << vector.r << " " << vector.g << " " << vector.b << std::endl;
 	}
 	glEnd();

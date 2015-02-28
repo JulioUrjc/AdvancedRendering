@@ -136,7 +136,7 @@ void BezierCurve::generateCurve(){
 			glm::vec4 p = pVec*(mMat*uVec);
 
 			//Adding vertex of interpolated point
-			pointList.push_back(glm::vec3(p.x, p.y, p.z));
+			pointList.push_back(new PV3D(p.x, p.y, p.z));
 
 
 		}
@@ -146,12 +146,22 @@ void BezierCurve::generateCurve(){
 	for (int i = 2; i < pointList.size() + 2; ++i)
 	{
 		//Tangent = t*([pi-1] - [pi+1])
-		glm::vec3 tangent = glm::normalize(t*(pointList[(i + 1) % pointList.size()] - pointList[(i - 1) % pointList.size()]));
+		//glm::vec3 tangent = glm::normalize(t*(pointList[(i + 1) % pointList.size()] - pointList[(i - 1) % pointList.size()]));
+		//tangentList.push_back(tangent);
+		PV3D* tangent = new PV3D();
+		tangent = (pointList[(i + 1) % pointList.size()]->subtraction(pointList[(i - 1) % pointList.size()]))->factor(t);
+		tangent->normalize();
 		tangentList.push_back(tangent);
 
-		//Binormal = Normal x Tangent
-		glm::vec3 normal = glm::normalize(glm::cross(tangent, glm::vec3(0, 1, 0)));
-		glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
+		////Binormal = Normal x Tangent
+		//glm::vec3 normal = glm::normalize(glm::cross(tangent, glm::vec3(0, 1, 0)));
+		//glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
+		//binormalList.push_back(binormal);
+		PV3D* normal = tangent->crossProduct(new PV3D(0, 1, 0));
+		normal->normalize();
+		normalList.push_back(normal);
+		PV3D* binormal = normal->crossProduct(tangent);
+		binormal->normalize();
 		binormalList.push_back(binormal);
 	}
 }
@@ -160,7 +170,7 @@ float BezierCurve::getRandom(){
 	return ((float)rand() / (RAND_MAX + 1)) * 1000;
 }
 
-/*
+
 std::vector<glm::vec4> BezierCurve::getControlPointList(){
 	return controlPointList;
 }
@@ -180,7 +190,8 @@ std::vector<PV3D*> BezierCurve::getNormalList(){
 std::vector<PV3D*> BezierCurve::getBinormalList(){
 	return binormalList;
 }
-*/
+
+/*
 std::vector<glm::vec4> BezierCurve::getControlPointList()
 {
 	return controlPointList;
@@ -201,6 +212,7 @@ std::vector<glm::vec3> BezierCurve::getBinormalList()
 {
 	return binormalList;
 }
-int BezierCurve::size(){
+*/
+int BezierCurve::nPoints(){
 	return pointList.size();
 }
