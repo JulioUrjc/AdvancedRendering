@@ -47,10 +47,10 @@ void BezierCurve::generateControlPoints(){
 	controlPointList.push_back(glm::vec4(0,0,0,0));
 
 	////4
-	//controlPointList.push_back(glm::vec4(2,-5,0,0));
+	controlPointList.push_back(glm::vec4(2,-5,0,0));
 
 	////5
-	//controlPointList.push_back(glm::vec4(4,5,0,0));
+	controlPointList.push_back(glm::vec4(4,5,0,0));
 
 	//////6
 	//controlPointList.push_back(glm::vec4(3000,2000,2000,0));

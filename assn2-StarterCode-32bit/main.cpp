@@ -203,6 +203,46 @@ void display(){
 
 	vein->draw(false, camara, point);
 
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslatef(-4.0, 5.0f, 0.0f);
+	glRotatef(M_PI/4,0.0f,1.0f,0.0f);
+	glColor3f(0.5f, 0.5f, 0.2f);
+	glutSolidTorus(0.02f, 0.2f, 10, 10);
+	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslatef(-2.0, -5.0f, 0.0f);
+	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	glColor3f(0.3f, 0.3f, 0.5f);
+	glutSolidTorus(0.02f, 0.2f, 10, 10);
+	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslatef(1.0, 0.0f, 0.0f);
+	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	glColor3f(0.8f, 0.5f, 0.3f);
+	glutSolidTorus(0.02f, 0.2f, 10, 10);
+	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslatef(2.0, -5.0f, 0.0f);
+	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	glColor3f(0.1f, 0.3f, 0.8f);
+	glutSolidTorus(0.02f, 0.2f, 10, 10);
+	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslatef(4.0, 5.0f, 0.0f);
+	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	glColor3f(0.2f, 0.5f, 0.3f);
+	glutSolidTorus(0.02f, 0.2f, 10, 10);
+	glPopMatrix();
+
 	glutSwapBuffers();
 }
 
@@ -288,7 +328,7 @@ int main (int argc, char ** argv){
 	startGlew();
 	/* Creamos la curva y la vena asociada*/
 	curve = new BezierCurve();
-	vein = new Vein(25, 1.0f, curve);
+	vein = new Vein(3, 1.0f, curve);
 	perlinNoise.generate();
 	vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	//glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
