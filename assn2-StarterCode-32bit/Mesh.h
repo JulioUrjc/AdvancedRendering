@@ -21,6 +21,6 @@ class Mesh{
 	~Mesh();
 	virtual void draw(bool fill);
 	virtual void build() = 0;
-	//PV3D* doVectorNormalNewell(Face* c);
+	PV3D* doVectorNormalNewell(Face* c);
 };
 

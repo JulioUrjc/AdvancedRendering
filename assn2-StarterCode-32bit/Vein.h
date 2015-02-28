@@ -26,5 +26,7 @@ class Vein : public Mesh{
 
 		int nextVertex(int val);
 		void draw(bool relleno,int point);
+
+		void addPerlinNoise(float** perlinNoise);
 };
 

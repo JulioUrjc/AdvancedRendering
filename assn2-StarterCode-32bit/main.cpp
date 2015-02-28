@@ -28,6 +28,7 @@
 #endif
 
 #include "BezierCurve.h"
+#include "Perlin_noise/PerlinGenerator.h"
 #include "Vein.h"
 #include "Camera.h"
 #include <vector>
@@ -49,6 +50,11 @@ int g_iRightMouseButton = 0;
 BezierCurve* curve;
 Vein* vein;
 int point = 0;
+
+/* - Perlin Noise - */
+const int sideVertex = 256;
+
+PerlinGenerator perlinNoise(6, sideVertex);
 
 //Default camera
 Camera camera(0.0f, 1.0f, 0.1f, 10.0f, glm::vec3(-2, -5, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
@@ -206,7 +212,7 @@ void display(){
 	
 	for (PV3D* punto: curve->getPointList()){
 		//cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
-		glColor3f(0.0, 0.0, 1.0);
+		glColor3f(0.0f,0.0f,1.0f);
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
 	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
@@ -275,8 +281,8 @@ void camara(){
 	glEnable(GL_COLOR_MATERIAL);
 	glMaterialf(GL_FRONT, GL_SHININESS, 0.1f);
 	glEnable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT, GL_FILL);
-	glEnable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
@@ -312,9 +318,11 @@ int main (int argc, char ** argv){
 	startGlut(); /* do initialization */
 	startGlew();
 	curve = new BezierCurve();
-	vein = new Vein(8, 0.8, curve);
+	vein = new Vein(25, 1.0f, curve);
 	camara();
-	glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
+	perlinNoise.generate();
+	vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	//glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
 	/*camera.setVeinCurve(*curve);
 	camera.updateFromRollerCoaster();
 	camera.setLookVector(glm::vec3(0,0,0));

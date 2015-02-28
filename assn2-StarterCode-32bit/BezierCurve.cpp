@@ -115,7 +115,7 @@ void BezierCurve::generateControlPoints()
 
 void BezierCurve::generateCurve(){
 	// step variable
-	int nSteps = 100;
+	int nSteps = 25;
 
 	// Tension
 	float t= 0.5;

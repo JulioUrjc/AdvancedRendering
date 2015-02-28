@@ -4,6 +4,8 @@
 #include <glm\gtx\transform.hpp>
 
 #include <cstdlib>
+#include <amp.h>
+
 
 
 //---------------------------------------------------------------------------
@@ -62,9 +64,9 @@ void Vein::build(){
 	}
 	// Se hacen las normales
 
-	/*for (int i = 0; i<numFaces; i++){
+	for (int i = 0; i<numFaces; i++){
 		normals->at(i) = doVectorNormalNewell(faces->at(i));
-	}*/
+	}
 
 	delete poli;
 }
@@ -120,4 +122,28 @@ void Vein::draw(bool relleno,int point){
 	////deletes de los objetos ya no necesarios
 	//delete sderivate;	delete fderivate;	delete Tt;
 	//delete Bt;			delete Nt;			delete Ct;
+}
+
+void Vein::addPerlinNoise(float** perlinNoise)
+{
+	float deformation=0;
+	float maxDef = 0.3f;
+	float minDef = 0.01f;
+	for (int i = 0; i < curve->nPoints(); i++){
+		//I'm in each subdivision
+		for (int j = 0; j < NP; j++){
+			//I'm in each vertex at subdivision
+			deformation = ((perlinNoise[i%256][j] + 1) / 2)*(maxDef - minDef) + minDef;
+			int iN = faces->at(i)->getNormalIndex(j%4);
+			GLfloat nX = normals->at(iN)->getX();
+			GLfloat nY = normals->at(iN)->getY();
+			GLfloat nZ = normals->at(iN)->getZ();
+			int iV = faces->at(i)->getVertexIndex(j%4);
+			vertex->at(iV)->setX(nX*deformation);
+			vertex->at(iV)->setY(nY*deformation);
+			vertex->at(iV)->setZ(nZ*deformation);
+			vertex->at(iV)->setColor(new PV3D(glm::clamp(deformation, 0.0f, 0.8f), glm::clamp(deformation, 0.0f, 0.5f), 0.0f));
+
+		}
+	}
 }
