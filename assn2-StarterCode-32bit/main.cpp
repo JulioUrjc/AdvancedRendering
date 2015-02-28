@@ -18,7 +18,7 @@
 #pragma comment(lib, "win32/jpeg.lib")
 #pragma comment(lib, "win32/libtiff.lib")
 #pragma comment(lib, "win32/libpicio.lib")
-#pragma comment(lib, "glut32.lib")
+#pragma comment(lib, "./libs/glut32.lib")
 
 #else
 #include <GL/gl.h>
@@ -289,7 +289,9 @@ int main (int argc, char ** argv){
 	//gleInit();
 	curve = new BezierCurve();
 	vein = new Vein(20, 0.5, curve);
-	glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
+	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
+	const GLfloat *value;
+	glUniformMatrix4fv(-1, 1, GL_FALSE, value);
 	/*camera.setVeinCurve(*curve);
 	camera.updateFromRollerCoaster();
 	camera.setLookVector(glm::vec3(0,0,0));
