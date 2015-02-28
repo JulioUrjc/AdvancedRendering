@@ -296,7 +296,7 @@ int main (int argc, char ** argv){
 	eye = new PV3D(-2, -0.5, 0.0);
 	look= new PV3D(0.74, -0.66, 0.0);
 	up  = new PV3D(0.66, 0.74, 0.0);
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
+	xRight = 1.0; xLeft = -xRight; yTop = 1.0; yBot = -yTop; N = 0.01; F = 1000;
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
 	startCam();
 	

@@ -85,9 +85,12 @@ void Vein::draw(bool relleno,Camara* camara, int point){
 	Mesh::draw(relleno);  // Dibuja la Mesh
 	
 
-	PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-	PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-	PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
+	//PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+	//PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+	//PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
+	PV3D* look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+	PV3D* up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+	PV3D* eye = new PV3D(2+look->getX() + curve->getBinormalList().at(point)->getX(), 2+look->getY()+curve->getBinormalList().at(point)->getY(), 2+look->getZ()+curve->getBinormalList().at(point)->getZ());
 
 	camara->moveCamara(eye, look, up);
 	camara->fijarCam();
@@ -108,9 +111,9 @@ void Vein::addPerlinNoise(float** perlinNoise)
 			GLfloat nY = normals->at(iN)->getY();
 			GLfloat nZ = normals->at(iN)->getZ();
 			int iV = faces->at(i)->getVertexIndex(j%4);
-			vertex->at(iV)->setX(nX*deformation);
-			vertex->at(iV)->setY(nY*deformation);
-			vertex->at(iV)->setZ(nZ*deformation);
+			vertex->at(iV)->setX(vertex->at(iV)->getX() + glm::clamp(nX*deformation, 0.0f, 0.3f));
+			vertex->at(iV)->setY(vertex->at(iV)->getY() + glm::clamp(nY*deformation, 0.0f, 0.3f));
+			vertex->at(iV)->setZ(vertex->at(iV)->getZ() + glm::clamp(nZ*deformation, 0.0f, 0.3f));
 			vertex->at(iV)->setColor(new PV3D(glm::clamp(deformation, 0.0f, 0.8f), glm::clamp(deformation, 0.0f, 0.5f), 0.0f));
 
 		}

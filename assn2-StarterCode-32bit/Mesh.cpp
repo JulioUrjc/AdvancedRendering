@@ -58,7 +58,7 @@ void Mesh::draw(bool fill){
 			GLfloat vX = vertex->at(iV)->getX();
 			GLfloat vY = vertex->at(iV)->getY();
 			GLfloat vZ = vertex->at(iV)->getZ();
-			glColor3f(vertex->at(iV)->getColor()->getX(), vertex->at(iV)->getColor()->getY(), vertex->at(iV)->getColor()->getZ());
+			//glColor3f(vertex->at(iV)->getColor()->getX(), vertex->at(iV)->getColor()->getY(), vertex->at(iV)->getColor()->getZ());
 			glVertex3f(vX, vY, vZ);
 		}
 		glEnd();
