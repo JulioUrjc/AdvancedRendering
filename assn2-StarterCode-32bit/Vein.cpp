@@ -1,8 +1,8 @@
 #include "Vein.h"
 
+
 #include <vector>
 #include <glm\gtx\transform.hpp>
-
 #include <cstdlib>
 
 
@@ -78,46 +78,15 @@ int Vein::nextVertex(int v){
 	return vAux;
 }
 //-------------------------------------------------------------------------
-void Vein::draw(bool relleno,int point){
+void Vein::draw(bool relleno,Camara* camara, int point){
 
 	Mesh::draw(relleno);  // Dibuja la Mesh
 	
-	float eyeX = curve->getPointList().at(point)->getX();
-	float eyeY = curve->getPointList().at(point)->getY();
-	float eyeZ = curve->getPointList().at(point)->getZ();
 
-	float lookX = curve->getTangentList().at(point)->getX();
-	float lookY = curve->getTangentList().at(point)->getY();
-	float lookZ = curve->getTangentList().at(point)->getZ();
+	PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+	PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+	PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
 
-	float upX = curve->getBinormalList().at(point)->getX();
-	float upY = curve->getBinormalList().at(point)->getY();
-	float upZ = curve->getBinormalList().at(point)->getZ();
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
-
-	//PV3D* fderivate = fDerivate(carPos);
-	//PV3D* sderivate = sDerivate(carPos);
-
-	//PV3D* Tt = fDerivate(carPos); Tt->normalize();					// Tt = C'
-	//PV3D* Bt = fderivate->crossProduct(sderivate); Bt->normalize();	// Bt = C'.C''
-	//PV3D* Nt = Bt->crossProduct(Tt);									// Nt = Bt.Tt
-	//PV3D* Ct = function(carPos);										// Ct = C
-
-	//GLfloat m[] = { Nt->getX(), Nt->getY(), Nt->getZ(), 0,		// Se niega Bt porque al ser 
-	//	-Bt->getX(), -Bt->getY(), -Bt->getZ(), 0,		        // un producto escalar es perpendicular 
-	//	Tt->getX(), Tt->getY(), Tt->getZ(), 0,		            // al plano definido por C'.C'' 
-	//	Ct->getX(), Ct->getY(), Ct->getZ(), 1 };		        // pero en sentido contrario
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-
-	//glMultMatrixf(m);
-	//glPopMatrix();
-
-	////deletes de los objetos ya no necesarios
-	//delete sderivate;	delete fderivate;	delete Tt;
-	//delete Bt;			delete Nt;			delete Ct;
+	camara->moveCamara(eye, look, up);
+	camara->fijarCam();
 }

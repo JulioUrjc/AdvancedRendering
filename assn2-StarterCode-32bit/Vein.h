@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include "Poligon.h"
 #include "BezierCurve.h"
-
+#include "Camara.h"
 #include <vector>
 #include <glm\gtx\transform.hpp>
 
@@ -25,6 +25,6 @@ class Vein : public Mesh{
 		void build();
 
 		int nextVertex(int val);
-		void draw(bool relleno,int point);
+		void draw(bool relleno,Camara* camara, int point);
 };
 

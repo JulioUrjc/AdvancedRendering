@@ -29,6 +29,7 @@
 
 #include "BezierCurve.h"
 #include "Vein.h"
+#include "Camara.h"
 #include <vector>
 #include <iostream>
 
@@ -47,6 +48,11 @@ int g_iRightMouseButton = 0;
 /* - BezierCurve Variable - */
 BezierCurve* curve;
 Vein* vein;
+
+/* Cam Variables*/
+PV3D *eye, *look, *up;
+GLdouble xRight, xLeft, yTop, yBot, N, F;
+Camara* camara;
 int point = 0;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
@@ -163,40 +169,21 @@ void key(unsigned char key, int x, int y){
 	bool need_redisplay = true;
 	switch (key) {
 	case 27:  /* Escape key */
-		//continue_in_main_loop = false; // (**)
-		//Freeglut's sentence for stopping glut's main loop (*)
-		//glutLeaveMainLoop();
+		exit(0);
 		break;
-		// ----------------
 
 		// linea de debug::: 	cout<< angleX << " "<< angleY << " " <<angleZ << " ";
 	case 'a':
 		++point;
 		if (point > curve->nPoints()-1) point = 0;
 		break;
-		// ----------------
 	}
 }
 
 /*	display - Function to modify with your heightfield rendering code (Currently displays a simple cube) */
 void display(){
-	/* draw 1x1 cube about origin you may also want to precede it with your rotation/translation/scaling */
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// Drawing axes
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	//glBegin(GL_LINES);
-	//	glColor3f(1.0, 0.0, 0.0);
-	//	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
-
-	//	glColor3f(0.0, 1.0, 0.0);
-	//	glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
-
-	//	glColor3f(0.0, 0.0, 1.0);
-	//	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
-	//glEnd();
-
 
 	glBegin(GL_LINE_STRIP);
 	
@@ -208,7 +195,7 @@ void display(){
 	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
 	glEnd();
 
-	vein->draw(false,point);
+	vein->draw(false, camara, point);
 
 	glutSwapBuffers();
 }
@@ -253,21 +240,11 @@ void startGlut(){
 	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
 }
 
-void camara(){
-	// Viewing frustum parameters
-	GLdouble xRight = 0.5, xLeft = -xRight, yTop = 0.5, yBot = -yTop, N = 0.01, F = 1000;
-
-	//// Camera parameters
-	GLdouble eyeX = -2, eyeY = -5.0, eyeZ = 0.0;
-	GLdouble lookX = 0.74, lookY = -0.66, lookZ = 0.0;
-	GLdouble upX = 0.66, upY = 0.74, upZ = 0;
-
-	//// Axis angles
-	GLfloat angleX = 0, angleY = 0, angleZ = 0;
+void startCam(){	
 
 	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glEnable(GL_LIGHTING);
 
+	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 	glMaterialf(GL_FRONT, GL_SHININESS, 0.1f);
 	glEnable(GL_DEPTH_TEST);
@@ -276,16 +253,11 @@ void camara(){
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
-
 	//// Camera set up
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
+	camara->fijarCam();
 
 	//// Frustum set up
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(xLeft, xRight, yBot, yTop, N, F);
+	camara->ortogonal();
 
 	//// Viewport set up
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -304,15 +276,21 @@ void camara(){
 int main (int argc, char ** argv){
 
 	glutInit(&argc,argv);
-	
-	startGlut(); /* do initialization */
+
+	/* do initialization */
+	startGlut(); 
 	startGlew();
+	/* Creamos la curva y la vena asociada*/
 	curve = new BezierCurve();
 	vein = new Vein(8, 0.8, curve);
-	camara();
-	/*camera.setVeinCurve(*curve);
-	camera.updateFromRollerCoaster();
-	camera.setLookVector(glm::vec3(0,0,0));
+	//// Camera parameters
+	eye = new PV3D(-2, -0.5, 0.0);
+	look= new PV3D(0.74, -0.66, 0.0);
+	up  = new PV3D(0.66, 0.74, 0.0);
+	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
+	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
+	startCam();
+	/*
 	cout << "Camera position: " << camera.getPosition().x << "  " << camera.getPosition().y << "  " << camera.getPosition().z << endl;
 	cout << "Camera look: " << camera.getLook().x << "  " << camera.getLook().y << "  " << camera.getLook().z << endl;
 	cout << "Camera up: " << camera.getUp().x << "  " << camera.getUp().y << "  " << camera.getUp().z << endl;*/

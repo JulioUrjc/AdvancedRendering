@@ -10,19 +10,45 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up){
 	ortogonal(-10,10,-10,10,1,1000);
 }
 
-Camara::~Camara(void){}
+Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F){
+	this->eye = eye;
+	this->look = look;
+	this->up = up;
+	this->xRight = xRight;
+	this->xLeft = xLeft;
+	this->yTop = yTop;
+	this->yBot = yBot;
+	this->N = N;
+	this->F = F;
+	getCoordCam();
+	fijarCam();
+	ortogonal(-10, 10, -10, 10, 1, 1000);
+}
+
+Camara::~Camara(){}
+
+void Camara::moveCamara(PV3D* eye, PV3D* look){
+	this->eye = *eye;
+	this->look = *look;
+}
+
+void Camara::moveCamara(PV3D* eye, PV3D* look, PV3D* up){
+	this->eye = *eye;
+	this->look = *look;
+	this->up = *up;
+}
 
 void Camara::getCoordCam(){
 	// n = (eye-look).normalizar()
-	PV3D* aux = new PV3D(this->eye.getX()-this->look.getX(),this->eye.getY()-this->look.getY(),this->eye.getZ()-this->look.getZ());
+	PV3D* aux = new PV3D(eye.getX()-look.getX(),eye.getY()-look.getY(),eye.getZ()-look.getZ());
 	aux->normalize();
 	n = aux;
 	
 	// u = (up*n).normalizar() 
-	u = this->up.crossProduct(this->n);
+	u = up.crossProduct(n);
 	u->normalize();
 	// v = n*u
-	v = n->crossProduct(this->u);
+	v = n->crossProduct(u);
 }
 
 void Camara::getMatriz(){
@@ -124,6 +150,13 @@ void Camara::desplazar(GLdouble x, GLdouble y, GLdouble z){
 
 	this->fijarCam();
 	this->ortogonal(-10,10,-10,10,1,1000);
+}
+
+void Camara::ortogonal(){
+	glMatrixMode(GL_PROJECTION);
+	//glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glOrtho(xLeft, xRight, yBot, yTop, N, F);
 }
 
 void Camara::ortogonal(GLdouble left, GLdouble right, GLdouble botton, GLdouble top, GLdouble n, GLdouble f){
