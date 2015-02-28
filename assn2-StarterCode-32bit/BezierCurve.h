@@ -19,18 +19,6 @@ private:
 	//Binormal list
 	std::vector<PV3D*> binormalList;
 
-	//Control points
-	//std::vector<glm::vec4> controlPointList;
-
-	//Interpolated curve
-	//std::vector<glm::vec3> pointList;
-
-	//Tangent list
-	//std::vector<glm::vec3> tangentList;
-
-	//Binormal list
-	//std::vector<glm::vec3> binormalList;
-
 	void generateControlPoints();
 	void generateCurve();
 	float getRandom();
@@ -44,12 +32,5 @@ public:
 	std::vector<PV3D*> getNormalList();
 	std::vector<PV3D*> getBinormalList();
 	int nPoints();
-
-	//std::vector<glm::vec4> getControlPointList();
-	//std::vector<glm::vec3> getPointList();
-	//std::vector<glm::vec3> getTangentList();
-	//std::vector<glm::vec3> getNormalList();
-	//std::vector<glm::vec3> getBinormalList();
-	//int size();
 };
 

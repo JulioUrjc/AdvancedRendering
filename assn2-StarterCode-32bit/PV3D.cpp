@@ -76,6 +76,9 @@ PV3D* PV3D::crossProduct(PV3D* v){
 
 	return new PV3D(factori, factorj, factork);
 }
+GLdouble PV3D::scalarProduct(PV3D* v){
+	return this->corX*v->getX() + this->corY*v->getY() + this->corZ*v->getZ();
+}
 
 PV3D* PV3D::matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct){
 
