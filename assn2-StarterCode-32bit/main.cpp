@@ -10,6 +10,7 @@
 #ifdef WIN32
 
 #include <windows.h>
+#include "GL/glew.h"
 #include "GL/gl.h"
 #include "GL/glu.h"
 #include "GL/glut.h"
@@ -27,7 +28,7 @@
 
 #include "BezierCurve.h"
 #include "Vein.h"
-//#include "Camera.h"
+#include "Camera.h"
 #include <vector>
 #include <iostream>
 
@@ -48,7 +49,7 @@ BezierCurve* curve;
 Vein* vein;
 
 //Default camera
-//Camera camera(60.0f, 1.0f, 10.0f, 100000.0f, glm::vec3(0, 1000, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+Camera camera(0.0f, 1.0f, 0.1f, 10.0f, glm::vec3(-2, -5, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -166,34 +167,24 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Drawing axes
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glBegin(GL_LINES);
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
 
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
+		glColor3f(0.0, 1.0, 0.0);
+		glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
 
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
+		glColor3f(0.0, 0.0, 1.0);
+		glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
 	glEnd();
-	
-	/*glBegin(GL_POLYGON);
-	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(-0.5, -0.5, 0.0);
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(-0.5, 0.5, 0.0);
-	glColor3f(0.0, 0.0, 0.0);
-	glVertex3f(0.5, 0.5, 0.0);
-	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(0.5, -0.5, 0.0);
 
-	glEnd();*/
 
 	glBegin(GL_LINE_STRIP);
 	
 	for (PV3D* punto: curve->getPointList()){
-		cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
+		//cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
 		glColor3f(0.0, 0.0, 1.0);
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
@@ -214,15 +205,23 @@ void menufunc(int value){
 	}
 }
 
+//void gleInit(){
+//	GLenum err = glewInit();
+//	if (GLEW_OK != err){
+//		printf("Error: %s\n", glewGetErrorString(err));
+//	}
+//	const GLubyte *oglVersion = glGetString(GL_VERSION);
+//	printf("This system supports OpenGL Version %s.\n", oglVersion);
+//}
+
 /*	myinit - Function to add your initialization code */
 void glInit(){
 	// Por defecto
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutCreateWindow("Torrente Sanguineo");
-
-	/* tells glut to use a particular display function to redraw */
-	glutDisplayFunc(display);
+	
+	glutDisplayFunc(display);			/* tells glut to use a particular display function to redraw */
 
 	/* allow the user to quit using the right mouse button menu */
 	g_iMenuId = glutCreateMenu(menufunc);
@@ -230,21 +229,16 @@ void glInit(){
 	glutAddMenuEntry("Quit", 0);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-	/* replace with any animate code */
-	glutIdleFunc(doIdle);
-
-	/* callback for mouse drags */
-	glutMotionFunc(mousedrag);
-	/* callback for idle mouse movement */
-	glutPassiveMotionFunc(mouseidle);
-	/* callback for mouse button changes */
-	glutMouseFunc(mousebutton);
+	glutIdleFunc(doIdle);				/* replace with any animate code */
+	glutMotionFunc(mousedrag);			/* callback for mouse drags */
+	glutPassiveMotionFunc(mouseidle);	/* callback for idle mouse movement */
+	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Viewing frustum parameters
-	GLdouble xRight = 10, xLeft = -xRight, yTop = 10, yBot = -yTop, N = 1, F = 1000;
+	GLdouble xRight = 1.5, xLeft = -xRight, yTop = 1.5, yBot = -yTop, N = 0.1, F = 1000;
 
 	//// Camera parameters
-	GLdouble eyeX = 50.0, eyeY = 0, eyeZ = 200.0;
+	GLdouble eyeX = -3.7, eyeY = 0.0, eyeZ = 2.0;
 	GLdouble lookX = 0.0, lookY = 0.0, lookZ = 0.0;
 	GLdouble upX = 0, upY = 1, upZ = 0;
 
@@ -257,10 +251,11 @@ void glInit(){
 	glEnable(GL_COLOR_MATERIAL);
 	glMaterialf(GL_FRONT, GL_SHININESS, 0.1f);
 	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
-	//// buildSceneObjects();
 
 	//// Camera set up
 	glMatrixMode(GL_MODELVIEW);
@@ -271,7 +266,7 @@ void glInit(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(xLeft, xRight, yBot, yTop, N, F);
-
+	
 	//// Viewport set up
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -291,8 +286,16 @@ int main (int argc, char ** argv){
 	glutInit(&argc,argv);
 	
 	glInit(); /* do initialization */
+	//gleInit();
 	curve = new BezierCurve();
 	vein = new Vein(20, 0.5, curve);
+	glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
+	/*camera.setVeinCurve(*curve);
+	camera.updateFromRollerCoaster();
+	camera.setLookVector(glm::vec3(0,0,0));
+	cout << "Camera position: " << camera.getPosition().x << "  " << camera.getPosition().y << "  " << camera.getPosition().z << endl;
+	cout << "Camera look: " << camera.getLook().x << "  " << camera.getLook().y << "  " << camera.getLook().z << endl;
+	cout << "Camera up: " << camera.getUp().x << "  " << camera.getUp().y << "  " << camera.getUp().z << endl;*/
 
 	glutMainLoop();
 	return 0;

@@ -4,8 +4,7 @@
 
 //Constructor with all parameters
 Camera::Camera(float fov, float aspectRatio, float nearPlane, float farPlane, vec3 position, vec3 look, vec3 up) :
-fov(fov), aspectRatio(aspectRatio), nearPlane(nearPlane), farPlane(farPlane), position(position), look(look), up(up)
-{
+fov(fov), aspectRatio(aspectRatio), nearPlane(nearPlane), farPlane(farPlane), position(position), look(look), up(up){
 	//Create both
 	viewMatrix = lookAt(position, look, up);
 	projectionMatrix = perspective(fov, aspectRatio, nearPlane, farPlane);
@@ -17,8 +16,7 @@ fov(fov), aspectRatio(aspectRatio), nearPlane(nearPlane), farPlane(farPlane), po
 	currentPoint = 0;
 }
 //Set perspective parameters
-void Camera::setPerspective(float _fov, float _aspectRatio, float _nearPlane, float _farPlane)
-{
+void Camera::setPerspective(float _fov, float _aspectRatio, float _nearPlane, float _farPlane){
 	fov = _fov;
 	aspectRatio = _aspectRatio;
 	nearPlane = _nearPlane;
@@ -27,16 +25,13 @@ void Camera::setPerspective(float _fov, float _aspectRatio, float _nearPlane, fl
 	projectionMatrix = perspective(fov, aspectRatio, nearPlane, farPlane);
 }
 
-void Camera::setAspectRatio(float _aspectRatio)
-{
+void Camera::setAspectRatio(float _aspectRatio){
 	aspectRatio = _aspectRatio;
-
 	projectionMatrix = perspective(fov, aspectRatio, nearPlane, farPlane);
 }
 
 //Set look at parameters
-void Camera::setLookAt(vec3 _position, vec3 _look, vec3 _up)
-{
+void Camera::setLookAt(vec3 _position, vec3 _look, vec3 _up){
 	position = _position;
 	look = _look;
 	up = _up;
@@ -45,48 +40,41 @@ void Camera::setLookAt(vec3 _position, vec3 _look, vec3 _up)
 }
 
 //Set camera position
-void Camera::setPosition(vec3 _position)
-{
+void Camera::setPosition(vec3 _position){
 	position = _position;
 	viewMatrix = lookAt(position, look, up);
 }
 
 //Set look vector
-void Camera::setLookVector(vec3 _look)
-{
+void Camera::setLookVector(vec3 _look){
 	look = _look;
 	viewMatrix = lookAt(position, look, up);
 }
 
 //Set up vector
-void Camera::setUpVector(vec3 _up)
-{
+void Camera::setUpVector(vec3 _up){
 	up = _up;
 	viewMatrix = lookAt(position, look, up);
 }
 
 //Move camera. Adds a vector to the position
-void Camera::moveCamera(vec3 move)
-{
+void Camera::moveCamera(vec3 move){
 	look += move;
 	position += move;
 }
 
 //Rotate camera
-void Camera::rotate(vec3 rotation)
-{
+void Camera::rotate(vec3 rotation){
 	orientation += rotation;
 }
 
 //Set camera inertia rotation
-void Camera::setInertiaRotation(vec3 _inertia)
-{
+void Camera::setInertiaRotation(vec3 _inertia){
 	inertia = _inertia;
 }
 
 //Update camera in First Person mode
-void Camera::updateFP()
-{
+void Camera::updateFP(){
 	//ProjectionMatrix
 	projectionMatrix = perspective(fov*zoom, aspectRatio, nearPlane, farPlane);
 
@@ -112,69 +100,73 @@ void Camera::updateFP()
 }
 
 //Update camera when is attached to the rollercoaster
-void Camera::updateFromRollerCoaster()
-{
+void Camera::updateFromRollerCoaster(){
 	//ProjectionMatrix
 	projectionMatrix = perspective(fov*zoom, aspectRatio, nearPlane, farPlane);
 
 
-	/*if (currentPoint >= rollerCoaster.nPoints())
-		currentPoint = 0;*/
+	if (currentPoint >= curve.nPoints())
+		currentPoint = 0;
 
-	//position = rollerCoaster.getPointList()[currentPoint] + (rollerCoaster.getBinormalList()[currentPoint]);
-
-	//ViewMatrix
-	//viewMatrix = glm::lookAt(position, position + rollerCoaster.getTangentList()[currentPoint], rollerCoaster.getBinormalList()[currentPoint]);
-
+	 //PV3D* punto = curve.getPointList()[currentPoint]->addition(curve.getBinormalList()[currentPoint]);
+	 PV3D* punto = curve.getPointList()[currentPoint];
+	 position = glm::vec3(punto->getX(), punto->getY(), punto->getZ());
+	 
+	 glm::vec3 up = glm::vec3(curve.getBinormalList()[currentPoint]->getX(), curve.getBinormalList()[currentPoint]->getY(), curve.getBinormalList()[currentPoint]->getZ());
+	 glm::vec3 look = glm::vec3(curve.getTangentList()[currentPoint]->getX(), curve.getTangentList()[currentPoint]->getY(), curve.getTangentList()[currentPoint]->getZ());
+	 //ViewMatrix
+	//viewMatrix = glm::lookAt(position, position + curve.getTangentList()[currentPoint], curve.getBinormalList()[currentPoint]);
+	 viewMatrix = glm::lookAt(position, position + look, up);
 	currentPoint++;
 }
 
 
 //Getters
-mat4 Camera::getViewMatrix()
-{
+mat4 Camera::getViewMatrix(){
 	return viewMatrix;
 }
-mat4 Camera::getProjectionMatrix()
-{
+mat4 Camera::getProjectionMatrix(){
 	return projectionMatrix;
 }
-/*
-mat4 Camera::getModelView(mat4 modelMatrix)
-{
+
+mat4 Camera::getModelView(mat4& modelMatrix){
 	return viewMatrix*modelMatrix;
 }
-mat4 Camera::getModelViewProjection(mat4 modelMatrix)
-{
-	return projectionMatrix*viewMatrix*modelMatrix;
-}
-*/
+//mat4 Camera::getModelViewProjection(mat4 modelMatrix){
+//	return projectionMatrix*viewMatrix*modelMatrix;
+//}
+
 
 //Get position 
-vec3 Camera::getPosition()
-{
+vec3 Camera::getPosition(){
 	return position;
 }
 
 //Get Orientation X
-vec3 Camera::getOrientation()
-{
+vec3 Camera::getOrientation(){
 	return orientation;
 }
 
-void Camera::increaseZoom(float step)
-{
+//Get look
+vec3 Camera::getLook(){
+	return look;
+}
+
+//Get up X
+vec3 Camera::getUp(){
+	return up;
+}
+
+void Camera::increaseZoom(float step){
 	zoom = ((zoom + step)>MAX_ZOOM) ? MAX_ZOOM : (zoom + step);
 }
 
-void Camera::decreaseZoom(float step)
-{
+void Camera::decreaseZoom(float step){
 	zoom = ((zoom - step)<MIN_ZOOM) ? MIN_ZOOM : (zoom - step);
 }
 
-void Camera::setRollerCoasterCurve(BezierCurve c)
-{
-	rollerCoaster = c;
+void Camera::setVeinCurve(BezierCurve c){
+	curve = c;
 	currentPoint = 0;
 }
 
