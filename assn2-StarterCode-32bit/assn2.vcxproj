@@ -157,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camara.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -171,7 +171,7 @@
     <ClCompile Include="VertexNormal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Camara.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="Mesh.h" />

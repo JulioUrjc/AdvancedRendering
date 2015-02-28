@@ -29,7 +29,6 @@
 
 #include "BezierCurve.h"
 #include "Vein.h"
-#include "Camera.h"
 #include <vector>
 #include <iostream>
 
@@ -49,9 +48,6 @@ int g_iRightMouseButton = 0;
 BezierCurve* curve;
 Vein* vein;
 int point = 0;
-
-//Default camera
-Camera camera(0.0f, 1.0f, 0.1f, 10.0f, glm::vec3(-2, -5, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -314,7 +310,6 @@ int main (int argc, char ** argv){
 	curve = new BezierCurve();
 	vein = new Vein(8, 0.8, curve);
 	camara();
-	glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
 	/*camera.setVeinCurve(*curve);
 	camera.updateFromRollerCoaster();
 	camera.setLookVector(glm::vec3(0,0,0));
