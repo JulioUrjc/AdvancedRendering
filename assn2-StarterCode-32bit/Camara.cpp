@@ -149,7 +149,7 @@ void Camara::desplazar(GLdouble x, GLdouble y, GLdouble z){
 	this->look.setZ(this->look.getZ()+z);
 
 	this->fijarCam();
-	this->ortogonal(-10,10,-10,10,1,1000);
+	//this->ortogonal(-10,10,-10,10,1,1000);
 }
 
 void Camara::ortogonal(){

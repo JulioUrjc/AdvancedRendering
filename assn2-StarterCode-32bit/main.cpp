@@ -177,6 +177,10 @@ void key(unsigned char key, int x, int y){
 		++point;
 		if (point > curve->nPoints()-1) point = 0;
 		break;
+	case '-':
+		camara->desplazar(0.0,0.0,0.01);
+
+		break;
 	}
 }
 
@@ -189,7 +193,7 @@ void display(){
 	
 	for (PV3D* punto: curve->getPointList()){
 		//cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
-		glColor3f(0.0, 0.0, 1.0);
+		glColor3f(0.0, 1.0, 1.0);
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
 	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
@@ -284,9 +288,12 @@ int main (int argc, char ** argv){
 	curve = new BezierCurve();
 	vein = new Vein(8, 0.8, curve);
 	//// Camera parameters
-	eye = new PV3D(-2, -0.5, 0.0);
+	/*eye = new PV3D(-2, -0.5, 0.0);
 	look= new PV3D(0.74, -0.66, 0.0);
-	up  = new PV3D(0.66, 0.74, 0.0);
+	up  = new PV3D(0.66, 0.74, 0.0);*/
+	eye = new PV3D(-2, 0.0, 0.0);
+	look = new PV3D(0.0, 0.0, 1.0);
+	up = new PV3D(0.0, 0.1, 0.0);
 	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
 	startCam();

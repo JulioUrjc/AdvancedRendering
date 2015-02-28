@@ -86,7 +86,9 @@ void Vein::draw(bool relleno,Camara* camara, int point){
 	PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
 	PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
 	PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
-
+	/*PV3D* eye = new PV3D(-3.0,0.0,2.0);
+	PV3D* look = new PV3D(-1.0, 0.0, 0.0);
+	PV3D* up = new PV3D(0.0, 1.0, 0.0);*/
 	camara->moveCamara(eye, look, up);
 	camara->fijarCam();
 }
