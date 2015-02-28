@@ -78,9 +78,25 @@ int Vein::nextVertex(int v){
 	return vAux;
 }
 //-------------------------------------------------------------------------
-void Vein::draw(bool relleno){
+void Vein::draw(bool relleno,int point){
 
 	Mesh::draw(relleno);  // Dibuja la Mesh
+	
+	float eyeX = curve->getPointList().at(point)->getX();
+	float eyeY = curve->getPointList().at(point)->getY();
+	float eyeZ = curve->getPointList().at(point)->getZ();
+
+	float lookX = curve->getTangentList().at(point)->getX();
+	float lookY = curve->getTangentList().at(point)->getY();
+	float lookZ = curve->getTangentList().at(point)->getZ();
+
+	float upX = curve->getBinormalList().at(point)->getX();
+	float upY = curve->getBinormalList().at(point)->getY();
+	float upZ = curve->getBinormalList().at(point)->getZ();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 	//PV3D* fderivate = fDerivate(carPos);
 	//PV3D* sderivate = sDerivate(carPos);

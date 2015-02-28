@@ -18,9 +18,10 @@
 #pragma comment(lib, "win32/jpeg.lib")
 #pragma comment(lib, "win32/libtiff.lib")
 #pragma comment(lib, "win32/libpicio.lib")
-#pragma comment(lib, "./libs/glut32.lib")
-
+#pragma comment(lib, "libs/glut32.lib")
+#pragma comment(lib, "libs/glew32.lib")
 #else
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -47,6 +48,7 @@ int g_iRightMouseButton = 0;
 /* - BezierCurve Variable - */
 BezierCurve* curve;
 Vein* vein;
+int point = 0;
 
 //Default camera
 Camera camera(0.0f, 1.0f, 0.1f, 10.0f, glm::vec3(-2, -5, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
@@ -161,6 +163,25 @@ void mousebutton(int button, int state, int x, int y){
 	g_vMousePos[1] = y;
 }
 
+void key(unsigned char key, int x, int y){
+	bool need_redisplay = true;
+	switch (key) {
+	case 27:  /* Escape key */
+		//continue_in_main_loop = false; // (**)
+		//Freeglut's sentence for stopping glut's main loop (*)
+		//glutLeaveMainLoop();
+		break;
+		// ----------------
+
+		// linea de debug::: 	cout<< angleX << " "<< angleY << " " <<angleZ << " ";
+	case 'a':
+		++point;
+		if (point > curve->nPoints()-1) point = 0;
+		break;
+		// ----------------
+	}
+}
+
 /*	display - Function to modify with your heightfield rendering code (Currently displays a simple cube) */
 void display(){
 	/* draw 1x1 cube about origin you may also want to precede it with your rotation/translation/scaling */
@@ -169,16 +190,16 @@ void display(){
 	// Drawing axes
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	glBegin(GL_LINES);
-		glColor3f(1.0, 0.0, 0.0);
-		glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
+	//glBegin(GL_LINES);
+	//	glColor3f(1.0, 0.0, 0.0);
+	//	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
 
-		glColor3f(0.0, 1.0, 0.0);
-		glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
+	//	glColor3f(0.0, 1.0, 0.0);
+	//	glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
 
-		glColor3f(0.0, 0.0, 1.0);
-		glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
-	glEnd();
+	//	glColor3f(0.0, 0.0, 1.0);
+	//	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
+	//glEnd();
 
 
 	glBegin(GL_LINE_STRIP);
@@ -188,10 +209,10 @@ void display(){
 		glColor3f(0.0, 0.0, 1.0);
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
-	glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
+	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
 	glEnd();
 
-	vein->draw(false);
+	vein->draw(false,point);
 
 	glutSwapBuffers();
 }
@@ -205,23 +226,24 @@ void menufunc(int value){
 	}
 }
 
-//void gleInit(){
-//	GLenum err = glewInit();
-//	if (GLEW_OK != err){
-//		printf("Error: %s\n", glewGetErrorString(err));
-//	}
-//	const GLubyte *oglVersion = glGetString(GL_VERSION);
-//	printf("This system supports OpenGL Version %s.\n", oglVersion);
-//}
+void startGlew(){
+	GLenum err = glewInit();
+	if (GLEW_OK != err){
+		printf("Error: %s\n", glewGetErrorString(err));
+	}
+	const GLubyte *oglVersion = glGetString(GL_VERSION);
+	printf("This system supports OpenGL Version %s.\n", oglVersion);
+}
 
 /*	myinit - Function to add your initialization code */
-void glInit(){
+void startGlut(){
 	// Por defecto
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutCreateWindow("Torrente Sanguineo");
 	
 	glutDisplayFunc(display);			/* tells glut to use a particular display function to redraw */
+	glutKeyboardFunc(key);
 
 	/* allow the user to quit using the right mouse button menu */
 	g_iMenuId = glutCreateMenu(menufunc);
@@ -233,14 +255,16 @@ void glInit(){
 	glutMotionFunc(mousedrag);			/* callback for mouse drags */
 	glutPassiveMotionFunc(mouseidle);	/* callback for idle mouse movement */
 	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
+}
+
+void camara(){
 	// Viewing frustum parameters
-	GLdouble xRight = 1.5, xLeft = -xRight, yTop = 1.5, yBot = -yTop, N = 0.1, F = 1000;
+	GLdouble xRight = 0.5, xLeft = -xRight, yTop = 0.5, yBot = -yTop, N = 0.01, F = 1000;
 
 	//// Camera parameters
-	GLdouble eyeX = -3.7, eyeY = 0.0, eyeZ = 2.0;
-	GLdouble lookX = 0.0, lookY = 0.0, lookZ = 0.0;
-	GLdouble upX = 0, upY = 1, upZ = 0;
+	GLdouble eyeX = -2, eyeY = -5.0, eyeZ = 0.0;
+	GLdouble lookX = 0.74, lookY = -0.66, lookZ = 0.0;
+	GLdouble upX = 0.66, upY = 0.74, upZ = 0;
 
 	//// Axis angles
 	GLfloat angleX = 0, angleY = 0, angleZ = 0;
@@ -266,7 +290,7 @@ void glInit(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(xLeft, xRight, yBot, yTop, N, F);
-	
+
 	//// Viewport set up
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -285,13 +309,12 @@ int main (int argc, char ** argv){
 
 	glutInit(&argc,argv);
 	
-	glInit(); /* do initialization */
-	//gleInit();
+	startGlut(); /* do initialization */
+	startGlew();
 	curve = new BezierCurve();
-	vein = new Vein(20, 0.5, curve);
-	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
-	const GLfloat *value;
-	glUniformMatrix4fv(-1, 1, GL_FALSE, value);
+	vein = new Vein(8, 0.8, curve);
+	camara();
+	glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);
 	/*camera.setVeinCurve(*curve);
 	camera.updateFromRollerCoaster();
 	camera.setLookVector(glm::vec3(0,0,0));

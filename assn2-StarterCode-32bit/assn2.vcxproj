@@ -91,14 +91,14 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir)\libs;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <IgnoreSpecificDefaultLibraries>libc.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glut32.lib;glew32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>$(ProjectDir)\libs</AdditionalLibraryDirectories>
     </Link>
@@ -163,6 +163,8 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="BezierCurve.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Perlin_noise\BitmapSaver.cpp" />
+    <ClCompile Include="Perlin_noise\PerlinGenerator.cpp" />
     <ClCompile Include="PV3D.cpp" />
     <ClCompile Include="Poligon.cpp" />
     <ClCompile Include="Vein.cpp" />
@@ -174,6 +176,8 @@
     <ClInclude Include="Face.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="BezierCurve.h" />
+    <ClInclude Include="Perlin_noise\BitmapSaver.h" />
+    <ClInclude Include="Perlin_noise\PerlinGenerator.h" />
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
     <ClInclude Include="Splines.h" />
