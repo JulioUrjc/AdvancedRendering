@@ -7,16 +7,8 @@
 
 
 //---------------------------------------------------------------------------
-//Vein::Vein(int NP, GLfloat radius, BezierCurve* curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
-//	this->NP = NP;
-//	this->radius = radius;
-//	this->curve = curve;
-//
-//	build();
-//}
 
 Vein::Vein(int NP, GLfloat radius, BezierCurve* curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
-
 	this->NP = NP;
 	this->radius = radius;
 	this->curve = curve;

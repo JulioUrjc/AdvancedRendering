@@ -50,7 +50,6 @@ Vein* vein;
 //Default camera
 //Camera camera(60.0f, 1.0f, 10.0f, 100000.0f, glm::vec3(0, 1000, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 
-
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
 	Pic *in = NULL;
@@ -166,7 +165,8 @@ void display(){
 	/* draw 1x1 cube about origin you may also want to precede it with your rotation/translation/scaling */
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//curve->getPointList();
+	// Drawing axes
+
 	glBegin(GL_LINES);
 	glColor3f(1.0, 0.0, 0.0);
 	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
@@ -177,6 +177,7 @@ void display(){
 	glColor3f(0.0, 0.0, 1.0);
 	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
 	glEnd();
+	
 	/*glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 1.0);
 	glVertex3f(-0.5, -0.5, 0.0);
@@ -190,13 +191,11 @@ void display(){
 	glEnd();*/
 
 	glBegin(GL_LINE_STRIP);
-	glColor3f(1.0, 1.0, 1.0);
-	//glVertex3f(-0.5, -0.5, 0.0);
-	for (PV3D* vector : curve->getPointList()){
-		std::cout << vector->getX() << " " << vector->getY() << " " << vector->getZ() << std::endl;
-		glColor3f(1.0, 1.0, 0.0);
-		glVertex3f(vector->getX(), vector->getY(), vector->getZ());
-		//std::cout << vector.r << " " << vector.g << " " << vector.b << std::endl;
+	
+	for (PV3D* punto: curve->getPointList()){
+		cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
+		glColor3f(0.0, 0.0, 1.0);
+		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
 	glEnd();
 
@@ -293,6 +292,7 @@ int main (int argc, char ** argv){
 	glInit(); /* do initialization */
 	curve = new BezierCurve();
 	//vein = new Vein(5, 10, curve);
+
 	glutMainLoop();
 	return 0;
 }
