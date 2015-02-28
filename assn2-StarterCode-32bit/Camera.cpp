@@ -118,8 +118,8 @@ void Camera::updateFromRollerCoaster()
 	projectionMatrix = perspective(fov*zoom, aspectRatio, nearPlane, farPlane);
 
 
-	if (currentPoint >= rollerCoaster.nPoints())
-		currentPoint = 0;
+	/*if (currentPoint >= rollerCoaster.nPoints())
+		currentPoint = 0;*/
 
 	//position = rollerCoaster.getPointList()[currentPoint] + (rollerCoaster.getBinormalList()[currentPoint]);
 

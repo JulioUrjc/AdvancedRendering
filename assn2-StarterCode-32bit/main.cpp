@@ -27,6 +27,7 @@
 
 #include "BezierCurve.h"
 #include "Vein.h"
+//#include "Camera.h"
 #include <vector>
 #include <iostream>
 
@@ -45,6 +46,10 @@ int g_iRightMouseButton = 0;
 /* - BezierCurve Variable - */
 BezierCurve* curve;
 Vein* vein;
+
+//Default camera
+//Camera camera(60.0f, 1.0f, 10.0f, 100000.0f, glm::vec3(0, 1000, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -161,8 +166,17 @@ void display(){
 	/* draw 1x1 cube about origin you may also want to precede it with your rotation/translation/scaling */
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//curve->getPointList();
+	glBegin(GL_LINES);
+	glColor3f(1.0, 0.0, 0.0);
+	glVertex3f(0, 0, 0);	glVertex3f(20, 0, 0);
 
-	
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(0, 0, 0);	glVertex3f(0, 20, 0);
+
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(0, 0, 0);	glVertex3f(0, 0, 20);
+	glEnd();
 	/*glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 1.0);
 	glVertex3f(-0.5, -0.5, 0.0);
@@ -175,7 +189,18 @@ void display(){
 
 	glEnd();*/
 
-	vein->draw(false);
+	glBegin(GL_LINE_STRIP);
+	glColor3f(1.0, 1.0, 1.0);
+	//glVertex3f(-0.5, -0.5, 0.0);
+	for (glm::vec3 vector : curve->getPointList()){
+		std::cout << vector.x << " " << vector.y << " " << vector.z << std::endl;
+		glColor3f(1.0, 1.0, 0.0);
+		glVertex3f(vector.x, vector.y, vector.z);
+		//std::cout << vector.r << " " << vector.g << " " << vector.b << std::endl;
+	}
+	glEnd();
+
+	//vein->draw(false);
 
 	glutSwapBuffers();
 }
@@ -219,7 +244,7 @@ void glInit(){
 	GLdouble xRight = 10, xLeft = -xRight, yTop = 10, yBot = -yTop, N = 1, F = 1000;
 
 	//// Camera parameters
-	GLdouble eyeX = 100.0, eyeY = 100.0, eyeZ = 100.0;
+	GLdouble eyeX = 0, eyeY = 0, eyeZ = 500.0;
 	GLdouble lookX = 0.0, lookY = 0.0, lookZ = 0.0;
 	GLdouble upX = 0, upY = 1, upZ = 0;
 
@@ -267,7 +292,7 @@ int main (int argc, char ** argv){
 
 	glInit(); /* do initialization */
 	curve = new BezierCurve();
-	vein = new Vein(5, 10, curve);
+	//vein = new Vein(5, 10, curve);
 	glutMainLoop();
 	return 0;
 }
