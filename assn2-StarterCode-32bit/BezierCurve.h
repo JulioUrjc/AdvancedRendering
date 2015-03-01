@@ -8,7 +8,9 @@ class BezierCurve{
 
 private:
 
+	//Curve Partitions
 	int nSteps;
+	//Curve parameter
 	float t;
 
 	//Control points
@@ -36,6 +38,7 @@ private:
 	float numRandom();
 
 public:
+
 	BezierCurve(int nS, float t);
 
 	std::vector<glm::vec4> getControlPointsList();

@@ -5,10 +5,13 @@
 #include <cstdlib>
 #include <time.h>
 
+
 BezierCurve::BezierCurve(int steps, float curv){
 	nSteps = steps;
 	t = curv;
+
 	srand(time(NULL));
+	this->nSteps = nSteps;
 	createPoints();
 	createCurve();
 }
