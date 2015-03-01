@@ -39,4 +39,20 @@ void RedCorpuscle::draw(int modo){
 		glutSolidTorus(0.02f, 0.2f, 10, 10);
 		glPopMatrix();
 	}
-	
+}
+
+//GETTERS
+PV3D RedCorpuscle::getPosition(){
+	return position;
+}
+PV3D RedCorpuscle::getRotation(){
+	return rotation;
+}
+
+//SETTERS
+void RedCorpuscle::setPosition(PV3D pos){
+	position = pos;
+}
+void RedCorpuscle::setRotation(PV3D rot){
+	rotation = rot;
+}

@@ -103,39 +103,18 @@ int Vein::nextVertex(int v){
 }
 //-------------------------------------------------------------------------
 
-void Vein::draw(int modo, Camara* camara, int point){
+void Vein::draw(int modo){
 
-	Mesh::draw(modo);  // Dibuja la Mesh
-
-	//PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-	//PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-	//PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
-	PV3D* look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-	PV3D* up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-	PV3D* eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
-
-	camara->moveCamara(eye, look, up);
-	camara->fijarCam();
+	Mesh::draw(modo);     // Draw Mesh whit point, alambric or face mode
 }
 
-void Vein::draw(bool relleno,Camara* camara, int point){
+void Vein::draw(bool relleno){
 
 	Mesh::draw(relleno);  // Dibuja la Mesh
 	
-	/*
-	PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-	PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-	PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
-	//PV3D* look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-	//PV3D* up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-	//PV3D* eye = new PV3D(2+look->getX() + curve->getBinormalList().at(point)->getX(), 2+look->getY()+curve->getBinormalList().at(point)->getY(), 2+look->getZ()+curve->getBinormalList().at(point)->getZ());
-
-	camara->moveCamara(eye, look, up);
-	camara->fijarCam();*/
 }
 
-void Vein::addPerlinNoise(float** perlinNoise)
-{
+void Vein::addPerlinNoise(float** perlinNoise){
 	float deformation=0;
 	float maxDef = 0.3f;
 	float minDef = 0.01f;

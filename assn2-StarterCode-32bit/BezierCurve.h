@@ -9,7 +9,7 @@ class BezierCurve{
 private:
 
 	//Control points
-	std::vector<glm::vec4> controlPointList;
+	std::vector<glm::vec4> controlPointsList;
 	//Interpolated curve
 	std::vector<PV3D*> pointList;
 	//Tangent list
@@ -19,14 +19,14 @@ private:
 	//Binormal list
 	std::vector<PV3D*> binormalList;
 
-	void generateControlPoints();
-	void generateCurve();
-	float getRandom();
+	void createPoints();
+	void createCurve();
+	float numRandom();
 
 public:
 	BezierCurve();
 
-	std::vector<glm::vec4> getControlPointList();
+	std::vector<glm::vec4> getControlPointsList();
 	std::vector<PV3D*> getPointList();
 	std::vector<PV3D*> getTangentList();
 	std::vector<PV3D*> getNormalList();

@@ -1,8 +1,10 @@
 #pragma once
 
+#include <Windows.h>
+#include <GL/gl.h>
+#include <GL/GLU.h>
 #include "GL/glut.h"
 
-#include "Mesh.h"
 #include "PV3D.h"
 
 class WhiteCorpuscle

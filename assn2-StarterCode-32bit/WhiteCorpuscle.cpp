@@ -39,3 +39,19 @@ void WhiteCorpuscle::draw(int modo){
 		glPopMatrix();
 	}
 }
+
+//GETTERS
+PV3D WhiteCorpuscle::getPosition(){
+	return position;
+}
+PV3D WhiteCorpuscle::getRotation(){
+	return rotation;
+}
+
+//SETTERS
+void WhiteCorpuscle::setPosition(PV3D pos){
+	position = pos;
+}
+void WhiteCorpuscle::setRotation(PV3D rot){
+	rotation = rot;
+}

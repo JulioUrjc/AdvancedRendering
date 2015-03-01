@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Blood.cpp" />
     <ClCompile Include="Camara.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="Face.cpp" />
@@ -167,10 +168,13 @@
     <ClCompile Include="Perlin_noise\PerlinGenerator.cpp" />
     <ClCompile Include="PV3D.cpp" />
     <ClCompile Include="Poligon.cpp" />
+    <ClCompile Include="RedCorpuscle.cpp" />
     <ClCompile Include="Vein.cpp" />
     <ClCompile Include="VertexNormal.cpp" />
+    <ClCompile Include="WhiteCorpuscle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blood.h" />
     <ClInclude Include="Camara.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="Face.h" />
@@ -180,9 +184,11 @@
     <ClInclude Include="Perlin_noise\PerlinGenerator.h" />
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
+    <ClInclude Include="RedCorpuscle.h" />
     <ClInclude Include="Splines.h" />
     <ClInclude Include="Vein.h" />
     <ClInclude Include="VertexNormal.h" />
+    <ClInclude Include="WhiteCorpuscle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
