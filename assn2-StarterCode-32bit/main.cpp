@@ -47,12 +47,22 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
+const int curveSteps = 256;
+const float curveT = 0.7f;
 BezierCurve* curve;
+
+/* - Vein Variable - */
+const int veinSides = 256;
+const float veinRadius = 0.7f;
 Vein* vein;
+
+/* - Blood Variable - */
+// const int numRedCorpuscles = 30;
+// const int numWhiteCorpuscles = 20;
+// Blood* blood;
 
 /* - Perlin Noise - */
 const int sideVertex = 256;
-
 PerlinGenerator perlinNoise(6, sideVertex);
 
 /* Cam Variables*/
@@ -387,10 +397,20 @@ int main (int argc, char ** argv){
 	/* do initialization */
 	startGlut(); 
 	startGlew();
-	/* Creamos la curva y la vena asociada*/
-	curve = new BezierCurve();
-	vein = new Vein(25, 0.7f, curve);
+	/* Creamos el ruido de Perlin*/
+	std::cout << "Generating perlin noise..." << std::endl;
 	perlinNoise.generate();
+	/* Creamos la curva y la vena asociada*/
+	std::cout << "Generating bezier curve..." << std::endl;
+	curve = new BezierCurve(curveSteps, curveT);
+
+	std::cout << "Generating vein..." << std::endl;
+	vein = new Vein(veinSides, veinRadius, curve);
+	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
+
+	/* Creamos los globulos dentro de la vena */
+	std::cout << "Generating blood..." << std::endl;
+	//blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve);
 	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	
 	//// Camera parameters

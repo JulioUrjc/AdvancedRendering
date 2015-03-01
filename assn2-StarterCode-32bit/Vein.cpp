@@ -32,16 +32,27 @@ void Vein::build(){
 		PV3D* Bt = curve->getBinormalList().at(i)->clone();          // Binormal
 		PV3D* Nt = curve->getNormalList().at(i)->clone();
 		PV3D* Ct = curve->getPointList().at(i)->clone();             //Center Point with n steap
-
-		Tt->toString();
+		//Tt->toString();
+		//Bt->toString();
+		//Nt->toString();
+		//PV3D Tt = curve->getTangentList_np().at(i);           // Normalize Tangent in Point
+		//PV3D Bt = curve->getBinormalList_np().at(i);          // Binormal
+		//PV3D Nt = curve->getNormalList_np().at(i);
+		//PV3D Ct = curve->getPointList_np().at(i);
+		//Tt.toString();
+		//Bt.toString();
+		//Nt.toString();
 
 		for (int j = 0; j<NP; j++){			// Esto ocurre con cada uno de los vértices del polígono
 			// Se construyen los vertices
 			int numV = NP*i + j;
 			PV3D* clon = puntos->at(j)->clone();					// Un clon del punto del polígono para trabajar
+			//PV3D clon = *puntos->at(j);
 			PV3D* punto = clon->matrixProduct(Nt, Bt, Tt, Ct);      // Transformacion del poligono al sistema de referencia local del punto
+			//PV3D punto = clon.matrixProduct(Nt, Bt, Tt, Ct);
 			vertex->at(numV) = punto;								// El punto recibe un identificador y siempre con sentido
-			delete clon;
+			//vertex->at(numV) = &punto;
+			//delete clon;
 
 			// Se construyen las caras
 			int numFace = NP*(i)+j;
@@ -64,7 +75,7 @@ void Vein::build(){
 		}
 
 		//deletes de los objetos ya no necesarios
-		delete Tt; 	delete Bt;	delete Nt;	delete Ct;
+		//delete Tt; 	delete Bt;	delete Nt;	delete Ct;
 	}
 
 	// Se construyen las Faces

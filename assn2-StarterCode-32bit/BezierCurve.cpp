@@ -5,7 +5,9 @@
 #include <cstdlib>
 #include <time.h>
 
-BezierCurve::BezierCurve(){
+BezierCurve::BezierCurve(int steps, float curv){
+	nSteps = steps;
+	t = curv;
 	srand(time(NULL));
 	createPoints();
 	createCurve();
@@ -32,9 +34,6 @@ void BezierCurve::createPoints(){
 
 void BezierCurve::createCurve(){
 	
-	int nSteps = 25; // step variable
-	float t= 0.5;   // Tension
-
 	glm::mat4x4 mMat = glm::mat4x4(0,   1,     0,  0,
 								  -t,   0,     t,  0,
 							     2*t, t-3, 3-2*t, -t,
@@ -54,21 +53,33 @@ void BezierCurve::createCurve(){
 
 			//Adding vertex of interpolated point
 			pointList.push_back(new PV3D(point.x, point.y, point.z));
+			pointList_np.push_back(PV3D(point.x, point.y, point.z));
 		}
 	}
 
 	//Calculate tangents, normals and binormals
 	for (int i = 2; i < pointList.size() + 2; ++i){
-		//Tangent = t*([pi-1] - [pi+1])
+		////Tangent = t*([pi-1] - [pi+1])
 		PV3D* tangent = new PV3D();
 		tangent = (pointList[(i+1) %pointList.size()]->subtraction(pointList[(i-1) %pointList.size()]))->factor(t); tangent->normalize();
 		tangentList.push_back(tangent);
+		PV3D tangent2 = PV3D();
+		tangent2 = (pointList_np[(i + 1) % pointList_np.size()].subtraction(pointList_np[(i - 1) % pointList_np.size()])).factor_np(t); tangent2.normalize();
+		tangentList_np.push_back(tangent2);
 
-		////Binormal = Normal x Tangent
-		PV3D* normal = tangent->crossProduct(new PV3D(0, 1, 0));  normal->normalize();
+		//////Binormal = Normal x Tangent
+		PV3D* normal = new PV3D();
+		normal->setZ(1.0f); //Set normal vector as z-axis
+		//normal = tangent->crossProduct(new PV3D(0, 1, 0)); normal->normalize();
+		//normal = (pointList[(i) % pointList.size()]->subtraction(pointList[(i - 2) % pointList.size()]))->factor(t); normal->normalize();
 		normalList.push_back(normal);
 		PV3D* binormal = normal->crossProduct(tangent);  binormal->normalize();
 		binormalList.push_back(binormal);
+		PV3D normal2 = PV3D();
+		normal2 = (pointList_np[(i) % pointList_np.size()].subtraction(pointList_np[(i - 2) % pointList_np.size()])).factor_np(t); normal2.normalize();
+		normalList_np.push_back(normal2);
+		PV3D binormal2 = normal2.crossProduct(tangent2);  binormal2.normalize();
+		binormalList_np.push_back(binormal2);
 	}
 }
 
@@ -94,6 +105,22 @@ std::vector<PV3D*> BezierCurve::getNormalList(){
 
 std::vector<PV3D*> BezierCurve::getBinormalList(){
 	return binormalList;
+}
+
+std::vector<PV3D> BezierCurve::getPointList_np(){
+	return pointList_np;
+}
+
+std::vector<PV3D> BezierCurve::getTangentList_np(){
+	return tangentList_np;
+}
+
+std::vector<PV3D> BezierCurve::getNormalList_np(){
+	return normalList_np;
+}
+
+std::vector<PV3D> BezierCurve::getBinormalList_np(){
+	return binormalList_np;
 }
 
 int BezierCurve::nPoints(){
