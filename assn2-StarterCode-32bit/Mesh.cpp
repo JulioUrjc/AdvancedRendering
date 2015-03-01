@@ -38,8 +38,8 @@ void Mesh::draw(int modo){
 		glLineWidth(1.0);
 		glColor3f(0, 0, 0);
 		if (modo==1){
+			glPointSize(2.0);
 			glBegin(GL_POINTS);
-			glPointSize(3);
 			glColor3f(1.0, 0, 0.0);
 		}else if (modo==2){
 			glBegin(GL_LINE_LOOP);

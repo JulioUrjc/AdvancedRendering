@@ -60,8 +60,8 @@ PV3D *eye, *look, *up;
 GLdouble xRight, xLeft, yTop, yBot, N, F;
 float angleYaw=0, angleRoll=0, anglePitch=0;
 Camara* camara;
-int modo = 2;
-int point = 0;
+int modo = 2;    // Mode lines
+int point = 0;   // Curve's Point 
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -183,23 +183,33 @@ void key(unsigned char key, int x, int y){
 	case 'a':
 		++point;
 		if (point > curve->nPoints()-1) point = 0;
-		look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-		up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-		eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
+		eye = curve->getPointList().at(point);
+		//look= curve->getTangentList().at(point);
+		look = eye->addition(curve->getTangentList().at(point));
+		up  = curve->getBinormalList().at(point);		
+		/*look= curve->getPointList().at(point);
+		up  = curve->getTangentList().at(point);
+		eye = look->addition(curve->getBinormalList().at(point))->addition(new PV3D(2.0,2.0,2.0));*/
+		//eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
 
 		camara->moveCamara(eye, look, up);
-		//camara->fijarCam();
+		camara->fijarCam();
 		break;
 	case 'z':
 		--point;
 		if (point < 0) point = curve->nPoints()-1;
-		look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
-		up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
-		eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
+		eye = curve->getPointList().at(point);
+		//look= curve->getTangentList().at(point);
+		look = eye->addition(curve->getTangentList().at(point));
+		up  = curve->getBinormalList().at(point);
+		/*look = curve->getPointList().at(point);
+		up = curve->getTangentList().at(point);
+		eye = look->addition(curve->getBinormalList().at(point))->addition(new PV3D(2.0, 2.0, 2.0));*/
 
 		camara->moveCamara(eye, look, up);
-		//camara->fijarCam();
+		camara->fijarCam();
 		break;
+	// Teclas para giros
 	case 'f':
 		angleYaw += 0.01;
 		camara->yaw(angleYaw);
@@ -249,7 +259,7 @@ void display(){
 	glEnd();
 
 	//vein->draw(false, camara, point);
-	vein->draw(modo, camara, point);
+	vein->draw(modo);
 	glutSwapBuffers();
 }
 
@@ -339,17 +349,17 @@ int main (int argc, char ** argv){
 	startGlew();
 	/* Creamos la curva y la vena asociada*/
 	curve = new BezierCurve();
-	vein = new Vein(25, 0.5f, curve);
+	vein = new Vein(25, 0.7f, curve);
 	perlinNoise.generate();
-	vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	
 	//// Camera parameters
 	/*eye = new PV3D(-2, -0.5, 0.0);
 	look= new PV3D(0.74, -0.66, 0.0);
 	up  = new PV3D(0.66, 0.74, 0.0);*/
-	eye = new PV3D(-2, 0.0, 0.0);
-	look = new PV3D(0.0, 0.0, 1.0);
-	up = new PV3D(0.0, 0.1, 0.0);
+	eye = curve->getPointList().at(point);
+	look= eye->addition(curve->getTangentList().at(point));
+	up  = curve->getBinormalList().at(point);
 	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
 
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
