@@ -52,8 +52,8 @@ const float curveT = 0.7f;
 BezierCurve* curve;
 
 /* - Vein Variable - */
-const int veinSides = 6;
-const float veinRadius = 0.7f;
+const int veinSides = 16;
+const float veinRadius = 0.5f;
 Vein* vein;
 
 /* - Blood Variable - */
@@ -408,7 +408,7 @@ int main (int argc, char ** argv){
 
 	std::cout << "Generating vein..." << std::endl;
 	vein = new Vein(veinSides, veinRadius, curve);
-	vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
 
 	/* Creamos los globulos dentro de la vena */
 	//std::cout << "Generating blood..." << std::endl;
@@ -419,7 +419,7 @@ int main (int argc, char ** argv){
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
+	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = -1.0; /*N = 0.01;*/ F = 1000;
 
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
 	startCam();

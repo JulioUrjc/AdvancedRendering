@@ -32,27 +32,15 @@ void Vein::build(){
 		PV3D* Bt = curve->getBinormalList().at(i)->clone();          // Binormal
 		PV3D* Nt = curve->getNormalList().at(i)->clone();
 		PV3D* Ct = curve->getPointList().at(i)->clone();             //Center Point with n steap
-		//Tt->toString();
-		//Bt->toString();
-		//Nt->toString();
-		//PV3D Tt = curve->getTangentList_np().at(i);           // Normalize Tangent in Point
-		//PV3D Bt = curve->getBinormalList_np().at(i);          // Binormal
-		//PV3D Nt = curve->getNormalList_np().at(i);
-		//PV3D Ct = curve->getPointList_np().at(i);
-		//Tt.toString();
-		//Bt.toString();
-		//Nt.toString();
 
 		for (int j = 0; j<NP; j++){			// Esto ocurre con cada uno de los vértices del polígono
 			// Se construyen los vertices
 			int numV = NP*i + j;
 			PV3D* clon = puntos->at(j)->clone();					// Un clon del punto del polígono para trabajar
-			//PV3D clon = *puntos->at(j);
 			PV3D* punto = clon->matrixProduct(Nt, Bt, Tt, Ct);      // Transformacion del poligono al sistema de referencia local del punto
-			//PV3D punto = clon.matrixProduct(Nt, Bt, Tt, Ct);
 			vertex->at(numV) = punto;								// El punto recibe un identificador y siempre con sentido
-			//vertex->at(numV) = &punto;
-			//delete clon;
+
+			delete clon;
 
 			// Se construyen las caras
 			// Caras como cuadrados
@@ -78,27 +66,8 @@ void Vein::build(){
 		}
 
 		//deletes de los objetos ya no necesarios
-		//delete Tt; 	delete Bt;	delete Nt;	delete Ct;
+		delete Tt; 	delete Bt;	delete Nt;	delete Ct;
 	}
-
-	// Se construyen las Faces
-	//for (int numFace = 0; numFace< faces->size(); numFace++){      //  |>Recorremos todas las Faces en orden
-	//	faces->at(numFace) = new Face(4);
-	//	vector<VertexNormal*>* auxNormals = new vector<VertexNormal*>(4);
-
-	//	int a = (numFace) % (NP*curve->nPoints());
-	//	int b = (nextVertex(numFace)) % (NP*curve->nPoints());		// Teniendo cuidado de cerrar bien el círculo
-	//	int c = (nextVertex(numFace) + NP) % (NP*curve->nPoints());
-	//	int d = (numFace + NP) % (NP*curve->nPoints());
-
-	//	auxNormals->at(0) = new VertexNormal(a, numFace);
-	//	auxNormals->at(1) = new VertexNormal(b, numFace);
-	//	auxNormals->at(2) = new VertexNormal(c, numFace);
-	//	auxNormals->at(3) = new VertexNormal(d, numFace);
-
-	//	faces->at(numFace)->setIndicesVN(auxNormals);
-	//}
-	// Se hacen las normales
 
 	for (int i = 0; i<faces->size(); i++){
 		normals->at(i) = doVectorNormalNewell(faces->at(i));
@@ -124,8 +93,7 @@ void Vein::draw(int modo){
 
 void Vein::draw(bool relleno){
 
-	Mesh::draw(relleno);  // Dibuja la Mesh
-	
+	Mesh::draw(relleno);  // Dibuja la Mesh	
 }
 
 void Vein::addPerlinNoise(float** perlinNoise){
