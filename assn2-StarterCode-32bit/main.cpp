@@ -28,6 +28,7 @@
 #endif
 
 #include "BezierCurve.h"
+#include "Perlin_noise/PerlinGenerator.h"
 #include "Vein.h"
 #include "Camara.h"
 #include <vector>
@@ -49,10 +50,17 @@ int g_iRightMouseButton = 0;
 BezierCurve* curve;
 Vein* vein;
 
+/* - Perlin Noise - */
+const int sideVertex = 256;
+
+PerlinGenerator perlinNoise(6, sideVertex);
+
 /* Cam Variables*/
 PV3D *eye, *look, *up;
 GLdouble xRight, xLeft, yTop, yBot, N, F;
+float angleYaw=0, angleRoll=0, anglePitch=0;
 Camara* camara;
+int modo = 2;
 int point = 0;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
@@ -172,14 +180,47 @@ void key(unsigned char key, int x, int y){
 		exit(0);
 		break;
 
-		// linea de debug::: 	cout<< angleX << " "<< angleY << " " <<angleZ << " ";
 	case 'a':
 		++point;
 		if (point > curve->nPoints()-1) point = 0;
+		look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+		up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+		eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
+
+		camara->moveCamara(eye, look, up);
+		//camara->fijarCam();
+		break;
+	case 'z':
+		--point;
+		if (point < 0) point = curve->nPoints()-1;
+		look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+		up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+		eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
+
+		camara->moveCamara(eye, look, up);
+		//camara->fijarCam();
+		break;
+	case 'f':
+		angleYaw += 0.01;
+		camara->yaw(angleYaw);
+		break;
+	case 'v':
+		angleYaw -= 0.01;
+		camara->yaw(angleYaw);
 		break;
 	case '-':
 		camara->desplazar(0.0,0.0,0.01);
 
+		break;
+	// Cambio de Modo entre puntos, aristas o poligonos
+	case '1':
+			modo = 1;
+		break;
+	case '2':
+			modo = 2;
+		break;
+	case '3':
+			modo = 3;
 		break;
 	}
 }
@@ -188,19 +229,27 @@ void key(unsigned char key, int x, int y){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glBegin(GL_LINE_STRIP);
+	/*if (modo == 1){
+		glBegin(GL_POINTS);
+		glPointSize(3);
+		glColor3f(1.0, 0, 0.0);
+	}
+	else if (modo == 2){
+		glBegin(GL_LINE_LOOP);
+		glColor3f(1.0, 0, 0);
+	}else*/
+		glBegin(GL_LINE_STRIP);
 	
 	for (PV3D* punto: curve->getPointList()){
 		//cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
-		glColor3f(0.0, 1.0, 1.0);
+		glColor3f(0.0f,0.0f,1.0f);
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
 	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
 	glEnd();
 
-	vein->draw(false, camara, point);
-
+	//vein->draw(false, camara, point);
+	vein->draw(modo, camara, point);
 	glutSwapBuffers();
 }
 
@@ -209,6 +258,9 @@ void menufunc(int value){
 	switch (value){
 	case 0:
 		exit(0);
+		break;
+	case 1:
+		modo= ((modo+1)%3)+1;
 		break;
 	}
 }
@@ -236,6 +288,7 @@ void startGlut(){
 	g_iMenuId = glutCreateMenu(menufunc);
 	glutSetMenu(g_iMenuId);
 	glutAddMenuEntry("Quit", 0);
+	glutAddMenuEntry("ModoVisualiz", 1);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	glutIdleFunc(doIdle);				/* replace with any animate code */
@@ -286,7 +339,10 @@ int main (int argc, char ** argv){
 	startGlew();
 	/* Creamos la curva y la vena asociada*/
 	curve = new BezierCurve();
-	vein = new Vein(8, 0.8, curve);
+	vein = new Vein(25, 0.5f, curve);
+	perlinNoise.generate();
+	vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	
 	//// Camera parameters
 	/*eye = new PV3D(-2, -0.5, 0.0);
 	look= new PV3D(0.74, -0.66, 0.0);
@@ -295,13 +351,10 @@ int main (int argc, char ** argv){
 	look = new PV3D(0.0, 0.0, 1.0);
 	up = new PV3D(0.0, 0.1, 0.0);
 	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
+
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
 	startCam();
-	/*
-	cout << "Camera position: " << camera.getPosition().x << "  " << camera.getPosition().y << "  " << camera.getPosition().z << endl;
-	cout << "Camera look: " << camera.getLook().x << "  " << camera.getLook().y << "  " << camera.getLook().z << endl;
-	cout << "Camera up: " << camera.getUp().x << "  " << camera.getUp().y << "  " << camera.getUp().z << endl;*/
-
+	
 	glutMainLoop();
 	return 0;
 }

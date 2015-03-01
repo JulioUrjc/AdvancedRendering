@@ -87,3 +87,13 @@ PV3D* PV3D::matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct){
 	GLdouble valz = Nt->getZ()*corX + Bt->getZ()*corY + Tt->getZ()*corZ + Ct->getZ();
 	return new PV3D(valx, valy, valz);
 }
+
+void PV3D::setColor(PV3D* color){
+	colR = color->getX();
+	colG = color->getY();
+	colB = color->getZ();
+}
+
+PV3D* PV3D::getColor(){
+	return new PV3D(colR, colG, colB);
+}

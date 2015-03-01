@@ -25,7 +25,7 @@ PerlinGenerator::PerlinGenerator(int _levels, int _size)
 PerlinGenerator::~PerlinGenerator()
 {
 	BitmapSaver saver(size,size);
-	saver.saveBitmap(perlinNoise,L"./Output/perlin.bmp",levels);
+	saver.saveBitmap(perlinNoise,L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/perlin.bmp",levels);
 
 	//Delete image
 	for(int i=0;i<size;i++)
@@ -58,8 +58,8 @@ void PerlinGenerator::generate()
 	//srand(4);
 	srand(time(NULL));
 
-	LPCWSTR imageNames[6] = {L"./Output/level0.bmp",L"./Output/level1.bmp",L"./Output/level2.bmp",
-							 L"./Output/level3.bmp",L"./Output/level4.bmp",L"./Output/level5.bmp"};
+	LPCWSTR imageNames[6] = {L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/level0.bmp",L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/level1.bmp",L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/level2.bmp",
+							 L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/level3.bmp",L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/level4.bmp",L"C:/Users/Raquel/Documents/master/RA/AdvancedRendering/assn2-StarterCode-32bit/Output/level5.bmp"};
 
 	int numSquares = 2;
 	for(int level = 0; level<levels;level++)
@@ -221,4 +221,10 @@ void PerlinGenerator::interpolate(int firstRow, int lastRow, int firstCol, int l
 float PerlinGenerator::getRandom()
 {
 	return (((float)rand()) / RAND_MAX)*2 -1;
+}
+
+//Get noise image pointer
+float **PerlinGenerator::getNoiseImage()
+{
+	return perlinNoise;
 }

@@ -25,6 +25,12 @@ class Vein : public Mesh{
 		void build();
 
 		int nextVertex(int val);
-		void draw(bool relleno,Camara* camara, int point);
+
+		void draw(int modo, Camara* camara, int point);
+
+		void draw(bool relleno, Camara* camara, int point);
+
+		void addPerlinNoise(float** perlinNoise);
+
 };
 

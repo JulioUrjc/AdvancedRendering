@@ -10,6 +10,10 @@ private:
 	GLdouble corX;
 	GLdouble corY;
 	GLdouble corZ;
+
+	GLdouble colR;
+	GLdouble colG;
+	GLdouble colB;
 	int pv;
 
 public:
@@ -36,5 +40,8 @@ public:
 	PV3D* crossProduct(PV3D* v);
 	GLdouble scalarProduct(PV3D* v);
 	PV3D* matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct);
+
+	void setColor(PV3D* col);
+	PV3D* getColor();
 };
 

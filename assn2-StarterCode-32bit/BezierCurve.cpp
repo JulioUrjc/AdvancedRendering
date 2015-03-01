@@ -65,7 +65,8 @@ void BezierCurve::generateControlPoints(){
 
 void BezierCurve::generateCurve(){
 	// step variable
-	int nSteps = 256;
+	int nSteps = 25;
+
 
 	// Tension
 	float t= 0.5;
@@ -89,8 +90,6 @@ void BezierCurve::generateCurve(){
 
 			//Adding vertex of interpolated point
 			pointList.push_back(new PV3D(p.x, p.y, p.z));
-
-
 		}
 	}
 
@@ -98,17 +97,12 @@ void BezierCurve::generateCurve(){
 	for (int i = 2; i < pointList.size() + 2; ++i)
 	{
 		//Tangent = t*([pi-1] - [pi+1])
-		//glm::vec3 tangent = glm::normalize(t*(pointList[(i + 1) % pointList.size()] - pointList[(i - 1) % pointList.size()]));
-		//tangentList.push_back(tangent);
 		PV3D* tangent = new PV3D();
 		tangent = (pointList[(i + 1) % pointList.size()]->subtraction(pointList[(i - 1) % pointList.size()]))->factor(t);
 		tangent->normalize();
 		tangentList.push_back(tangent);
 
 		////Binormal = Normal x Tangent
-		//glm::vec3 normal = glm::normalize(glm::cross(tangent, glm::vec3(0, 1, 0)));
-		//glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
-		//binormalList.push_back(binormal);
 		PV3D* normal = tangent->crossProduct(new PV3D(0, 1, 0));
 		normal->normalize();
 		normalList.push_back(normal);
@@ -119,9 +113,8 @@ void BezierCurve::generateCurve(){
 }
 
 float BezierCurve::getRandom(){
-	return ((float)rand() / (RAND_MAX + 1)) * 1000;
+	return ((float)rand() / (RAND_MAX + 1)) * 10;
 }
-
 
 std::vector<glm::vec4> BezierCurve::getControlPointList(){
 	return controlPointList;

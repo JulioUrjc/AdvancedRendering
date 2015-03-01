@@ -22,6 +22,8 @@ public:
 	void interpolate(int firstRow, int lastRow, int firstCol, int lastCol, float **image);
 	//Get a random number between -1 and 1
 	float getRandom();
+	//Get the image
+	float **getNoiseImage();
 
 private:
 	int levels;

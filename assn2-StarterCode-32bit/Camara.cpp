@@ -90,6 +90,7 @@ void Camara::getMatriz(){
 void Camara::fijarCam(){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  //getMatriz();
   gluLookAt(eye.getX(), eye.getY(), eye.getZ(), look.getX(), look.getY(), look.getZ(), up.getX(), up.getY(), up.getZ());
 }
 
