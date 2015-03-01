@@ -36,11 +36,31 @@ void Vein::build(){
 		Tt->toString();
 
 		for (int j = 0; j<NP; j++){			// Esto ocurre con cada uno de los vértices del polígono
+			// Se construyen los vertices
 			int numV = NP*i + j;
 			PV3D* clon = puntos->at(j)->clone();					// Un clon del punto del polígono para trabajar
 			PV3D* punto = clon->matrixProduct(Nt, Bt, Tt, Ct);      // Transformacion del poligono al sistema de referencia local del punto
 			vertex->at(numV) = punto;								// El punto recibe un identificador y siempre con sentido
 			delete clon;
+
+			// Se construyen las caras
+			int numFace = NP*(i)+j;
+			faces->at(numFace) = new Face(4);
+			vector<VertexNormal*>* auxNormals = new vector<VertexNormal*>(4);
+
+			int verticeBase = numFace;
+			int a = (verticeBase) % (NP*curve->nPoints());
+			int b = (nextVertex(verticeBase)) % (NP*curve->nPoints());
+			int c = (nextVertex(verticeBase) + NP) % (NP*curve->nPoints());
+			int d = (verticeBase + NP) % (NP*curve->nPoints());
+
+			auxNormals->at(0) = new VertexNormal(a, numFace);
+			auxNormals->at(1) = new VertexNormal(b, numFace);
+			auxNormals->at(2) = new VertexNormal(c, numFace);
+			auxNormals->at(3) = new VertexNormal(d, numFace);
+
+			faces->at(numFace)->setIndicesVN(auxNormals);
+
 		}
 
 		//deletes de los objetos ya no necesarios
@@ -48,22 +68,22 @@ void Vein::build(){
 	}
 
 	// Se construyen las Faces
-	for (int numFace = 0; numFace< faces->size(); numFace++){      //  |>Recorremos todas las Faces en orden
-		faces->at(numFace) = new Face(4);
-		vector<VertexNormal*>* auxNormals = new vector<VertexNormal*>(4);
+	//for (int numFace = 0; numFace< faces->size(); numFace++){      //  |>Recorremos todas las Faces en orden
+	//	faces->at(numFace) = new Face(4);
+	//	vector<VertexNormal*>* auxNormals = new vector<VertexNormal*>(4);
 
-		int a = (numFace) % (NP*curve->nPoints());
-		int b = (nextVertex(numFace)) % (NP*curve->nPoints());		// Teniendo cuidado de cerrar bien el círculo
-		int c = (nextVertex(numFace) + NP) % (NP*curve->nPoints());
-		int d = (numFace + NP) % (NP*curve->nPoints());
+	//	int a = (numFace) % (NP*curve->nPoints());
+	//	int b = (nextVertex(numFace)) % (NP*curve->nPoints());		// Teniendo cuidado de cerrar bien el círculo
+	//	int c = (nextVertex(numFace) + NP) % (NP*curve->nPoints());
+	//	int d = (numFace + NP) % (NP*curve->nPoints());
 
-		auxNormals->at(0) = new VertexNormal(a, numFace);
-		auxNormals->at(1) = new VertexNormal(b, numFace);
-		auxNormals->at(2) = new VertexNormal(c, numFace);
-		auxNormals->at(3) = new VertexNormal(d, numFace);
+	//	auxNormals->at(0) = new VertexNormal(a, numFace);
+	//	auxNormals->at(1) = new VertexNormal(b, numFace);
+	//	auxNormals->at(2) = new VertexNormal(c, numFace);
+	//	auxNormals->at(3) = new VertexNormal(d, numFace);
 
-		faces->at(numFace)->setIndicesVN(auxNormals);
-	}
+	//	faces->at(numFace)->setIndicesVN(auxNormals);
+	//}
 	// Se hacen las normales
 
 	for (int i = 0; i<numFaces; i++){
@@ -82,11 +102,27 @@ int Vein::nextVertex(int v){
 	return vAux;
 }
 //-------------------------------------------------------------------------
+
+void Vein::draw(int modo, Camara* camara, int point){
+
+	Mesh::draw(modo);  // Dibuja la Mesh
+
+	//PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+	//PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+	//PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
+	PV3D* look = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
+	PV3D* up = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
+	PV3D* eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
+
+	camara->moveCamara(eye, look, up);
+	camara->fijarCam();
+}
+
 void Vein::draw(bool relleno,Camara* camara, int point){
 
 	Mesh::draw(relleno);  // Dibuja la Mesh
 	
-
+	/*
 	PV3D* eye = new PV3D(curve->getPointList().at(point)->getX(), curve->getPointList().at(point)->getY(), curve->getPointList().at(point)->getZ());
 	PV3D* look = new PV3D(curve->getTangentList().at(point)->getX(), curve->getTangentList().at(point)->getY(), curve->getTangentList().at(point)->getZ());
 	PV3D* up = new PV3D(curve->getBinormalList().at(point)->getX(), curve->getBinormalList().at(point)->getY(), curve->getBinormalList().at(point)->getZ());
@@ -95,7 +131,7 @@ void Vein::draw(bool relleno,Camara* camara, int point){
 	//PV3D* eye = new PV3D(2+look->getX() + curve->getBinormalList().at(point)->getX(), 2+look->getY()+curve->getBinormalList().at(point)->getY(), 2+look->getZ()+curve->getBinormalList().at(point)->getZ());
 
 	camara->moveCamara(eye, look, up);
-	camara->fijarCam();
+	camara->fijarCam();*/
 }
 
 void Vein::addPerlinNoise(float** perlinNoise)
@@ -116,6 +152,7 @@ void Vein::addPerlinNoise(float** perlinNoise)
 			vertex->at(iV)->setX(vertex->at(iV)->getX() + glm::clamp(nX*deformation, 0.0f, 0.3f));
 			vertex->at(iV)->setY(vertex->at(iV)->getY() + glm::clamp(nY*deformation, 0.0f, 0.3f));
 			vertex->at(iV)->setZ(vertex->at(iV)->getZ() + glm::clamp(nZ*deformation, 0.0f, 0.3f));
+			
 			vertex->at(iV)->setColor(new PV3D(glm::clamp(deformation, 0.0f, 0.8f), glm::clamp(deformation, 0.0f, 0.5f), 0.0f));
 
 		}

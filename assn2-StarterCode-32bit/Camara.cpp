@@ -90,6 +90,7 @@ void Camara::getMatriz(){
 void Camara::fijarCam(){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  //getMatriz();
   gluLookAt(eye.getX(), eye.getY(), eye.getZ(), look.getX(), look.getY(), look.getZ(), up.getX(), up.getY(), up.getZ());
 }
 
@@ -149,7 +150,7 @@ void Camara::desplazar(GLdouble x, GLdouble y, GLdouble z){
 	this->look.setZ(this->look.getZ()+z);
 
 	this->fijarCam();
-	this->ortogonal(-10,10,-10,10,1,1000);
+	//this->ortogonal(-10,10,-10,10,1,1000);
 }
 
 void Camara::ortogonal(){

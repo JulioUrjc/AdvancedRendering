@@ -19,6 +19,7 @@ class Mesh{
   public:
 	Mesh(int nV, int nF, int nN);
 	~Mesh();
+	virtual void draw(int modo);
 	virtual void draw(bool fill);
 	virtual void build() = 0;
 	PV3D* doVectorNormalNewell(Face* c);
