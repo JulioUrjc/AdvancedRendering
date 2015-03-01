@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blood.cpp" />
+    <ClCompile Include="BloodElement.cpp" />
     <ClCompile Include="Camara.cpp" />
     <ClCompile Include="Compass.cpp" />
     <ClCompile Include="Face.cpp" />
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blood.h" />
+    <ClInclude Include="BloodElement.h" />
     <ClInclude Include="Camara.h" />
     <ClInclude Include="Compass.h" />
     <ClInclude Include="Face.h" />

@@ -52,7 +52,7 @@ const float curveT = 0.7f;
 BezierCurve* curve;
 
 /* - Vein Variable - */
-const int veinSides = 256;
+const int veinSides = 6;
 const float veinRadius = 0.7f;
 Vein* vein;
 
@@ -406,10 +406,10 @@ int main (int argc, char ** argv){
 
 	std::cout << "Generating vein..." << std::endl;
 	vein = new Vein(veinSides, veinRadius, curve);
-	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	vein->addPerlinNoise(perlinNoise.getNoiseImage());
 
 	/* Creamos los globulos dentro de la vena */
-	std::cout << "Generating blood..." << std::endl;
+	//std::cout << "Generating blood..." << std::endl;
 	//blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve);
 	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	

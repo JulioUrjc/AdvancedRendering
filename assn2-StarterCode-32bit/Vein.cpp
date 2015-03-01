@@ -55,6 +55,7 @@ void Vein::build(){
 			//delete clon;
 
 			// Se construyen las caras
+			// Caras como cuadrados
 			int numFace = NP*(i)+j;
 			faces->at(numFace) = new Face(4);
 			vector<VertexNormal*>* auxNormals = new vector<VertexNormal*>(4);
@@ -71,6 +72,8 @@ void Vein::build(){
 			auxNormals->at(3) = new VertexNormal(d, numFace);
 
 			faces->at(numFace)->setIndicesVN(auxNormals);
+
+
 
 		}
 
@@ -97,7 +100,7 @@ void Vein::build(){
 	//}
 	// Se hacen las normales
 
-	for (int i = 0; i<numFaces; i++){
+	for (int i = 0; i<faces->size(); i++){
 		normals->at(i) = doVectorNormalNewell(faces->at(i));
 	}
 
