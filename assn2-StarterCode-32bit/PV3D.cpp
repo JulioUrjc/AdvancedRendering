@@ -97,3 +97,7 @@ void PV3D::setColor(PV3D* color){
 PV3D* PV3D::getColor(){
 	return new PV3D(colR, colG, colB);
 }
+
+void PV3D::toString(){
+	std::cout << corX << " " << corY << " " << corZ << std::endl;
+}

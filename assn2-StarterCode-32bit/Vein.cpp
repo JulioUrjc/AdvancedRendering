@@ -33,7 +33,9 @@ void Vein::build(){
 		PV3D* Nt = curve->getNormalList().at(i)->clone();
 		PV3D* Ct = curve->getPointList().at(i)->clone();             //Center Point with n steap
 
-		for (int j = 0; j<NP; j++){									// Esto ocurre con cada uno de los vértices del polígono
+		Tt->toString();
+
+		for (int j = 0; j<NP; j++){			// Esto ocurre con cada uno de los vértices del polígono
 			int numV = NP*i + j;
 			PV3D* clon = puntos->at(j)->clone();					// Un clon del punto del polígono para trabajar
 			PV3D* punto = clon->matrixProduct(Nt, Bt, Tt, Ct);      // Transformacion del poligono al sistema de referencia local del punto

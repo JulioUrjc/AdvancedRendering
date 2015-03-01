@@ -328,7 +328,7 @@ int main (int argc, char ** argv){
 	startGlew();
 	/* Creamos la curva y la vena asociada*/
 	curve = new BezierCurve();
-	vein = new Vein(3, 1.0f, curve);
+	vein = new Vein(5, 1.0f, curve);
 	perlinNoise.generate();
 	vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	//glUniformMatrix4fv(-1, 1, GL_FALSE, &camera.getModelView(mat4 ())[0][0]);

@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/GLU.h>
 #include <math.h>
+#include <iostream>
 
 class PV3D{
 private:
@@ -43,5 +44,7 @@ public:
 
 	void setColor(PV3D* col);
 	PV3D* getColor();
+	
+	void toString();
 };
 
