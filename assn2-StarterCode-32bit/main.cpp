@@ -388,15 +388,12 @@ int main (int argc, char ** argv){
 	startGlut(); 
 	startGlew();
 	/* Creamos la curva y la vena asociada*/
-	curve = new BezierCurve();
-	vein = new Vein(25, 0.7f, curve);
+	curve = new BezierCurve(200);           // Curve nSteps
+	vein = new Vein(15, 0.7f, curve);       // Poligons points and radius
 	perlinNoise.generate();
 	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	
 	//// Camera parameters
-	/*eye = new PV3D(-2, -0.5, 0.0);
-	look= new PV3D(0.74, -0.66, 0.0);
-	up  = new PV3D(0.66, 0.74, 0.0);*/
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);

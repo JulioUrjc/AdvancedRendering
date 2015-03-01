@@ -7,7 +7,8 @@
 class BezierCurve{
 
 private:
-
+	//Curve Partitions
+	int nSteps;
 	//Control points
 	std::vector<glm::vec4> controlPointsList;
 	//Interpolated curve
@@ -24,7 +25,7 @@ private:
 	float numRandom();
 
 public:
-	BezierCurve();
+	BezierCurve(int nSteps);
 
 	std::vector<glm::vec4> getControlPointsList();
 	std::vector<PV3D*> getPointList();

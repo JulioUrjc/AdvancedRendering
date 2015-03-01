@@ -5,8 +5,9 @@
 #include <cstdlib>
 #include <time.h>
 
-BezierCurve::BezierCurve(){
+BezierCurve::BezierCurve(int nSteps){
 	srand(time(NULL));
+	this->nSteps = nSteps;
 	createPoints();
 	createCurve();
 }
@@ -32,7 +33,6 @@ void BezierCurve::createPoints(){
 
 void BezierCurve::createCurve(){
 	
-	int nSteps = 25; // step variable
 	float t= 0.5;   // Tension
 
 	glm::mat4x4 mMat = glm::mat4x4(0,   1,     0,  0,

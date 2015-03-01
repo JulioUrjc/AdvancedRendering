@@ -1,16 +1,14 @@
 #include "WhiteCorpuscle.h"
 
 
-WhiteCorpuscle::WhiteCorpuscle(PV3D pos, PV3D rot)
-{
+WhiteCorpuscle::WhiteCorpuscle(PV3D pos, PV3D rot){
 	position = pos;
 	rotation = rot;
 }
 
 
-WhiteCorpuscle::~WhiteCorpuscle()
-{
-}
+WhiteCorpuscle::~WhiteCorpuscle(){}
+
 void WhiteCorpuscle::draw(int modo){
 
 	if (modo == 1){
