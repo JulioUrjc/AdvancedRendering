@@ -272,14 +272,14 @@ void Vein::generateBuffers(){
 //	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 //}
 
-//Draw the Lake
-void Vein::draw(Camara camara){
+//Draw the Vein
+void Vein::draw(Camara* camara){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 
 	//Set ModelViewProjection matrix uniform
-	glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &camara.getModelViewProjection(modelMatrix)[0][0]);
-	glUniformMatrix4fv(modelViewID, 1, GL_FALSE, &camara.getModelView(modelMatrix)[0][0]);
+	glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &camara->getModelViewProjection(modelMatrix)[0][0]);
+	glUniformMatrix4fv(modelViewID, 1, GL_FALSE, &camara->getModelView(modelMatrix)[0][0]);
 	//Lighting uniforms
 	glUniform3f(ambientLightID, ambientLight.x, ambientLight.y, ambientLight.z);
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);

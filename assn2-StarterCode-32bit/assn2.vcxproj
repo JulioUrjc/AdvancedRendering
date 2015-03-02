@@ -194,6 +194,10 @@
     <ClInclude Include="VertexNormal.h" />
     <ClInclude Include="WhiteCorpuscle.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\veinFShader.glsl" />
+    <None Include="shaders\veinVShader.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

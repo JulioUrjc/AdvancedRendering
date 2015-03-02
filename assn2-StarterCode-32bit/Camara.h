@@ -37,8 +37,8 @@ public:
 	void cenital();
 	void frontal();
 	void esquina();
-	glm::mat4 getModelView(const glm::mat4& modelMatrix);
-	glm::mat4 getModelViewProjection(const glm::mat4& modelMatrix);
+	glm::mat4 getModelView(glm::mat4 modelMatrix);
+	glm::mat4 getModelViewProjection(glm::mat4 modelMatrix);
 	
 	void getCoordCam();
 	void getMatriz();

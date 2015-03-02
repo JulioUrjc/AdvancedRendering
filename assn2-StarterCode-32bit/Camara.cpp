@@ -301,9 +301,9 @@ void Camara::esquina(){
 	this->ortogonal(-10,10,-10,10,1,1000);
 }
 
-glm::mat4 Camara::getModelView(const glm::mat4& modelMatrix){
+glm::mat4 Camara::getModelView(glm::mat4 modelMatrix){
 	return viewMatrix*modelMatrix;
 }
-glm::mat4 Camara::getModelViewProjection(const glm::mat4& modelMatrix){
+glm::mat4 Camara::getModelViewProjection(glm::mat4 modelMatrix){
 	return projectionMatrix*viewMatrix*modelMatrix;
 }

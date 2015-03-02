@@ -81,7 +81,7 @@ class Vein : public Mesh{
 		void generateBuffers();
 		//void generateTexture();
 		//Draw Vein
-		void draw(Camara camara);
+		void draw(Camara* camara);
 		//Set parameters
 		void setDiffuseLight(glm::vec3 newLight);
 		//Free memory

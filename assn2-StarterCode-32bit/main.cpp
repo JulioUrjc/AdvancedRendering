@@ -48,12 +48,12 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 100;
+const int curveSteps = 256;
 const float curveT = 0.7f;
 BezierCurve* curve;
 
 /* - Vein Variable - */
-const int veinSides = 25;
+const int veinSides = 256;
 const float veinRadius = 0.5f;
 Vein* vein;
 
@@ -322,7 +322,7 @@ void display(){
 	//vein->draw(modo);
 	vein->draw(camara);
 	//vein->draw(modo);
-	blood->draw(modo);
+	//blood->draw(modo);
 
 	glutSwapBuffers();
 }
