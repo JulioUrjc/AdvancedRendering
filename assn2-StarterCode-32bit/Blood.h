@@ -23,6 +23,12 @@ public:
 	Blood(int numRed, int numWhite, BezierCurve *c);
 	~Blood();
 
-	float numRandom();
+	void generateRedCorpuscles();
+	void generateWhiteCorpuscles();
+
+	void draw(int modo);
+
+	float numRandom(float max);
+	int intRandom(int max);
 };
 

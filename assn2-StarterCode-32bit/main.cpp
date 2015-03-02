@@ -31,6 +31,7 @@
 #include "Perlin_noise/PerlinGenerator.h"
 #include "Vein.h"
 #include "Camara.h"
+#include "Blood.h"
 #include <vector>
 #include <iostream>
 
@@ -47,7 +48,7 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 150;
+const int curveSteps = 100;
 const float curveT = 0.7f;
 BezierCurve* curve;
 
@@ -57,9 +58,9 @@ const float veinRadius = 0.5f;
 Vein* vein;
 
 /* - Blood Variable - */
-// const int numRedCorpuscles = 30;
-// const int numWhiteCorpuscles = 20;
-// Blood* blood;
+ const int numRedCorpuscles = 10;
+ const int numWhiteCorpuscles = 10;
+ Blood* blood;
 
 /* - Perlin Noise - */
 const int sideVertex = 256;
@@ -268,48 +269,47 @@ void display(){
 	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
 	glEnd();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glTranslatef(-4.0, 5.0f, 0.0f);
-	glRotatef(M_PI/4,0.0f,1.0f,0.0f);
-	glColor3f(0.5f, 0.5f, 0.2f);
-	glutSolidTorus(0.02f, 0.2f, 10, 10);
-	glPopMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	//glTranslatef(-4.0, 5.0f, 0.0f);
+	//glRotatef(M_PI/4,0.0f,1.0f,0.0f);
+	//glColor3f(0.5f, 0.5f, 0.2f);
+	//glutSolidTorus(0.02f, 0.2f, 10, 10);
+	//glPopMatrix();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glTranslatef(-2.0, -5.0f, 0.0f);
-	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	glColor3f(0.3f, 0.3f, 0.5f);
-	glutSolidTorus(0.02f, 0.2f, 10, 10);
-	glPopMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	//glTranslatef(-2.0, -5.0f, 0.0f);
+	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	//glColor3f(0.3f, 0.3f, 0.5f);
+	//glutSolidTorus(0.02f, 0.2f, 10, 10);
+	//glPopMatrix();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glTranslatef(1.0, 0.0f, 0.0f);
-	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	glColor3f(0.8f, 0.5f, 0.3f);
-	glutSolidTorus(0.02f, 0.2f, 10, 10);
-	glPopMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	//glTranslatef(1.0, 0.0f, 0.0f);
+	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	//glColor3f(0.8f, 0.5f, 0.3f);
+	//glutSolidTorus(0.02f, 0.2f, 10, 10);
+	//glPopMatrix();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glTranslatef(2.0, -5.0f, 0.0f);
-	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	glColor3f(0.1f, 0.3f, 0.8f);
-	glutSolidTorus(0.02f, 0.2f, 10, 10);
-	glPopMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	//glTranslatef(2.0, -5.0f, 0.0f);
+	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	//glColor3f(0.1f, 0.3f, 0.8f);
+	//glutSolidTorus(0.02f, 0.2f, 10, 10);
+	//glPopMatrix();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glTranslatef(4.0, 5.0f, 0.0f);
-	glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	glColor3f(0.2f, 0.5f, 0.3f);
-	glutSolidTorus(0.02f, 0.2f, 10, 10);
-	glPopMatrix();
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	//glTranslatef(4.0, 5.0f, 0.0f);
+	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
+	//glColor3f(0.2f, 0.5f, 0.3f);
+	//glutSolidTorus(0.02f, 0.2f, 10, 10);
+	//glPopMatrix();
 
-	//vein->draw(false, camara, point);
-	//vein->draw(modo);
+	
 	if (modo == 1){
 		glPolygonMode(GL_FRONT, GL_POINT);
 	}else if(modo==2){
@@ -318,7 +318,12 @@ void display(){
 		glPolygonMode(GL_FRONT, GL_FILL);
 	}
 	
+	//vein->draw(false, camara, point);
+	//vein->draw(modo);
 	vein->draw(camara);
+	//vein->draw(modo);
+	blood->draw(modo);
+
 	glutSwapBuffers();
 }
 
@@ -425,9 +430,8 @@ int main (int argc, char ** argv){
 	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
 
 	/* Creamos los globulos dentro de la vena */
-	//std::cout << "Generating blood..." << std::endl;
-	//blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve);
-	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	std::cout << "Generating blood..." << std::endl;
+	blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve);
 	
 	//// Camera parameters
 	eye = curve->getPointList().at(point);
