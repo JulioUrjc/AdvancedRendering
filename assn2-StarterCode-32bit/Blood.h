@@ -28,7 +28,7 @@ public:
 
 	void draw(int modo);
 
-	float numRandom();
+	float numRandom(float max);
 	int intRandom(int max);
 };
 

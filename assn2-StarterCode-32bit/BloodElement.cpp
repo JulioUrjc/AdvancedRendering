@@ -69,8 +69,8 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 
 				PV3D point1 = PV3D(cosTheta1 * dist, -sinTheta1 * dist, size * sinPhi);
 				PV3D point2 = PV3D(cosTheta * dist, -sinTheta * dist, size * sinPhi);
-				vertex.push_back(*point1.addition(&position));
-				vertex.push_back(*point2.addition(&position));
+				vertex.push_back(point1);
+				vertex.push_back(point2);
 
 				//glTexCoord2f(cosTheta1 * cosPhi, -sinTheta1 * cosPhi);
 				//glNormal3f(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
@@ -96,6 +96,13 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 }
 
 void BloodElement::draw(int modo){
+	glPushMatrix();
+
+	glTranslatef(position.getX(), position.getY(), position.getZ());
+	glRotatef(rotation.getX(), 1.0f, 0.0f, 0.0f);
+	glRotatef(rotation.getY(), 0.0f, 1.0f, 0.0f);
+	glRotatef(rotation.getZ(), 0.0f, 0.0f, 1.0f);
+
 	switch (modo){
 	case 0:
 		glBegin(GL_POINTS);
@@ -110,9 +117,12 @@ void BloodElement::draw(int modo){
 		break;
 	}
 	for (int i = 0; i < vertex.size(); i++){
-		(type==Elements.RED) ? glColor3f(1.0f, 0.1f, 0.2f) : glColor3f(0.1f, 0.1f, 0.0f);
+		(type==RED) ? glColor3f(1.0f, 0.1f, 0.2f) : glColor3f(1.0f, 1.0f, 0.8f);
 		glVertex3f(vertex.at(i).getX(), vertex.at(i).getY(), vertex.at(i).getZ());
-		vertex.at(i).toString();
+		//vertex.at(i).toString();
 	}
+
 	glEnd();
+	glPopMatrix();
+
 }

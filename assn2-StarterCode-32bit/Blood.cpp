@@ -20,8 +20,11 @@ Blood::~Blood()
 void Blood::generateRedCorpuscles(){
 	for (int i = 0; i < numRedCorpuscles; i++){
 		int aux = intRandom(curve->nPoints());
-		PV3D auxP = *curve->getPointList().at(aux)->addition(numRandom());
-		PV3D auxR = PV3D(numRandom()*((aux % 3) == 0), numRandom()*((aux % 3) == 1), numRandom()*((aux % 3) == 2));
+		std::cout << aux << std::endl;
+		PV3D auxP = *curve->getPointList().at(aux)->addition(numRandom(RAND_MAX));
+		auxP.setZ(glm::clamp(auxP.getZ(), -0.7, 0.7));
+		PV3D auxR = PV3D(numRandom(M_PI * 2)*((aux % 3) == 0), numRandom(M_PI * 2)*((aux % 3) == 1), numRandom(M_PI * 2)*((aux % 3) == 2));
+		auxR.toString();
 		BloodElement redCorpuscle = BloodElement(RED, auxP, auxR);
 		bloodObj.push_back(redCorpuscle);
 	}
@@ -30,8 +33,9 @@ void Blood::generateRedCorpuscles(){
 void Blood::generateWhiteCorpuscles(){
 	for (int i = 0; i < numWhiteCorpuscles; i++){
 		int aux = intRandom(curve->nPoints());
-		PV3D auxP = *curve->getPointList().at(aux)->addition(numRandom());
-		PV3D auxR = PV3D(numRandom()*((aux % 3)==0), numRandom()*((aux % 3)==1), numRandom()*((aux % 3)==2));
+		std::cout << aux << std::endl;
+		PV3D auxP = *curve->getPointList().at(aux)->addition(numRandom(RAND_MAX));
+		PV3D auxR = PV3D(numRandom(M_PI * 2)*((aux % 3) == 0), numRandom(M_PI * 2)*((aux % 3) == 1), numRandom(M_PI * 2)*((aux % 3) == 2));
 		BloodElement whiteCorpuscle1 = BloodElement(WHITE,auxP,auxR);
 		auxR = PV3D();
 		BloodElement whiteCorpuscle2 = BloodElement(WHITE, auxP, auxR);
@@ -47,10 +51,10 @@ void Blood::draw(int modo){
 }
 
 
-float Blood::numRandom(){
-	return ((float)rand() / (RAND_MAX + 1));
+float Blood::numRandom(float max){
+	return (glm::clamp((float)rand(),0.0f,max));
 }
 
 int Blood::intRandom(int max){
-	return((int)rand() / (max + 1));
+	return((int)rand() % (max + 1));
 }

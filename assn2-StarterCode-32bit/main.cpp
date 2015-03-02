@@ -48,7 +48,7 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 256;
+const int curveSteps = 100;
 const float curveT = 0.7f;
 BezierCurve* curve;
 
@@ -58,8 +58,8 @@ const float veinRadius = 0.5f;
 Vein* vein;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 1;
- const int numWhiteCorpuscles = 0;
+ const int numRedCorpuscles = 10;
+ const int numWhiteCorpuscles = 10;
  Blood* blood;
 
 /* - Perlin Noise - */
