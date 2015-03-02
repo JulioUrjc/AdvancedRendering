@@ -34,6 +34,7 @@ public:
 
 	PV3D* clone();
 	PV3D* addition(PV3D* v);
+	PV3D* addition(float f);
 	PV3D* subtraction(PV3D* v);
 	PV3D* factor(float f);
 	void normalize();
@@ -46,16 +47,5 @@ public:
 	PV3D* getColor();
 	
 	void toString();
-
-	//NO POINTERS!!!
-	PV3D addition(PV3D v);
-	PV3D subtraction(PV3D v);
-	PV3D factor_np(float f);
-	PV3D crossProduct(PV3D v);
-	GLdouble scalarProduct(PV3D v);
-	PV3D matrixProduct(PV3D Nt, PV3D Bt, PV3D Tt, PV3D Ct);
-
-	void setColor(PV3D col);
-	PV3D getColor_np();
 };
 

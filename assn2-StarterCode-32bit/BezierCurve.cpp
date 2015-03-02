@@ -59,21 +59,33 @@ void BezierCurve::createCurve(){
 		}
 	}
 
+	//Calculate tangent, normal and binormal at the first point
+	PV3D* tangent = (pointList[1]->subtraction(pointList[pointList.size()-1]))->factor(t); tangent->normalize();
+	tangentList.push_back(tangent);
+	PV3D* normal = new PV3D(0.0f,0.0f,1.0f);
+	normalList.push_back(normal);
+	PV3D* binormal = normal->crossProduct(tangent);  binormal->normalize();
+	binormalList.push_back(binormal);
+
 	//Calculate tangents, normals and binormals
-	for (int i = 2; i < pointList.size() + 2; ++i){
+	for (int i = 1; i < pointList.size() + 1; ++i){
 		////Tangent = t*([pi-1] - [pi+1])
-		PV3D* tangent = new PV3D();
+		//PV3D* tangent = new PV3D();
+		//tangent = new PV3D();
 		tangent = (pointList[(i+1) %pointList.size()]->subtraction(pointList[(i-1) %pointList.size()]))->factor(t); tangent->normalize();
 		tangentList.push_back(tangent);
 
 
 		//////Binormal = Normal x Tangent
-		PV3D* normal = new PV3D();
-		normal->setZ(1.0f); //Set normal vector as z-axis
+		//PV3D* normal = new PV3D();
+		normal = new PV3D(0.0f,0.0f,1.0f);
+		//normal->setZ(1.0f); //Set normal vector as z-axis
+		//normal = binormalList.at(i-1)->crossProduct(tangent); normal->normalize();
 		//normal = tangent->crossProduct(new PV3D(0, 1, 0)); normal->normalize();
 		//normal = (pointList[(i) % pointList.size()]->subtraction(pointList[(i - 2) % pointList.size()]))->factor(t); normal->normalize();
 		normalList.push_back(normal);
-		PV3D* binormal = normal->crossProduct(tangent);  binormal->normalize();
+		//PV3D* binormal = normal->crossProduct(tangent);  binormal->normalize();
+		binormal = normal->crossProduct(tangent);  binormal->normalize();
 		binormalList.push_back(binormal);
 	}
 }

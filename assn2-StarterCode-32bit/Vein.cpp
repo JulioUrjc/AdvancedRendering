@@ -32,6 +32,9 @@ void Vein::build(){
 		PV3D* Bt = curve->getBinormalList().at(i)->clone();          // Binormal
 		PV3D* Nt = curve->getNormalList().at(i)->clone();
 		PV3D* Ct = curve->getPointList().at(i)->clone();             //Center Point with n steap
+		//Tt->toString();
+		//Bt->toString();
+		//Nt->toString();
 
 		for (int j = 0; j<NP; j++){			// Esto ocurre con cada uno de los vértices del polígono
 			// Se construyen los vertices

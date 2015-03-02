@@ -51,20 +51,14 @@ PV3D* PV3D::clone(){
 PV3D* PV3D::addition(PV3D* p){
 	return new PV3D(this->corX + p->getX(), this->corY + p->getY(), this->corZ + p->getZ());
 }
+PV3D* PV3D::addition(float f){
+	return new PV3D(this->corX + f, this->corY + f, this->corZ + f);
+}
 PV3D* PV3D::subtraction(PV3D* p){
 	return new PV3D(this->corX - p->getX(), this->corY - p->getY(), this->corZ - p->getZ());
 }
 PV3D* PV3D::factor(float f){
 	return new PV3D(f*this->corX, f*this->corY, f*this->corZ);
-}
-PV3D PV3D::addition(PV3D p){
-	return PV3D(this->corX + p.getX(), this->corY + p.getY(), this->corZ + p.getZ());
-}
-PV3D PV3D::subtraction(PV3D p){
-	return PV3D(this->corX - p.getX(), this->corY - p.getY(), this->corZ - p.getZ());
-}
-PV3D PV3D::factor_np(float f){
-	return PV3D(f*this->corX, f*this->corY, f*this->corZ);
 }
 
 //--------------------------------------------------------------
@@ -85,19 +79,9 @@ PV3D* PV3D::crossProduct(PV3D* v){
 
 	return new PV3D(factori, factorj, factork);
 }
-PV3D PV3D::crossProduct(PV3D v){
-	GLdouble factori = (corY*v.getZ()) - (corZ*v.getY());
-	GLdouble factorj = (corZ*v.getX()) - (corX*v.getZ());
-	GLdouble factork = (corX*v.getY()) - (corY*v.getX());
-
-	return PV3D(factori, factorj, factork);
-}
 
 GLdouble PV3D::scalarProduct(PV3D* v){
 	return this->corX*v->getX() + this->corY*v->getY() + this->corZ*v->getZ();
-}
-GLdouble PV3D::scalarProduct(PV3D v){
-	return this->corX*v.getX() + this->corY*v.getY() + this->corZ*v.getZ();
 }
 
 PV3D* PV3D::matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct){
@@ -107,13 +91,6 @@ PV3D* PV3D::matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct){
 	GLdouble valz = Nt->getZ()*corX + Bt->getZ()*corY + Tt->getZ()*corZ + Ct->getZ();
 	return new PV3D(valx, valy, valz);
 }
-PV3D PV3D::matrixProduct(PV3D Nt, PV3D Bt, PV3D Tt, PV3D Ct){
-
-	GLdouble valx = Nt.getX()*corX + Bt.getX()*corY + Tt.getX()*corZ + Ct.getX();
-	GLdouble valy = Nt.getY()*corX + Bt.getY()*corY + Tt.getY()*corZ + Ct.getY();
-	GLdouble valz = Nt.getZ()*corX + Bt.getZ()*corY + Tt.getZ()*corZ + Ct.getZ();
-	return PV3D(valx, valy, valz);
-}
 
 //-------------------------------------------------------------
 
@@ -122,17 +99,9 @@ void PV3D::setColor(PV3D* color){
 	colG = color->getY();
 	colB = color->getZ();
 }
-void PV3D::setColor(PV3D color){
-	colR = color.getX();
-	colG = color.getY();
-	colB = color.getZ();
-}
 
 PV3D* PV3D::getColor(){
 	return new PV3D(colR, colG, colB);
-}
-PV3D PV3D::getColor_np(){
-	return PV3D(colR, colG, colB);
 }
 
 //-------------------------------------------------------------
