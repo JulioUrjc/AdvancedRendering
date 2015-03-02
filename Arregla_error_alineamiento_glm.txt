@@ -1,0 +1,5 @@
+D:\Master\Rendering Avanzado (RA)\Prac1-Vena\AdvancedRendering\assn2-StarterCode-32bit\glm\glm\detail\setup.hpp
+
+Linea 675
+
+#define GLM_HAS_ANONYMOUS_UNION !defined(GLM_FORCE_CXX98) && !defined(GLM_FORCE_CXX03) && (GLM_LANG & GLM_LANG_CXXMS_FLAG) && !(GLM_COMPILER & GLM_COMPILER_VC)

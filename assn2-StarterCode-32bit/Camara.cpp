@@ -1,5 +1,6 @@
 #include "Camara.h"
 
+#include <glm\gtc\matrix_transform.hpp>
 
 Camara::Camara(PV3D eye, PV3D look, PV3D up){
 	this->eye = eye;
@@ -20,6 +21,13 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yT
 	this->yBot = yBot;
 	this->N = N;
 	this->F = F;
+
+	glm::vec3 eye2 = glm::vec3(eye.getX(), eye.getY(), eye.getZ());
+	glm::vec3 look2 = glm::vec3(look.getX(), look.getY(), look.getZ());
+	glm::vec3 up2 = glm::vec3(up.getX(), up.getY(), up.getZ());
+	viewMatrix = glm::lookAt(eye2, look2, up2);
+	projectionMatrix = glm::perspective(60.0f, 1.0f, N, F);
+
 	getCoordCam();
 	fijarCam();
 	ortogonal(-10, 10, -10, 10, 1, 1000);
@@ -291,4 +299,11 @@ void Camara::esquina(){
 
 	this->fijarCam();
 	this->ortogonal(-10,10,-10,10,1,1000);
+}
+
+glm::mat4 Camara::getModelView(const glm::mat4& modelMatrix){
+	return viewMatrix*modelMatrix;
+}
+glm::mat4 Camara::getModelViewProjection(const glm::mat4& modelMatrix){
+	return projectionMatrix*viewMatrix*modelMatrix;
 }

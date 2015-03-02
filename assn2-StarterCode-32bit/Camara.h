@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PV3D.h"
+#include <glm\glm.hpp>
 
 class Camara
 {
@@ -8,6 +9,10 @@ private:
 	PV3D eye, look, up;
 	PV3D *n, *v, *u;
 	float xRight, xLeft, yTop, yBot, N, F;
+
+	//View and projection matrix
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
 
 public:
 	Camara(PV3D eye, PV3D look, PV3D up);
@@ -32,6 +37,8 @@ public:
 	void cenital();
 	void frontal();
 	void esquina();
+	glm::mat4 getModelView(const glm::mat4& modelMatrix);
+	glm::mat4 getModelViewProjection(const glm::mat4& modelMatrix);
 	
 	void getCoordCam();
 	void getMatriz();

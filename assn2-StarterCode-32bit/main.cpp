@@ -47,12 +47,12 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 256;
+const int curveSteps = 150;
 const float curveT = 0.7f;
 BezierCurve* curve;
 
 /* - Vein Variable - */
-const int veinSides = 16;
+const int veinSides = 25;
 const float veinRadius = 0.5f;
 Vein* vein;
 
@@ -309,7 +309,16 @@ void display(){
 	glPopMatrix();
 
 	//vein->draw(false, camara, point);
-	vein->draw(modo);
+	//vein->draw(modo);
+	if (modo == 1){
+		glPolygonMode(GL_FRONT, GL_POINT);
+	}else if(modo==2){
+		glPolygonMode(GL_FRONT, GL_LINE);
+	}else{
+		glPolygonMode(GL_FRONT, GL_FILL);
+	}
+	
+	vein->draw(camara);
 	glutSwapBuffers();
 }
 
@@ -365,7 +374,7 @@ void startCam(){
 	glEnable(GL_COLOR_MATERIAL);
 	glMaterialf(GL_FRONT, GL_SHININESS, 0.1f);
 	glEnable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT, GL_FILL);
+	glPolygonMode(GL_FRONT, GL_LINE);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
@@ -387,6 +396,11 @@ void startCam(){
 	glLightfv(GL_LIGHT0, GL_AMBIENT, a);
 	GLfloat p[] = { 25.0, 25.0, 0.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, p);
+}
+
+//Destroy and free memory
+void unlinkAndFree(){
+	vein->freeMemory();
 }
 
 /*	main - The Main Function */
@@ -419,11 +433,12 @@ int main (int argc, char ** argv){
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = -1.0; /*N = 0.01;*/ F = 1000;
+	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
 
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
 	startCam();
 	
 	glutMainLoop();
+	unlinkAndFree();
 	return 0;
 }

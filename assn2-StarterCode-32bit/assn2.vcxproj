@@ -170,6 +170,7 @@
     <ClCompile Include="PV3D.cpp" />
     <ClCompile Include="Poligon.cpp" />
     <ClCompile Include="RedCorpuscle.cpp" />
+    <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="Vein.cpp" />
     <ClCompile Include="VertexNormal.cpp" />
     <ClCompile Include="WhiteCorpuscle.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
     <ClInclude Include="RedCorpuscle.h" />
+    <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="Splines.h" />
     <ClInclude Include="Vein.h" />
     <ClInclude Include="VertexNormal.h" />
