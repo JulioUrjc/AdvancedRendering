@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include "pic.h"
 
 #ifdef WIN32
@@ -54,12 +55,12 @@ BezierCurve* curve;
 
 /* - Vein Variable - */
 const int veinSides = 10;
-const float veinRadius = 0.5f;
+const float veinRadius = 0.7f;
 Vein* vein;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 10;
- const int numWhiteCorpuscles = 10;
+ const int numRedCorpuscles = 1;
+ const int numWhiteCorpuscles = 1;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -73,6 +74,9 @@ float angleYaw=0, angleRoll=0, anglePitch=0;
 Camara* camara;
 int modo = 2;    // Mode lines
 int point = 0;   // Curve's Point 
+
+/* Control del numero de captura */
+int captura = 0;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -151,13 +155,6 @@ GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
 
 /*	doIdle - The idle-function that can be used to update the screen */
 void doIdle(){
-	/*++point;
-	if (point > curve->nPoints() - 1) point = 0;
-	eye = curve->getPointList().at(point);
-	look = eye->addition(curve->getTangentList().at(point));
-	up = curve->getBinormalList().at(point);
-	camara->moveCamara(eye, look, up);
-	camara->fijarCam();*/
 	glutPostRedisplay();
 }
 
@@ -198,13 +195,12 @@ void unlinkAndFree(){
 void key(unsigned char key, int x, int y){
 	bool need_redisplay = true;
 	switch (key) {
-	case 27:  /* Escape key */
-		std::cout << "Terminating and releasing memory" << std::endl;
+	//Escape key
+	case 27:  
 		unlinkAndFree();
-		std::cout << "Have a nice day ^^" << std::endl;
 		exit(0);
 		break;
-
+	// Teclas de Avanzar
 	case 'a':
 		++point;
 		if (point > curve->nPoints()-1) point = 0;
@@ -234,6 +230,7 @@ void key(unsigned char key, int x, int y){
 		camara->moveCamara(eye, look, up);
 		camara->fijarCam();
 		break;
+
 	// Teclas para giros
 	case 'f':
 		angleYaw += 0.01;
@@ -245,8 +242,8 @@ void key(unsigned char key, int x, int y){
 		break;
 	case '-':
 		camara->desplazar(0.0,0.0,0.01);
-
 		break;
+
 	// Cambio de Modo entre puntos, aristas o poligonos
 	case '1':
 			modo = 1;
@@ -257,6 +254,15 @@ void key(unsigned char key, int x, int y){
 	case '3':
 			modo = 3;
 		break;
+
+	// Capturas de pantalla
+	case '0':
+		string folder = "./Capturas/screenShot" + to_string(captura) + ".jpg";
+		char *fileName = new char[folder.length() + 1]; strcpy(fileName, folder.c_str());
+		saveScreenshot(fileName);
+		delete[] fileName;
+		captura++;
+		break;
 	}
 }
 
@@ -264,75 +270,18 @@ void key(unsigned char key, int x, int y){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	/*if (modo == 1){
-		glBegin(GL_POINTS);
-		glPointSize(3);
-		glColor3f(1.0, 0, 0.0);
-	}
-	else if (modo == 2){
-		glBegin(GL_LINE_LOOP);
-		glColor3f(1.0, 0, 0);
-	}else*/
-		glBegin(GL_LINE_STRIP);
-	
-	for (PV3D* punto: curve->getPointList()){
-		//cout << punto->getX() << " " << punto->getY() << " " << punto->getZ() << endl;
-		glColor3f(0.0f,0.0f,1.0f);
-		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
-	}
-	glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
-	glEnd();
+	curve->draw(modo);
 
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glTranslatef(-4.0, 5.0f, 0.0f);
-	//glRotatef(M_PI/4,0.0f,1.0f,0.0f);
-	//glColor3f(0.5f, 0.5f, 0.2f);
-	//glutSolidTorus(0.02f, 0.2f, 10, 10);
-	//glPopMatrix();
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glTranslatef(-2.0, -5.0f, 0.0f);
-	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	//glColor3f(0.3f, 0.3f, 0.5f);
-	//glutSolidTorus(0.02f, 0.2f, 10, 10);
-	//glPopMatrix();
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glTranslatef(1.0, 0.0f, 0.0f);
-	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	//glColor3f(0.8f, 0.5f, 0.3f);
-	//glutSolidTorus(0.02f, 0.2f, 10, 10);
-	//glPopMatrix();
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glTranslatef(2.0, -5.0f, 0.0f);
-	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	//glColor3f(0.1f, 0.3f, 0.8f);
-	//glutSolidTorus(0.02f, 0.2f, 10, 10);
-	//glPopMatrix();
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	//glTranslatef(4.0, 5.0f, 0.0f);
-	//glRotatef(M_PI / 4, 0.0f, 1.0f, 0.0f);
-	//glColor3f(0.2f, 0.5f, 0.3f);
-	//glutSolidTorus(0.02f, 0.2f, 10, 10);
-	//glPopMatrix();
-
-	
 	if (modo == 1){
 		glPolygonMode(GL_FRONT, GL_POINT);
-	}else if(modo==2){
+	}
+	else if (modo == 2){
 		glPolygonMode(GL_FRONT, GL_LINE);
-	}else{
+	}
+	else{
 		glPolygonMode(GL_FRONT, GL_FILL);
 	}
-	
-	//vein->draw(false);
+
 	vein->draw(camara);
 	//vein->draw(modo);
 	//blood->draw(modo);
@@ -347,7 +296,7 @@ void menufunc(int value){
 		exit(0);
 		break;
 	case 1:
-		modo= ((modo+1)%3)+1;
+		modo = (modo% 3) + 1;
 		break;
 	}
 }
@@ -366,10 +315,14 @@ void startGlut(){
 	// Por defecto
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	glutCreateWindow("Torrente Sanguineo");
+	glutCreateWindow("Torrente Sanguineo - Julio y Raquel");
 	
 	glutDisplayFunc(display);			/* tells glut to use a particular display function to redraw */
-	glutKeyboardFunc(key);
+	glutKeyboardFunc(key);				/* callback for keyboard */
+	glutIdleFunc(doIdle);				/* replace with any animate code */
+	glutMotionFunc(mousedrag);			/* callback for mouse drags */
+	glutPassiveMotionFunc(mouseidle);	/* callback for idle mouse movement */
+	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
 
 	/* allow the user to quit using the right mouse button menu */
 	g_iMenuId = glutCreateMenu(menufunc);
@@ -377,43 +330,21 @@ void startGlut(){
 	glutAddMenuEntry("Quit", 0);
 	glutAddMenuEntry("ModoVisualiz", 1);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-
-	glutIdleFunc(doIdle);				/* replace with any animate code */
-	glutMotionFunc(mousedrag);			/* callback for mouse drags */
-	glutPassiveMotionFunc(mouseidle);	/* callback for idle mouse movement */
-	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
 }
 
 void startCam(){	
-
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-	glMaterialf(GL_FRONT, GL_SHININESS, 0.1f);
 	glEnable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT, GL_LINE);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
-	//// Camera set up
-	camara->fijarCam();
+	camara->fijarCam();   //// Camera set up
+	camara->ortogonal();  //// Frustum set up
 
-	//// Frustum set up
-	camara->ortogonal();
-
-	//// Viewport set up
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-	//// Light0
-	glEnable(GL_LIGHT0);
-	GLfloat d[] = { 1.0, 1.0, 1.0, 1.0 };
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, d);
-	GLfloat a[] = { 0.3f, 0.3f, 0.3f, 1.0 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, a);
-	GLfloat p[] = { 25.0, 25.0, 0.0, 1.0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, p);
+	//glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);  //// Viewport set up
 }
 
 /*	main - The Main Function */
@@ -441,16 +372,18 @@ int main (int argc, char ** argv){
 	std::cout << "Generating blood..." << std::endl;
 	blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve);
 	
-	//// Camera parameters
+	/* Camera parameters */
+	std::cout << "Colocando la camara..." << std::endl;
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
+	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 100;
 
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
 	startCam();
 	
 	glutMainLoop();
-	unlinkAndFree();
+	/* Liberando recursos */
+	unlinkAndFree(); 
 	return 0;
 }

@@ -1,8 +1,8 @@
 #version 330 core
 
-in vec3 vcolor;
-in vec3 vnormal;
 in vec3 vertex;
+in vec3 vnormal;
+in vec3 vcolor;
 
 out vec4 outColor;
 
@@ -15,7 +15,6 @@ uniform vec3 lightDirection;
 const vec3 specularLight = vec3(0.6f,0.6f,0.6f);
 const float shininess = 0.9f;
 
-
 void main(){
 	
     //Ambient. The material is the same for all light components (just color)
@@ -25,8 +24,7 @@ void main(){
 	//Eye direction in world coordinates
 	vec3 eyeDirection = normalize(-vertex);
 
-	//Just directional light, so no position or angle
-	//Diffuse color
+	//Just directional light, so no position or angle, Diffuse color
 	vec3 diffuse = vcolor * diffuseLight * max(dot(vnormal,lightDirection),0.0);
 	diffuse = clamp(diffuse,0.0,1.0);
 
@@ -35,7 +33,7 @@ void main(){
 	vec3 specular = vcolor * specularLight * pow(max(dot(reflected,eyeDirection),0.0),shininess);
 	specular = clamp(specular,0.0,1.0);
 
-	//Show phong + some texture
+	//Texture
 
 	outColor = vec4(amb+diffuse+specular,1)*0.6f;
 	//outColor = vec4(amb+diffuse,1)*0.6f;

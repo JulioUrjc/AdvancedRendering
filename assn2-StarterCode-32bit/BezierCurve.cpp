@@ -11,28 +11,22 @@ BezierCurve::BezierCurve(int steps, float curv){
 	t = curv;
 
 	srand(time(NULL));
-	this->nSteps = nSteps;
 	createPoints();
 	createCurve();
 }
 
 void BezierCurve::createPoints(){
-	//Create some initial control points
+	/* Create some initial points */
 	glm::vec4 initialPoint = glm::vec4(-4, 5, 0, 0);
 	controlPointsList.push_back(initialPoint);
-
 	////2
 	controlPointsList.push_back(glm::vec4(-2,-5,0,0));
-
 	////3
 	controlPointsList.push_back(glm::vec4(0,0,0,0));
-
 	////4
 	controlPointsList.push_back(glm::vec4(2,-5,0,0));
-
 	////5
 	controlPointsList.push_back(glm::vec4(4,5,0,0));
-
 }
 
 void BezierCurve::createCurve(){
@@ -59,7 +53,7 @@ void BezierCurve::createCurve(){
 		}
 	}
 
-	//Calculate tangent, normal and binormal at the first point
+	/* Calculate tangent, normal and binormal at the first point */
 	PV3D* tangent = (pointList[1]->subtraction(pointList[pointList.size()-1]))->factor(t); tangent->normalize();
 	tangentList.push_back(tangent);
 	PV3D* normal = new PV3D(0.0f,0.0f,1.0f);
@@ -67,24 +61,20 @@ void BezierCurve::createCurve(){
 	PV3D* binormal = normal->crossProduct(tangent);  binormal->normalize();
 	binormalList.push_back(binormal);
 
-	//Calculate tangents, normals and binormals
+	/* Calculate tangents, normals and binormals */
 	for (int i = 1; i < pointList.size() + 1; ++i){
-		////Tangent = t*([pi-1] - [pi+1])
-		//PV3D* tangent = new PV3D();
-		//tangent = new PV3D();
+		/* Tangent = t*([pi+1] - [pi-1]) */
 		tangent = (pointList[(i+1) %pointList.size()]->subtraction(pointList[(i-1) %pointList.size()]))->factor(t); tangent->normalize();
 		tangentList.push_back(tangent);
 
-
-		//////Binormal = Normal x Tangent
-		//PV3D* normal = new PV3D();
+		/* Binormal = Normal x Tangent */
 		normal = new PV3D(0.0f,0.0f,1.0f);
 		//normal->setZ(1.0f); //Set normal vector as z-axis
 		//normal = binormalList.at(i-1)->crossProduct(tangent); normal->normalize();
 		//normal = tangent->crossProduct(new PV3D(0, 1, 0)); normal->normalize();
-		//normal = (pointList[(i) % pointList.size()]->subtraction(pointList[(i - 2) % pointList.size()]))->factor(t); normal->normalize();
 		normalList.push_back(normal);
-		//PV3D* binormal = normal->crossProduct(tangent);  binormal->normalize();
+
+		/* Binormal = Normal x Tangent */
 		binormal = normal->crossProduct(tangent);  binormal->normalize();
 		binormalList.push_back(binormal);
 	}
@@ -94,26 +84,37 @@ float BezierCurve::numRandom(){
 	return ((float)rand() / (RAND_MAX + 1)) * 10;
 }
 
+/* GETTERS */
 std::vector<glm::vec4> BezierCurve::getControlPointsList(){
 	return controlPointsList;
 }
-
 std::vector<PV3D*> BezierCurve::getPointList(){
 	return pointList;
 }
-
 std::vector<PV3D*> BezierCurve::getTangentList(){
 	return tangentList;
 }
-
 std::vector<PV3D*> BezierCurve::getNormalList(){
 	return normalList;
 }
-
 std::vector<PV3D*> BezierCurve::getBinormalList(){
 	return binormalList;
 }
-
 int BezierCurve::nPoints(){
 	return pointList.size();
+}
+
+/* Draw Curve*/
+void BezierCurve::draw(int modo){
+	if (modo == 1){
+		glBegin(GL_LINES);
+	}else
+		glBegin(GL_LINE_STRIP);
+	// Blue colour
+	glColor3f(0.0f, 0.0f, 1.0f);
+		for (PV3D* punto : pointList){
+			glVertex3f(punto->getX(), punto->getY(), punto->getZ());
+		}
+		glVertex3f(pointList.at(0)->getX(), pointList.at(0)->getY(), pointList.at(0)->getZ()); // El primero también se dibuja el ultimo
+	glEnd();
 }

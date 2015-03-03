@@ -13,7 +13,6 @@ class ShaderLoader{
 
 	//Shader type
 	GLenum shaderType;
-
 	//Shader ID
 	GLint shaderID;
 

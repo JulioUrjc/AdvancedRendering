@@ -54,12 +54,6 @@
     <ClCompile Include="Camara.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RedCorpuscle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WhiteCorpuscle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Blood.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,12 +99,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camara.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RedCorpuscle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WhiteCorpuscle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Blood.h">

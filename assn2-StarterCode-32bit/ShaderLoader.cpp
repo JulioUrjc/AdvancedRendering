@@ -4,12 +4,10 @@
 #include <fstream>
 
 
-
 //Constructor. Loads shader source from file
 ShaderLoader::ShaderLoader(char *fileName,GLenum shaderType):fileName(fileName),shaderType(shaderType){
 	loadShaderFile();
 }
-
 
 ShaderLoader::~ShaderLoader(void){
 	delete sourceCode;

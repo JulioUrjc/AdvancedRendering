@@ -38,5 +38,6 @@ public:
 	std::vector<PV3D*> getNormalList();
 	std::vector<PV3D*> getBinormalList();
 	int nPoints();
+	void draw(int modo);
 };
 

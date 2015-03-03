@@ -31,24 +31,23 @@ PV3D* Mesh::doVectorNormalNewell(Face* c){
 	aux->normalize();
 	return aux;
 }
-//--------------------------------------------------------------------------
+
+/* Draw Mesh */
 void Mesh::draw(int modo){
 
 	for (int i = 0; i< numFaces; i++){
-		glLineWidth(1.0);
-		glColor3f(0, 0, 0);
+		
 		if (modo==1){
 			glPointSize(2.0);
 			glBegin(GL_POINTS);
-			glColor3f(1.0, 0, 0.0);
 		}else if (modo==2){
+			glLineWidth(1.0);
 			glBegin(GL_LINE_LOOP);
-			glColor3f(1.0, 0, 0);
 		}
 		else{
 			glBegin(GL_POLYGON);
-			glColor3f(0, 1.0, 0);
 		}
+		glColor3f(1.0, 0, 0);
 		for (int j = 0; j< faces->at(i)->getNumV(); j++){
 
 			int iN = faces->at(i)->getNormalIndex(j);
