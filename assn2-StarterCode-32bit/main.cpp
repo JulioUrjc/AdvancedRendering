@@ -48,12 +48,12 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 256;
+const int curveSteps = 25;
 const float curveT = 0.7f;
 BezierCurve* curve;
 
 /* - Vein Variable - */
-const int veinSides = 256;
+const int veinSides = 10;
 const float veinRadius = 0.5f;
 Vein* vein;
 
@@ -151,6 +151,13 @@ GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
 
 /*	doIdle - The idle-function that can be used to update the screen */
 void doIdle(){
+	/*++point;
+	if (point > curve->nPoints() - 1) point = 0;
+	eye = curve->getPointList().at(point);
+	look = eye->addition(curve->getTangentList().at(point));
+	up = curve->getBinormalList().at(point);
+	camara->moveCamara(eye, look, up);
+	camara->fijarCam();*/
 	glutPostRedisplay();
 }
 
@@ -183,11 +190,18 @@ void mousebutton(int button, int state, int x, int y){
 	g_vMousePos[0] = x;
 	g_vMousePos[1] = y;
 }
+//Destroy and free memory
+void unlinkAndFree(){
+	vein->freeMemory();
+}
 
 void key(unsigned char key, int x, int y){
 	bool need_redisplay = true;
 	switch (key) {
 	case 27:  /* Escape key */
+		std::cout << "Terminating and releasing memory" << std::endl;
+		unlinkAndFree();
+		std::cout << "Have a nice day ^^" << std::endl;
 		exit(0);
 		break;
 
@@ -266,7 +280,7 @@ void display(){
 		glColor3f(0.0f,0.0f,1.0f);
 		glVertex3f(punto->getX(), punto->getY(), punto->getZ());	
 	}
-	//glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
+	glVertex3f(curve->getPointList().at(0)->getX(), curve->getPointList().at(0)->getY(), curve->getPointList().at(0)->getZ());
 	glEnd();
 
 	//glMatrixMode(GL_MODELVIEW);
@@ -318,8 +332,7 @@ void display(){
 		glPolygonMode(GL_FRONT, GL_FILL);
 	}
 	
-	//vein->draw(false, camara, point);
-	//vein->draw(modo);
+	//vein->draw(false);
 	vein->draw(camara);
 	//vein->draw(modo);
 	//blood->draw(modo);
@@ -401,11 +414,6 @@ void startCam(){
 	glLightfv(GL_LIGHT0, GL_AMBIENT, a);
 	GLfloat p[] = { 25.0, 25.0, 0.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, p);
-}
-
-//Destroy and free memory
-void unlinkAndFree(){
-	vein->freeMemory();
 }
 
 /*	main - The Main Function */

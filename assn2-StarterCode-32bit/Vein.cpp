@@ -194,9 +194,7 @@ void Vein::initShaders(){
 	//Attributes
 	//inColor = glGetAttribLocation(program, "inColor");
 	inVertex = glGetAttribLocation(program, "inVertex");
-	cout << "inVertex: "<<inVertex << endl;
 	normalID = glGetAttribLocation(program, "normal");
-	cout << "normalID: " << normalID << endl;
 	//texCoordID = glGetAttribLocation(program, "inTexCoord");
 }
 
@@ -281,6 +279,9 @@ void Vein::draw(Camara* camara){
 	glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &camara->getModelViewProjection(modelMatrix)[0][0]);
 	glUniformMatrix4fv(modelViewID, 1, GL_FALSE, &camara->getModelView(modelMatrix)[0][0]);
 	//Lighting uniforms
+	ambientLight= glm::vec3(0.2f, 0.2f, 0.2f);
+	diffuseLight = glm::vec3(0.6f, 0.6f, 0.6f);
+	lightDirection = normalize(glm::vec3(1.0f, 4.0f, 1.0f)); //Directional light
 	glUniform3f(ambientLightID, ambientLight.x, ambientLight.y, ambientLight.z);
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);

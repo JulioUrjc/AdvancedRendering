@@ -1,16 +1,13 @@
 #include "RedCorpuscle.h"
 
 
-RedCorpuscle::RedCorpuscle(PV3D pos, PV3D rot)
-{
+RedCorpuscle::RedCorpuscle(PV3D pos, PV3D rot){
 	position = pos;
 	rotation = rot;
 }
 
 
-RedCorpuscle::~RedCorpuscle()
-{
-}
+RedCorpuscle::~RedCorpuscle(){}
 
 void RedCorpuscle::draw(int modo){
 

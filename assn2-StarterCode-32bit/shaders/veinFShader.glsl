@@ -38,4 +38,5 @@ void main(){
 	//Show phong + some texture
 
 	outColor = vec4(amb+diffuse+specular,1)*0.6f;
+	//outColor = vec4(amb+diffuse,1)*0.6f;
 }
