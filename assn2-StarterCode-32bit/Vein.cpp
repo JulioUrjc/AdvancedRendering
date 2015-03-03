@@ -124,7 +124,7 @@ void Vein::addPerlinNoise(float** perlinNoise){
 
 void Vein::initValues(){
 
-	GLenum a = glGetError();
+	//GLenum a = glGetError();
 	program = 0;
 
 	inVertex = -1;

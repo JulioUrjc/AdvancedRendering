@@ -311,8 +311,8 @@ void startGlew(){
 }
 
 /*	myinit - Function to add your initialization code */
-void startGlut(){
-	// Por defecto
+void startGlut(int argc, char** argv){
+	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutCreateWindow("Torrente Sanguineo - Julio y Raquel");
@@ -350,10 +350,8 @@ void startCam(){
 /*	main - The Main Function */
 int main (int argc, char ** argv){
 
-	glutInit(&argc,argv);
-
 	/* do initialization */
-	startGlut(); 
+	startGlut(argc, argv);
 	startGlew();
 
 	/* Creamos el ruido de Perlin*/
@@ -379,7 +377,7 @@ int main (int argc, char ** argv){
 	up  = curve->getBinormalList().at(point);
 	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 100;
 
-	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F);
+	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F, curve);
 	startCam();
 	
 	glutMainLoop();

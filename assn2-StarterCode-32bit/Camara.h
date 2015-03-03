@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PV3D.h"
+#include "BezierCurve.h"
 #include <glm\glm.hpp>
 
 class Camara
@@ -14,9 +15,13 @@ private:
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
 
+	//Curve Values
+	BezierCurve *curve;
+	int pointCurve;
+
 public:
 	Camara(PV3D eye, PV3D look, PV3D up);
-	Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F);
+	Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, BezierCurve* c);
 	~Camara();
 
 	void moveCamara(PV3D* eye, PV3D* look, PV3D* up);
@@ -40,6 +45,7 @@ public:
 	glm::mat4 getModelView(glm::mat4 modelMatrix);
 	glm::mat4 getModelViewProjection(glm::mat4 modelMatrix);
 	
+	void setCurve(BezierCurve* c){ this->curve = c; }
 	void getCoordCam();
 	void getMatriz();
 	void fijarCam();

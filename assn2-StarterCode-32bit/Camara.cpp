@@ -6,12 +6,14 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up){
 	this->eye = eye;
 	this->look = look;
 	this->up = up;
+	this->pointCurve = 0;
+
 	getCoordCam();
 	fijarCam();
 	ortogonal(-10,10,-10,10,1,1000);
 }
 
-Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F){
+Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, BezierCurve* c){
 	this->eye = eye;
 	this->look = look;
 	this->up = up;
@@ -21,6 +23,8 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yT
 	this->yBot = yBot;
 	this->N = N;
 	this->F = F;
+	this->curve = c;
+	this->pointCurve = 0;
 
 	glm::vec3 eye2 = glm::vec3(eye.getX(), eye.getY(), eye.getZ());
 	glm::vec3 look2 = glm::vec3(look.getX(), look.getY(), look.getZ());
