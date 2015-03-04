@@ -1,7 +1,7 @@
 #include "Blood.h"
 
 
-Blood::Blood(int numRed, int numWhite, BezierCurve *c, int rad){
+Blood::Blood(int numRed, int numWhite, BezierCurve *c, float rad){
 	numRedCorpuscles = numRed;
 	numWhiteCorpuscles = numWhite;
 	numObj = numRed + numWhite;

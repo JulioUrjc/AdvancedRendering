@@ -299,7 +299,7 @@ void display(){
 	curve->draw(modo);
 	vein->draw(camara);
 	//vein->draw(modo);
-	//blood->draw(modo);
+	blood->draw(modo);
 
 	glutSwapBuffers();
 }

@@ -18,11 +18,11 @@ private:
 
 	BezierCurve* curve;
 
-	int radius;
+	float radius;
 
 public:
 
-	Blood(int numRed, int numWhite, BezierCurve *c, int rad);
+	Blood(int numRed, int numWhite, BezierCurve *c, float rad);
 	~Blood();
 
 	void generateRedCorpuscles();
