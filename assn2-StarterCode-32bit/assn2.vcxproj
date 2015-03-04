@@ -186,7 +186,6 @@
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
     <ClInclude Include="ShaderLoader.h" />
-    <ClInclude Include="Splines.h" />
     <ClInclude Include="Vein.h" />
     <ClInclude Include="VertexNormal.h" />
   </ItemGroup>

@@ -72,8 +72,8 @@ Camara* camara;
 PV3D *eye, *look, *up;
 GLdouble xRight, xLeft, yTop, yBot, N, F;
 float angleYaw=0, angleRoll=0, anglePitch=0;
-float fovy = 60.0, aspect = 1.0, zoom = 0.1;
-bool automatic = false; // 
+float fovy = 60.0, aspect = WINDOW_WIDTH/WINDOW_HEIGHT, zoom = 0.1;
+bool automatic = false; // Move Automatic
 int modo = 2;			// Mode lines
 int point = 0;			// Curve's Point 
 
@@ -248,13 +248,11 @@ void key(unsigned char key, int x, int y){
 		break;
 	case '+':
 		camara->addZoom(zoom);
-		camara->followCurve(true);
-		camara->followCurve(false);
+		camara->reDisplay();
 		break;
 	case '-':
 		camara->deductZoom(zoom);
-		camara->followCurve(true);
-		camara->followCurve(false);
+		camara->reDisplay();
 		break;
 
 	// Cambio de Modo entre puntos, aristas o poligonos
@@ -357,6 +355,7 @@ void startCam(){
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
+	camara->reDisplay();
 	//camara->fijarCam();   //// Camera set up
 	//camara->ortogonal();  //// Frustum set up
 
@@ -391,7 +390,7 @@ int main (int argc, char ** argv){
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.1; F = 100000;
+	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
 
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F, fovy, aspect, curve);
 	startCam();
