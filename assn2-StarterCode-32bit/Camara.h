@@ -51,6 +51,7 @@ public:
 	glm::mat4 getModelView(glm::mat4 modelMatrix);
 	glm::mat4 getModelViewProjection(glm::mat4 modelMatrix);
 	void followCurve(bool alante);
+	void reDisplay();
 	void addZoom(float val);
 	void deductZoom(float val);
 

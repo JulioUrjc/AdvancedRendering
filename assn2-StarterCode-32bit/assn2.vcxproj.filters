@@ -65,9 +65,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Splines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Face.h">
       <Filter>Header Files</Filter>
     </ClInclude>

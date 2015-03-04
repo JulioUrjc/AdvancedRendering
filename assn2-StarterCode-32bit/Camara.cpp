@@ -324,11 +324,19 @@ void Camara::followCurve(bool alante){
 	if (pointCurve >= curve->nPoints())  pointCurve = 0;
 	if (pointCurve < 0)  pointCurve = curve->nPoints()-1;
 
-	eye = *curve->getPointList().at(pointCurve)->addition(curve->getBinormalList().at(pointCurve));
+	//eye = *curve->getPointList().at(pointCurve)->addition(curve->getBinormalList().at(pointCurve));
+	eye = *curve->getPointList().at(pointCurve);
 
 	viewMatrix = glm::lookAt(eye.convertVec3(),	eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 		curve->getBinormalList().at(pointCurve)->convertVec3());
+}
 
+/* ReDisplay */
+void Camara::reDisplay(){
+	projectionMatrix = glm::perspective(fovy*zoom, aspect, N, F);
+
+	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
+		curve->getBinormalList().at(pointCurve)->convertVec3());
 }
 
 /* zoom */
