@@ -9,7 +9,8 @@ DrawCurve::DrawCurve(BezierCurve* c){
 	initShaders();
 	generateBuffers();
 }
-//OpenGL 3.0 - gpu compute
+
+/* OpenGL 3.3 - gpu compute */
 void DrawCurve::draw(Camara* camera, int modo){
 
 	glUseProgram(program);
@@ -93,9 +94,8 @@ void DrawCurve::initShaders(){
 	mvpMatrixID = glGetUniformLocation(program, "modelViewProjection");
 
 	//Attributes
-	inColor = glGetAttribLocation(program, "inColor");
 	inVertex = glGetAttribLocation(program, "inVertex");
-
+	inColor = glGetAttribLocation(program, "inColor");
 }
 
 //Generate VBO && VAO
@@ -119,5 +119,21 @@ void DrawCurve::generateBuffers(){
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*pointVector.size(), &(pointVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
+}
 
+void DrawCurve::freeMemory(){
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glDeleteBuffers(2, buffer);
+
+	glBindVertexArray(0);
+	glDeleteVertexArrays(1, &vao);
+
+	glDetachShader(program, vShader.getShaderID());
+	glDetachShader(program, fShader.getShaderID());
+
+	vShader.deleteShader();
+	fShader.deleteShader();
+
+	glDeleteProgram(program);
 }

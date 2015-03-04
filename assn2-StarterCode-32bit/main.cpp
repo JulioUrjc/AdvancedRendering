@@ -74,7 +74,8 @@ Camara* camara;
 PV3D *eye, *look, *up;
 GLdouble xRight, xLeft, yTop, yBot, N, F;
 float angleYaw=0, angleRoll=0, anglePitch=0;
-float fovy = 60.0, aspect = WINDOW_WIDTH/WINDOW_HEIGHT, zoom = 0.1;
+//float fovy = 60.0, aspect = WINDOW_WIDTH/WINDOW_HEIGHT, zoom = 0.1;
+float fovy = 90.0, aspect = 0.1, zoom = 0.1;
 bool automatic = false; // Move Automatic
 int modo = 2;			// Mode lines
 int point = 0;			// Curve's Point 
@@ -196,6 +197,7 @@ void mousebutton(int button, int state, int x, int y){
 //Destroy and free memory
 void unlinkAndFree(){
 	vein->freeMemory();
+	drawCurve->freeMemory();
 }
 
 void key(unsigned char key, int x, int y){
@@ -287,7 +289,7 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (modo == 1){
+	/*if (modo == 1){
 		glPolygonMode(GL_FRONT, GL_POINT);
 	}
 	else if (modo == 2){
@@ -295,15 +297,16 @@ void display(){
 	}
 	else{
 		glPolygonMode(GL_FRONT, GL_FILL);
-	}
+	}*/
 
 	
 	//curve->draw(modo);
 	//vein->draw(modo);
+	//blood->draw(modo);
 	//curve->draw(camara);
 	drawCurve->draw(camara, modo);
-	vein->draw(camara);
-	blood->draw(modo);
+	vein->draw(camara, modo);
+	blood->draw(camara, modo);
 
 	glutSwapBuffers();
 }

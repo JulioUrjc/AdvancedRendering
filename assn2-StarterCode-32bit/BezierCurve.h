@@ -13,28 +13,6 @@ class BezierCurve{
 
 private:
 
-	//Paint Curve
-	//VAO
-	GLuint vao;
-	//VBO
-	GLuint buffer[3];
-	//Shaders
-	//ShaderLoader vShader = ShaderLoader("./shaders/curveVShader.glsl", GL_VERTEX_SHADER);
-	//ShaderLoader fShader = ShaderLoader("./shaders/curveFShader.glsl", GL_FRAGMENT_SHADER);
-
-	GLuint program;
-
-	//Shader atributes
-	GLint inColor;
-	GLint inVertex;
-
-	//Uniform variables for shaders
-	//ModelViewProjection matrix
-	GLint mvpMatrixID;
-
-	std::vector<float> vertexVector;
-	std::vector<unsigned int> pointVector;
-
 	/* Curve parameters */
 	//Curve Partitions
 	int nSteps;
@@ -69,13 +47,6 @@ public:
 	std::vector<PV3D*> getBinormalList();
 	int nPoints();
 	void draw(int modo);
-	//void draw(Camara* camera);
-
-	///* Init Shaders */
-	//void initValues();
-	//void initShaders();
-	//void generateVectors();
-	//void generateBuffers();
 
 };
 

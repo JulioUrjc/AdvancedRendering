@@ -206,10 +206,10 @@ void Vein::generateVectors(){
 	}
 	for (int j = 0; j < faces->size(); j++){
 		Face* face = faces->at(j);
-		triangleVector.push_back(face->getVertexIndex(0));
-		triangleVector.push_back(face->getVertexIndex(1));
-		triangleVector.push_back(face->getVertexIndex(2));
-		triangleVector.push_back(face->getVertexIndex(3));
+		indexVector.push_back(face->getVertexIndex(0));
+		indexVector.push_back(face->getVertexIndex(1));
+		indexVector.push_back(face->getVertexIndex(2));
+		indexVector.push_back(face->getVertexIndex(3));
 	}
 }
 
@@ -243,7 +243,7 @@ void Vein::generateBuffers(){
 
 	//Quads
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*triangleVector.size(), &(triangleVector.front()), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 
@@ -265,7 +265,7 @@ void Vein::generateBuffers(){
 //}
 
 /* Draw the Vein */
-void Vein::draw(Camara* camara){
+void Vein::draw(Camara* camara, int modo){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 
@@ -290,9 +290,16 @@ void Vein::draw(Camara* camara){
 	glUniform1i(loc, 5);
 	glBindTexture(GL_TEXTURE_2D, textureID);*/
 
-	//glDrawElements(GL_TRIANGLES, triangleVector.size(), GL_UNSIGNED_INT, 0);
-	glDrawElements(GL_QUADS, triangleVector.size(), GL_UNSIGNED_INT, 0);
-
+	if (modo == 1){
+		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
+	}else if (modo == 2){
+		glPolygonMode(GL_FRONT, GL_LINE);
+		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
+	}else{
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
+	}
+	
 	glUseProgram(NULL);
 }
 

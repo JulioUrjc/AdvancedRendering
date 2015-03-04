@@ -1,5 +1,5 @@
 #include "Blood.h"
-
+#include<iostream>
 
 Blood::Blood(int numRed, int numWhite, BezierCurve *c, float rad){
 	numRedCorpuscles = numRed;
@@ -48,7 +48,7 @@ void Blood::generateWhiteCorpuscles(){
 		BloodElement whiteCorpuscle1 = BloodElement(WHITE,auxP,auxR);
 		auxR = PV3D();
 		BloodElement whiteCorpuscle2 = BloodElement(WHITE, auxP, auxR);
-		bloodObj.push_back(whiteCorpuscle1);
+		//bloodObj.push_back(whiteCorpuscle1);
 		bloodObj.push_back(whiteCorpuscle2);
 	}
 }
@@ -56,6 +56,12 @@ void Blood::generateWhiteCorpuscles(){
 void Blood::draw(int modo){
 	for (int i = 0; i < bloodObj.size(); i++){
 		bloodObj.at(i).draw(modo);
+	}
+}
+
+void Blood::draw(Camara* camara, int modo){
+	for (int i = 0; i < bloodObj.size(); i++){
+		bloodObj.at(i).draw(camara, modo);
 	}
 }
 

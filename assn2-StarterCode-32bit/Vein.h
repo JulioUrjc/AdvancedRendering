@@ -41,7 +41,7 @@ class Vein : public Mesh{
 		std::vector<float> normalVector;
 		//std::vector<float> colorVector;
 		//std::vector<float> texCoords;
-		std::vector<unsigned int> triangleVector;
+		std::vector<unsigned int> indexVector;
 
 		//Uniform variables for shaders
 		GLint mvpMatrixID;
@@ -79,7 +79,7 @@ class Vein : public Mesh{
 		void generateBuffers();
 		//void generateTexture();
 
-		void draw(Camara* camara);
+		void draw(Camara* camara, int modo);
 		void setDiffuseLight(glm::vec3 newLight);
 		void freeMemory();
 };

@@ -192,6 +192,8 @@
     <ClInclude Include="VertexNormal.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\bloodFShader.glsl" />
+    <None Include="shaders\bloodVShader.glsl" />
     <None Include="shaders\curveFShader.glsl" />
     <None Include="shaders\curveVShader.glsl" />
     <None Include="shaders\veinFShader.glsl" />
