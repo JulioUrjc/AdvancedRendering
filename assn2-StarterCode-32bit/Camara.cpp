@@ -1,6 +1,8 @@
 #include "Camara.h"
 
 #include <glm\gtc\matrix_transform.hpp>
+#include <iostream>
+using namespace std;
 
 Camara::Camara(PV3D eye, PV3D look, PV3D up){
 	this->eye = eye;
@@ -29,8 +31,9 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yT
 	this->pointCurve = 0;
 	this->zoom = 1.0f;
 
-	viewMatrix = glm::lookAt(eye.convertVec3(), look.convertVec3(), up.convertVec3());
-	projectionMatrix = glm::perspective(fovy, aspect, N, F);
+	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + look.convertVec3(), up.convertVec3());
+
+	projectionMatrix = glm::perspective(glm::radians(fovy), aspect, N, F);
 
 	//getCoordCam();
 	//fijarCam();
@@ -319,7 +322,9 @@ void Camara::followCurve(bool alante){
 		pointCurve++;
 	else
 		pointCurve--;
-	projectionMatrix = glm::perspective(fovy*zoom, aspect, N, F);
+	//projectionMatrix = glm::perspective(glm::radians(fovy)*zoom, aspect, N, F);
+	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+
 
 	if (pointCurve >= curve->nPoints())  pointCurve = 0;
 	if (pointCurve < 0)  pointCurve = curve->nPoints()-1;
@@ -333,8 +338,11 @@ void Camara::followCurve(bool alante){
 
 /* ReDisplay */
 void Camara::reDisplay(){
-	projectionMatrix = glm::perspective(fovy*zoom, aspect, N, F);
+	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
+	//viewMatrix = glm::lookAt(glm::vec3(0.0,0.0,16.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.1, 0.0));
+	
+	//viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0,0.1,0.0));
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 		curve->getBinormalList().at(pointCurve)->convertVec3());
 }

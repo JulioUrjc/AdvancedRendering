@@ -13,29 +13,20 @@ BezierCurve::BezierCurve(int steps, float curv){
 	srand(time(NULL));
 	createPoints();
 	createCurve();
-
-	//Init color
-	color = glm::vec3(0.7f, 0.33f, 0.1f);
-
-	/* Init shaders */
-	/*initValues();
-	generateVectors();
-	initShaders();
-	generateBuffers();*/
 }
 
 void BezierCurve::createPoints(){
 	/* Create some initial points */
-	glm::vec4 initialPoint = glm::vec4(-4, 5, 0, 0);
+	glm::vec4 initialPoint = glm::vec4(-40, 50, 0, 0);
 	controlPointsList.push_back(initialPoint);
 	////2
-	controlPointsList.push_back(glm::vec4(-2,-5,0,0));
+	controlPointsList.push_back(glm::vec4(-20,-50,0,0));
 	////3
 	controlPointsList.push_back(glm::vec4(0,0,0,0));
 	////4
-	controlPointsList.push_back(glm::vec4(2,-5,0,0));
+	controlPointsList.push_back(glm::vec4(20,-50,0,0));
 	////5
-	controlPointsList.push_back(glm::vec4(4,5,0,0));
+	controlPointsList.push_back(glm::vec4(40,50,0,0));
 }
 
 void BezierCurve::createCurve(){

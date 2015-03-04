@@ -293,10 +293,10 @@ void Vein::draw(Camara* camara, int modo){
 	if (modo == 1){
 		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
 	}else if (modo == 2){
-		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_BACK, GL_LINE);
 		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
 	}else{
-		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
 		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
 	}
 	

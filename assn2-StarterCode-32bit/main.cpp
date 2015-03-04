@@ -57,7 +57,7 @@ DrawCurve* drawCurve;
 
 /* - Vein Variable - */
 const int veinSides = 25;
-const float veinRadius = 0.7f;
+const float veinRadius = 1.7f;
 Vein* vein;
 
 /* - Blood Variable - */
@@ -74,8 +74,9 @@ Camara* camara;
 PV3D *eye, *look, *up;
 GLdouble xRight, xLeft, yTop, yBot, N, F;
 float angleYaw=0, angleRoll=0, anglePitch=0;
-//float fovy = 60.0, aspect = WINDOW_WIDTH/WINDOW_HEIGHT, zoom = 0.1;
-float fovy = 90.0, aspect = 0.1, zoom = 0.1;
+float fovy = 45.0;
+float aspect = WINDOW_WIDTH/WINDOW_HEIGHT, zoom = 0.1;
+//float fovy = 45.0, aspect = 0.1, zoom = 0.1;
 bool automatic = false; // Move Automatic
 int modo = 2;			// Mode lines
 int point = 0;			// Curve's Point 
@@ -210,34 +211,9 @@ void key(unsigned char key, int x, int y){
 		break;
 	// Teclas de Avanzar
 	case 'a':
-		++point;
-		if (point > curve->nPoints()-1) point = 0;
-		eye = curve->getPointList().at(point);
-		//look= curve->getTangentList().at(point);
-		look = eye->addition(curve->getTangentList().at(point));
-		up  = curve->getBinormalList().at(point);		
-		/*look= curve->getPointList().at(point);
-		up  = curve->getTangentList().at(point);
-		eye = look->addition(curve->getBinormalList().at(point))->addition(new PV3D(2.0,2.0,2.0));*/
-		//eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
-
-		//camara->moveCamara(eye, look, up);
-		//camara->fijarCam();
 		camara->followCurve(true);
 		break;
 	case 'z':
-		--point;
-		if (point < 0) point = curve->nPoints()-1;
-		eye = curve->getPointList().at(point);
-		//look= curve->getTangentList().at(point);
-		look = eye->addition(curve->getTangentList().at(point));
-		up  = curve->getBinormalList().at(point);
-		/*look = curve->getPointList().at(point);
-		up = curve->getTangentList().at(point);
-		eye = look->addition(curve->getBinormalList().at(point))->addition(new PV3D(2.0, 2.0, 2.0));*/
-
-		//camara->moveCamara(eye, look, up);
-		//camara->fijarCam();
 		camara->followCurve(false);
 		break;
 
@@ -358,8 +334,8 @@ void startCam(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
-	glPolygonMode(GL_FRONT, GL_LINE);
-	glEnable(GL_CULL_FACE);
+	glPolygonMode(GL_BACK, GL_LINE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
@@ -399,6 +375,7 @@ int main (int argc, char ** argv){
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);
+
 	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
 
 	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F, fovy, aspect, curve);
