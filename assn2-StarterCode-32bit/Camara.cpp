@@ -13,7 +13,7 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up){
 	ortogonal(-10,10,-10,10,1,1000);
 }
 
-Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, BezierCurve* c){
+Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, float fovy, float aspect, BezierCurve* c){
 	this->eye = eye;
 	this->look = look;
 	this->up = up;
@@ -23,18 +23,18 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yT
 	this->yBot = yBot;
 	this->N = N;
 	this->F = F;
+	this->fovy = fovy;
+	this->aspect = aspect;
 	this->curve = c;
 	this->pointCurve = 0;
+	this->zoom = 1.0f;
 
-	glm::vec3 eye2 = glm::vec3(eye.getX(), eye.getY(), eye.getZ());
-	glm::vec3 look2 = glm::vec3(look.getX(), look.getY(), look.getZ());
-	glm::vec3 up2 = glm::vec3(up.getX(), up.getY(), up.getZ());
-	viewMatrix = glm::lookAt(eye2, look2, up2);
-	projectionMatrix = glm::perspective(60.0f, 1.0f, N, F);
+	viewMatrix = glm::lookAt(eye.convertVec3(), look.convertVec3(), up.convertVec3());
+	projectionMatrix = glm::perspective(fovy, aspect, N, F);
 
-	getCoordCam();
-	fijarCam();
-	ortogonal(-10, 10, -10, 10, 1, 1000);
+	//getCoordCam();
+	//fijarCam();
+	//ortogonal(-10, 10, -10, 10, 1, 1000);
 }
 
 Camara::~Camara(){}
@@ -305,9 +305,32 @@ void Camara::esquina(){
 	this->ortogonal(-10,10,-10,10,1,1000);
 }
 
+/* Adquirir matrices de ModelView y de Proyeccion*/
 glm::mat4 Camara::getModelView(glm::mat4 modelMatrix){
 	return viewMatrix*modelMatrix;
 }
 glm::mat4 Camara::getModelViewProjection(glm::mat4 modelMatrix){
 	return projectionMatrix*viewMatrix*modelMatrix;
 }
+
+/* Follow Curve*/
+void Camara::followCurve(bool alante){
+	if (alante)
+		pointCurve++;
+	else
+		pointCurve--;
+	projectionMatrix = glm::perspective(fovy*zoom, aspect, N, F);
+
+	if (pointCurve >= curve->nPoints())  pointCurve = 0;
+	if (pointCurve < 0)  pointCurve = curve->nPoints()-1;
+
+	eye = *curve->getPointList().at(pointCurve)->addition(curve->getBinormalList().at(pointCurve));
+
+	viewMatrix = glm::lookAt(eye.convertVec3(),	eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
+		curve->getBinormalList().at(pointCurve)->convertVec3());
+
+}
+
+/* zoom */
+void Camara::addZoom(float val){ zoom = ((zoom+val)>MAX_ZOOM) ? MAX_ZOOM : (zoom+val); }
+void Camara::deductZoom(float val){ zoom = ((zoom-val)<MIN_ZOOM) ? MIN_ZOOM : (zoom-val); }

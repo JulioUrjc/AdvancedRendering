@@ -54,7 +54,7 @@ const float curveT = 0.7f;
 BezierCurve* curve;
 
 /* - Vein Variable - */
-const int veinSides = 10;
+const int veinSides = 25;
 const float veinRadius = 0.7f;
 Vein* vein;
 
@@ -68,12 +68,14 @@ const int sideVertex = 256;
 PerlinGenerator perlinNoise(6, sideVertex);
 
 /* Cam Variables*/
+Camara* camara;
 PV3D *eye, *look, *up;
 GLdouble xRight, xLeft, yTop, yBot, N, F;
 float angleYaw=0, angleRoll=0, anglePitch=0;
-Camara* camara;
-int modo = 2;    // Mode lines
-int point = 0;   // Curve's Point 
+float fovy = 60.0, aspect = 1.0, zoom = 0.1;
+bool automatic = false; // 
+int modo = 2;			// Mode lines
+int point = 0;			// Curve's Point 
 
 /* Control del numero de captura */
 int captura = 0;
@@ -155,6 +157,8 @@ GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
 
 /*	doIdle - The idle-function that can be used to update the screen */
 void doIdle(){
+	if (automatic)
+		camara->followCurve(true); // true indica ir hacia adelante
 	glutPostRedisplay();
 }
 
@@ -213,8 +217,9 @@ void key(unsigned char key, int x, int y){
 		eye = look->addition(curve->getBinormalList().at(point))->addition(new PV3D(2.0,2.0,2.0));*/
 		//eye = new PV3D(2 + look->getX() + curve->getBinormalList().at(point)->getX(), 2 + look->getY() + curve->getBinormalList().at(point)->getY(), 2 + look->getZ() + curve->getBinormalList().at(point)->getZ());
 
-		camara->moveCamara(eye, look, up);
-		camara->fijarCam();
+		//camara->moveCamara(eye, look, up);
+		//camara->fijarCam();
+		camara->followCurve(true);
 		break;
 	case 'z':
 		--point;
@@ -227,8 +232,9 @@ void key(unsigned char key, int x, int y){
 		up = curve->getTangentList().at(point);
 		eye = look->addition(curve->getBinormalList().at(point))->addition(new PV3D(2.0, 2.0, 2.0));*/
 
-		camara->moveCamara(eye, look, up);
-		camara->fijarCam();
+		//camara->moveCamara(eye, look, up);
+		//camara->fijarCam();
+		camara->followCurve(false);
 		break;
 
 	// Teclas para giros
@@ -240,8 +246,15 @@ void key(unsigned char key, int x, int y){
 		angleYaw -= 0.01;
 		camara->yaw(angleYaw);
 		break;
+	case '+':
+		camara->addZoom(zoom);
+		camara->followCurve(true);
+		camara->followCurve(false);
+		break;
 	case '-':
-		camara->desplazar(0.0,0.0,0.01);
+		camara->deductZoom(zoom);
+		camara->followCurve(true);
+		camara->followCurve(false);
 		break;
 
 	// Cambio de Modo entre puntos, aristas o poligonos
@@ -253,6 +266,9 @@ void key(unsigned char key, int x, int y){
 		break;
 	case '3':
 			modo = 3;
+		break;
+	case '4':
+			automatic = !automatic;
 		break;
 
 	// Capturas de pantalla
@@ -270,7 +286,6 @@ void key(unsigned char key, int x, int y){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	curve->draw(modo);
 
 	if (modo == 1){
 		glPolygonMode(GL_FRONT, GL_POINT);
@@ -282,6 +297,7 @@ void display(){
 		glPolygonMode(GL_FRONT, GL_FILL);
 	}
 
+	curve->draw(modo);
 	vein->draw(camara);
 	//vein->draw(modo);
 	//blood->draw(modo);
@@ -341,8 +357,8 @@ void startCam(){
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 
-	camara->fijarCam();   //// Camera set up
-	camara->ortogonal();  //// Frustum set up
+	//camara->fijarCam();   //// Camera set up
+	//camara->ortogonal();  //// Frustum set up
 
 	//glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);  //// Viewport set up
 }
@@ -375,9 +391,9 @@ int main (int argc, char ** argv){
 	eye = curve->getPointList().at(point);
 	look= eye->addition(curve->getTangentList().at(point));
 	up  = curve->getBinormalList().at(point);
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 100;
+	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.1; F = 100000;
 
-	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F, curve);
+	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F, fovy, aspect, curve);
 	startCam();
 	
 	glutMainLoop();
