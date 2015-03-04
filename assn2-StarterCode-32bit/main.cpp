@@ -59,7 +59,7 @@ const float veinRadius = 0.7f;
 Vein* vein;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 1;
+ const int numRedCorpuscles = 0;
  const int numWhiteCorpuscles = 1;
  Blood* blood;
 
@@ -295,6 +295,7 @@ void display(){
 		glPolygonMode(GL_FRONT, GL_FILL);
 	}
 
+	
 	curve->draw(modo);
 	vein->draw(camara);
 	//vein->draw(modo);
@@ -383,7 +384,7 @@ int main (int argc, char ** argv){
 
 	/* Creamos los globulos dentro de la vena */
 	std::cout << "Generating blood..." << std::endl;
-	blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve);
+	blood = new Blood(numRedCorpuscles, numWhiteCorpuscles, curve, veinRadius);
 	
 	/* Camera parameters */
 	std::cout << "Colocando la camara..." << std::endl;
