@@ -26,11 +26,21 @@ private:
 	int pointCurve;
 
 public:
-	Camara(PV3D eye, PV3D look, PV3D up);
-	Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F,float fovy, float aspect, BezierCurve* c);
+	Camara(PV3D eye, PV3D look, PV3D up, float N, float F, float fovy, float aspect, BezierCurve* c);
 	~Camara();
+	/* Camara en OpenGL*/
+	glm::mat4 getModelView(glm::mat4 modelMatrix);
+	glm::mat4 getModelViewProjection(glm::mat4 modelMatrix);
+	void followCurve(bool alante);
+	void reDisplay();
+	void addZoom(float val);
+	void deductZoom(float val);
+	void setCurve(BezierCurve* c){ this->curve = c; }
 
-	void moveCamara(PV3D* eye, PV3D* look, PV3D* up);
+	/* Camara antigua por CPU*/
+	//Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, float fovy, float aspect, BezierCurve* c);
+	//Camara(PV3D eye, PV3D look, PV3D up);
+	/*void moveCamara(PV3D* eye, PV3D* look, PV3D* up);
 	void moveCamara(PV3D* eye, PV3D* look);
 	void roll(GLdouble alfa);
 	void yaw(GLdouble alfa);
@@ -48,16 +58,8 @@ public:
 	void cenital();
 	void frontal();
 	void esquina();
-	glm::mat4 getModelView(glm::mat4 modelMatrix);
-	glm::mat4 getModelViewProjection(glm::mat4 modelMatrix);
-	void followCurve(bool alante);
-	void reDisplay();
-	void addZoom(float val);
-	void deductZoom(float val);
-
-	void setCurve(BezierCurve* c){ this->curve = c; }
 	void getCoordCam();
 	void getMatriz();
-	void fijarCam();
+	void fijarCam();*/
 };
 
