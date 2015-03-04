@@ -5,6 +5,7 @@
 #include <GL/GLU.h>
 #include <math.h>
 #include <iostream>
+#include <glm\glm.hpp>
 
 class PV3D{
 private:
@@ -42,6 +43,7 @@ public:
 	PV3D* crossProduct(PV3D* v);
 	GLdouble scalarProduct(PV3D* v);
 	PV3D* matrixProduct(PV3D* Nt, PV3D* Bt, PV3D* Tt, PV3D* Ct);
+	glm::vec3 convertVec3();
 
 	void setColor(PV3D* col);
 	PV3D* getColor();

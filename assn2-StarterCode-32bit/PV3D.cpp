@@ -109,3 +109,8 @@ PV3D* PV3D::getColor(){
 void PV3D::toString(){
 	std::cout << corX << " " << corY << " " << corZ << std::endl;
 }
+
+glm::vec3 PV3D::convertVec3(){
+	glm::vec3 vector3 = glm::vec3(corX, corY, corZ);
+	return  vector3;
+}

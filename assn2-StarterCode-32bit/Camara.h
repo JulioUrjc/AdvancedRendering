@@ -4,12 +4,18 @@
 #include "BezierCurve.h"
 #include <glm\glm.hpp>
 
+const float MAX_ZOOM = 1.0f;
+const float MIN_ZOOM = 0.4f;
+
 class Camara
 {
 private:
 	PV3D eye, look, up;
 	PV3D *n, *v, *u;
 	float xRight, xLeft, yTop, yBot, N, F;
+	float fovy;
+	float aspect;
+	float zoom;
 
 	//View and projection matrix
 	glm::mat4 viewMatrix;
@@ -21,7 +27,7 @@ private:
 
 public:
 	Camara(PV3D eye, PV3D look, PV3D up);
-	Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, BezierCurve* c);
+	Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F,float fovy, float aspect, BezierCurve* c);
 	~Camara();
 
 	void moveCamara(PV3D* eye, PV3D* look, PV3D* up);
@@ -44,7 +50,10 @@ public:
 	void esquina();
 	glm::mat4 getModelView(glm::mat4 modelMatrix);
 	glm::mat4 getModelViewProjection(glm::mat4 modelMatrix);
-	
+	void followCurve(bool alante);
+	void addZoom(float val);
+	void deductZoom(float val);
+
 	void setCurve(BezierCurve* c){ this->curve = c; }
 	void getCoordCam();
 	void getMatriz();
