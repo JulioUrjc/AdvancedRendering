@@ -298,7 +298,8 @@ void display(){
 	}
 
 	
-	curve->draw(modo);
+	//curve->draw(modo);
+	//curve->draw(camara);
 	vein->draw(camara);
 	//vein->draw(modo);
 	//blood->draw(modo);

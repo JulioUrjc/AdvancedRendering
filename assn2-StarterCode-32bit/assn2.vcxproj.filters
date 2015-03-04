@@ -118,5 +118,11 @@
     <None Include="shaders\veinVShader.glsl">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\curveFShader.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\curveVShader.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
