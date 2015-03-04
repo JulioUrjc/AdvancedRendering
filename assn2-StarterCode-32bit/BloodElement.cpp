@@ -6,9 +6,39 @@ BloodElement::BloodElement(Elements element, PV3D pos, PV3D rot){
 	rotation = rot;
 	createElement(element);
 	type = element;
+
+	initMatrix();
+
 }
 
 BloodElement::~BloodElement(){}
+
+void BloodElement::initMatrix(){
+
+	//Calculate matrix
+	/*
+	glm::mat4x4 matRotX	(1, 0, 0, 0,
+						0, glm::cos(rotation.getX()), -glm::sin(rotation.getX()), 0,
+						0, glm::sin(rotation.getX()), glm::cos(rotation.getX()), 0,
+						0, 0, 0, 1);
+
+	glm::mat4x4 matRotY(glm::cos(rotation.getY()), 0, glm::sin(rotation.getY()), 0,
+						0, 1, 0, 0,
+						-glm::sin(rotation.getY()), 0, glm::cos(rotation.getY()), 0,
+						0, 0, 0, 1);
+
+	glm::mat4x4 matRotZ(glm::cos(rotation.getZ()), -glm::sin(rotation.getZ()), 0, 0,
+						glm::sin(rotation.getZ()), glm::cos(rotation.getZ()), 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1);
+	*/
+	glm::mat4x4 identity = glm::mat4x4(1.0f);
+	rotationMatrix = glm::rotate(identity,(float)rotation.getX(), glm::vec3(1, 0, 0));
+	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getY(), glm::vec3(0, 1, 0));
+	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getZ(), glm::vec3(0, 0, 1));
+
+	translateMatrix = glm::translate( glm::vec3(position.getX(), position.getY(), position.getZ()));
+}
 
 void BloodElement::createElement(Elements element){
 	switch (element){
@@ -59,10 +89,19 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 					sinPhi = sin(phi);
 					dist = height + (size * cosPhi);
 
-					PV3D point1 = PV3D(cosTheta1 * dist, -sinTheta1 * dist, size * sinPhi);
-					PV3D point2 = PV3D(cosTheta * dist, -sinTheta * dist, size * sinPhi);
-					vertex.push_back(*point1.addition(&position));
-					vertex.push_back(*point2.addition(&position));
+					glm::vec4 point1 = glm::vec4(cosTheta1 * dist, -sinTheta1 * dist, size * sinPhi, 1);
+					glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
+
+					//Apply rotation matrix
+					point1 = rotationMatrix*point1;
+					point2 = rotationMatrix*point2;
+
+					//Apply translate matrix
+					point1 = translateMatrix*point1;
+					point2 = translateMatrix*point2;
+
+					vertex.push_back(PV3D(point1.x, point1.y, point1.z));
+					vertex.push_back(PV3D(point2.x, point2.y, point2.z));
 
 					//glTexCoord2f(cosTheta1 * cosPhi, -sinTheta1 * cosPhi);
 					//glNormal3f(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);

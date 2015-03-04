@@ -18,9 +18,11 @@ private:
 
 	BezierCurve* curve;
 
+	int radius;
+
 public:
 
-	Blood(int numRed, int numWhite, BezierCurve *c);
+	Blood(int numRed, int numWhite, BezierCurve *c, int rad);
 	~Blood();
 
 	void generateRedCorpuscles();
@@ -28,7 +30,7 @@ public:
 
 	void draw(int modo);
 
-	float numRandom(float max);
+	float numRandom(float range);
 	int intRandom(int max);
 };
 

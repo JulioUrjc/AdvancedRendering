@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define _USE_MATH_DEFINES
 
 #include <Windows.h>
@@ -8,6 +7,8 @@
 #include <GL/GLU.h>
 #include "GL/glut.h"
 
+#include <glm\gtx\transform.hpp>
+#include <glm\gtx\rotate_vector.hpp>
 #include <math.h>
 #include <vector>
 
@@ -27,6 +28,11 @@ private:
 	Elements type;
 
 	std::vector<PV3D> vertex;
+
+	glm::mat4x4 rotationMatrix;
+	glm::mat4x4 translateMatrix;
+
+	void initMatrix();
 
 public:
 
