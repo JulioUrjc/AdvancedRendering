@@ -161,6 +161,7 @@
     <ClCompile Include="BloodElement.cpp" />
     <ClCompile Include="Camara.cpp" />
     <ClCompile Include="Compass.cpp" />
+    <ClCompile Include="DrawCurve.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="BezierCurve.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="BloodElement.h" />
     <ClInclude Include="Camara.h" />
     <ClInclude Include="Compass.h" />
+    <ClInclude Include="DrawCurve.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="BezierCurve.h" />

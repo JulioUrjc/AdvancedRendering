@@ -6,8 +6,8 @@
 
 //Project includes
 #include "PV3D.h"
-#include "ShaderLoader.h"
-#include "Camara.h"
+//#include "ShaderLoader.h"
+//#include "Camara.h"
 
 class BezierCurve{
 
@@ -19,8 +19,8 @@ private:
 	//VBO
 	GLuint buffer[3];
 	//Shaders
-	ShaderLoader vShader = ShaderLoader("./shaders/curveVShader.glsl", GL_VERTEX_SHADER);
-	ShaderLoader fShader = ShaderLoader("./shaders/curveFShader.glsl", GL_FRAGMENT_SHADER);
+	//ShaderLoader vShader = ShaderLoader("./shaders/curveVShader.glsl", GL_VERTEX_SHADER);
+	//ShaderLoader fShader = ShaderLoader("./shaders/curveFShader.glsl", GL_FRAGMENT_SHADER);
 
 	GLuint program;
 
@@ -69,13 +69,13 @@ public:
 	std::vector<PV3D*> getBinormalList();
 	int nPoints();
 	void draw(int modo);
-	void draw(Camara* camera);
+	//void draw(Camara* camera);
 
-	/* Init Shaders */
-	void initValues();
-	void initShaders();
-	void generateVectors();
-	void generateBuffers();
+	///* Init Shaders */
+	//void initValues();
+	//void initShaders();
+	//void generateVectors();
+	//void generateBuffers();
 
 };
 

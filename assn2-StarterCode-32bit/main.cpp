@@ -33,6 +33,7 @@
 #include "Vein.h"
 #include "Camara.h"
 #include "Blood.h"
+#include "DrawCurve.h"
 #include <vector>
 #include <iostream>
 
@@ -52,6 +53,7 @@ int g_iRightMouseButton = 0;
 const int curveSteps = 25;
 const float curveT = 0.7f;
 BezierCurve* curve;
+DrawCurve* drawCurve;
 
 /* - Vein Variable - */
 const int veinSides = 25;
@@ -297,9 +299,10 @@ void display(){
 
 	
 	//curve->draw(modo);
-	//curve->draw(camara);
-	vein->draw(camara);
 	//vein->draw(modo);
+	//curve->draw(camara);
+	drawCurve->draw(camara, modo);
+	vein->draw(camara);
 	blood->draw(modo);
 
 	glutSwapBuffers();
@@ -378,6 +381,7 @@ int main (int argc, char ** argv){
 	/* Creamos la curva y la vena asociada*/
 	std::cout << "Generating bezier curve..." << std::endl;
 	curve = new BezierCurve(curveSteps, curveT);
+	drawCurve = new DrawCurve(curve);
 
 	std::cout << "Generating vein..." << std::endl;
 	vein = new Vein(veinSides, veinRadius, curve);
