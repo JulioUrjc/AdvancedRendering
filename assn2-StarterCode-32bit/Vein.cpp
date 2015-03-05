@@ -252,23 +252,7 @@ void Vein::generateBuffers(){
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
-
-	//generateTexture();
 }
-
-//void Lake::generateTexture(){
-//	TextureLoader loader("./Resources/...");
-//
-//	glGenTextures(1, &textureID);
-//	glBindTexture(GL_TEXTURE_2D, textureID);
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
-//		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
-//
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//}
 
 /* Draw the Vein */
 void Vein::draw(Camara* camara, int modo){

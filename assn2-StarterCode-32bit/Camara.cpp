@@ -48,6 +48,25 @@ void Camara::followCurve(bool alante){
 		curve->getBinormalList().at(pointCurve)->convertVec3());
 }
 
+/* Follow Curve Out*/
+void Camara::followCurveOut(int alante, float displaced){
+
+	if (alante==0)
+		pointCurve++;
+	else if (alante==1)
+		pointCurve--;
+
+	if (pointCurve >= curve->nPoints())  pointCurve = 0;
+	if (pointCurve < 0)  pointCurve = curve->nPoints() - 1;
+
+	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+
+	eye = *curve->getPointList().at(pointCurve);
+	glm::vec3 displacement = glm::vec3(0.0, 0.0, displaced);
+	viewMatrix = glm::lookAt(eye.convertVec3()+displacement, eye.convertVec3(),
+		curve->getBinormalList().at(pointCurve)->convertVec3());
+}
+
 /* ReDisplay */
 void Camara::reDisplay(){
 	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);

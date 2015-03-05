@@ -168,6 +168,7 @@ void BloodElement::draw(int modo){
 }
 
 /* OpenGL 3.3 - gpu compute*/
+
 void BloodElement::initValues(){
 
 	//GLenum a = glGetError();

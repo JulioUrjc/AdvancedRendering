@@ -43,7 +43,7 @@ private:
 	//VAO
 	GLuint vao;
 	//VBO
-	GLuint buffer[4];
+	GLuint buffer[3];
 	//Shaders
 	ShaderLoader vShader = ShaderLoader("./shaders/bloodVShader.glsl", GL_VERTEX_SHADER);
 	ShaderLoader fShader = ShaderLoader("./shaders/bloodFShader.glsl", GL_FRAGMENT_SHADER);
