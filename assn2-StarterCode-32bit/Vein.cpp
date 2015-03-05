@@ -9,14 +9,10 @@
 
 Vein::Vein(int NP, GLfloat radius, BezierCurve* curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
 	this->NP = NP;
-	this->radius = radius;
+	this->radiusVein = radius;
 	this->curve = curve;
 
 	build();
-	initValues();
-	generateVectors();
-	initShaders();
-	generateBuffers();
 }
 
 Vein::~Vein(){}
@@ -24,7 +20,7 @@ Vein::~Vein(){}
 //-------------------------------------------------------------------------
 void Vein::build(){
 
-	Poligon *poli = new Poligon(new PV3D(), NP, radius);                     // Poligono en el origen para desplazarlo al sistema de referencia
+	Poligon *poli = new Poligon(new PV3D(), NP, radiusVein);                     // Poligono en el origen para desplazarlo al sistema de referencia
 	vector<PV3D*>* puntos = poli->getVertex();                               // local a cada punto de la curva.
 
 	for (int i = 0; i< curve->nPoints(); i++){								 // Esto ocurre en cada "sección" de la vena
@@ -98,29 +94,39 @@ void Vein::draw(bool relleno){
 
 void Vein::addPerlinNoise(float** perlinNoise){
 	float deformation=0;
-	float maxDef = 0.3f;
-	float minDef = 0.01f;
+	float maxDef = radiusVein/4;
+	float minDef = radiusVein/8;
 	for (int i = 0; i < curve->nPoints(); i++){
 		//I'm in each subdivision
 		for (int j = 0; j < NP; j++){
 			//I'm in each vertex at subdivision
 			deformation = ((perlinNoise[i%256][j] + 1) / 2)*(maxDef - minDef) + minDef;
-			int iN = faces->at(i)->getNormalIndex(j%4);
-			GLfloat nX = normals->at(iN)->getX();
-			GLfloat nY = normals->at(iN)->getY();
-			GLfloat nZ = normals->at(iN)->getZ();
-			int iV = faces->at(i)->getVertexIndex(j%4);
-			vertex->at(iV)->setX(vertex->at(iV)->getX() + glm::clamp(nX*deformation, 0.0f, 0.3f));
-			vertex->at(iV)->setY(vertex->at(iV)->getY() + glm::clamp(nY*deformation, 0.0f, 0.3f));
-			vertex->at(iV)->setZ(vertex->at(iV)->getZ() + glm::clamp(nZ*deformation, 0.0f, 0.3f));
-			
+			//cout << "deformation: " << deformation << endl;
+			int iV = (i*NP)+j;
+			PV3D* radiusVector = (curve->getPointList().at(i)->clone())->subtraction(vertex->at(iV));
+			//radiusVector->normalize();
+			//cout << "punto antes:" << endl;
+			//vertex->at(iV)->toString();
+			vertex->at(iV)->setX(vertex->at(iV)->getX() + (float)radiusVector->getX()*deformation);
+			vertex->at(iV)->setY(vertex->at(iV)->getY() + (float)radiusVector->getY()*deformation);
+			vertex->at(iV)->setZ((vertex->at(iV)->getZ() + (float)radiusVector->getZ()*deformation));
+			//cout << "punto despues:" << endl;
+			//vertex->at(iV)->toString();
 			vertex->at(iV)->setColor(new PV3D(glm::clamp(deformation, 0.0f, 0.8f), glm::clamp(deformation, 0.0f, 0.5f), 0.0f));
-
+			delete radiusVector;
 		}
 	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Vein::generateShader(){
+
+	initValues();
+	generateVectors();
+	initShaders();
+	generateBuffers();
+}
 
 void Vein::initValues(){
 

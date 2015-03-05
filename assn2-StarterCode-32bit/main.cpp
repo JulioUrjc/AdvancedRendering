@@ -50,13 +50,13 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 25;
+const int curveSteps = 256;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 25;
+const int veinSides = 256;
 const float veinRadius = 1.7f;
 Vein* vein;
 
@@ -364,7 +364,8 @@ int main (int argc, char ** argv){
 
 	std::cout << "Generating vein..." << std::endl;
 	vein = new Vein(veinSides, veinRadius, curve);
-	//vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	vein->addPerlinNoise(perlinNoise.getNoiseImage());
+	vein->generateShader();
 
 	/* Creamos los globulos dentro de la vena */
 	std::cout << "Generating blood..." << std::endl;
