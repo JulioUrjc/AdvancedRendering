@@ -70,16 +70,14 @@ const int sideVertex = 256;
 PerlinGenerator perlinNoise(6, sideVertex);
 
 /* Cam Variables*/
+const int INITPOINT = 0;
 Camara* camara;
 PV3D *eye, *look, *up;
-GLdouble xRight, xLeft, yTop, yBot, N, F;
+GLdouble N=0.01, F=1000.0;
 float angleYaw=0, angleRoll=0, anglePitch=0;
-float fovy = 45.0;
-float aspect = WINDOW_WIDTH/WINDOW_HEIGHT, zoom = 0.1;
-//float fovy = 45.0, aspect = 0.1, zoom = 0.1;
+float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
 bool automatic = false; // Move Automatic
 int modo = 2;			// Mode lines
-int point = 0;			// Curve's Point 
 
 /* Control del numero de captura */
 int captura = 0;
@@ -220,11 +218,11 @@ void key(unsigned char key, int x, int y){
 	// Teclas para giros
 	case 'f':
 		angleYaw += 0.01;
-		camara->yaw(angleYaw);
+		//camara->yaw(angleYaw);
 		break;
 	case 'v':
 		angleYaw -= 0.01;
-		camara->yaw(angleYaw);
+		//camara->yaw(angleYaw);
 		break;
 	case '+':
 		camara->addZoom(zoom);
@@ -275,11 +273,6 @@ void display(){
 		glPolygonMode(GL_FRONT, GL_FILL);
 	}*/
 
-	
-	//curve->draw(modo);
-	//vein->draw(modo);
-	//blood->draw(modo);
-	//curve->draw(camara);
 	drawCurve->draw(camara, modo);
 	vein->draw(camara, modo);
 	blood->draw(camara, modo);
@@ -340,8 +333,6 @@ void startCam(){
 	glShadeModel(GL_SMOOTH);
 
 	camara->reDisplay();
-	//camara->fijarCam();   //// Camera set up
-	//camara->ortogonal();  //// Frustum set up
 
 	//glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);  //// Viewport set up
 }
@@ -373,13 +364,11 @@ int main (int argc, char ** argv){
 	
 	/* Camera parameters */
 	std::cout << "Colocando la camara..." << std::endl;
-	eye = curve->getPointList().at(point);
-	look= eye->addition(curve->getTangentList().at(point));
-	up  = curve->getBinormalList().at(point);
+	eye = curve->getPointList().at(INITPOINT);
+	look = eye->addition(curve->getTangentList().at(INITPOINT));
+	up = curve->getBinormalList().at(INITPOINT);
 
-	xRight = 0.5; xLeft = -xRight; yTop = 0.5; yBot = -yTop; N = 0.01; F = 1000;
-
-	camara = new Camara(*eye, *look, *up, xRight, xLeft,yTop, yBot, N, F, fovy, aspect, curve);
+	camara = new Camara(*eye, *look, *up, N, F, fovy, aspect, curve);
 	startCam();
 	
 	glutMainLoop();
