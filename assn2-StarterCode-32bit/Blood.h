@@ -27,5 +27,6 @@ class Blood{
 		void draw(Camara* camara, int modo);
 		float numRandom(float range);
 		int intRandom(int max);
+		void freeMemory();
 };
 

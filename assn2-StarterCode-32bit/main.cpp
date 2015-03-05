@@ -50,19 +50,19 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 256;
+const int curveSteps = 25;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 256;
-const float veinRadius = 1.7f;
+const int veinSides = 25;
+const float veinRadius = 2.0f;
 Vein* vein;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 0;
- const int numWhiteCorpuscles = 1;
+ const int numRedCorpuscles = 1;
+ const int numWhiteCorpuscles = 0;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -73,11 +73,12 @@ PerlinGenerator perlinNoise(6, sideVertex);
 const int INITPOINT = 0;
 Camara* camara;
 PV3D *eye, *look, *up;
-GLdouble N=0.01, F=1000.0;
+GLdouble N=0.01, F=1000.0; //near and fare planes
 float angleYaw=0, angleRoll=0, anglePitch=0;
 float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
-bool automatic = false; // Move Automatic
-int modo = 2;			// Mode lines
+bool automatic = false;    // Move Automatic
+int modo = 2;			   // Default Mode lines
+float displaced = 70.0;    // Init Distance from a vein in camera out
 
 /* Control del numero de captura */
 int captura = 0;
@@ -197,6 +198,7 @@ void mousebutton(int button, int state, int x, int y){
 void unlinkAndFree(){
 	vein->freeMemory();
 	drawCurve->freeMemory();
+	blood->freeMemory();
 }
 
 void key(unsigned char key, int x, int y){
@@ -207,12 +209,27 @@ void key(unsigned char key, int x, int y){
 		unlinkAndFree();
 		exit(0);
 		break;
-	// Teclas de Avanzar
+	// Teclas de Avanzar por vena
 	case 'a':
 		camara->followCurve(true);
 		break;
 	case 'z':
 		camara->followCurve(false);
+		break;
+	// Vena desde fuera y zoom
+	case '8':
+		camara->followCurveOut(0, displaced);
+		break;
+	case char('9'):
+		camara->followCurveOut(1,displaced);
+		break;
+	case '6':
+		displaced+= 4.0;
+		camara->followCurveOut(2, displaced);
+		break;
+	case char('7') :
+		displaced -= 4.0;
+		camara->followCurveOut(2, displaced);
 		break;
 
 	// Teclas para giros
@@ -262,16 +279,6 @@ void key(unsigned char key, int x, int y){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	/*if (modo == 1){
-		glPolygonMode(GL_FRONT, GL_POINT);
-	}
-	else if (modo == 2){
-		glPolygonMode(GL_FRONT, GL_LINE);
-	}
-	else{
-		glPolygonMode(GL_FRONT, GL_FILL);
-	}*/
 
 	drawCurve->draw(camara, modo);
 	vein->draw(camara, modo);
@@ -330,6 +337,7 @@ void startCam(){
 	glPolygonMode(GL_BACK, GL_LINE);
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
 	glShadeModel(GL_SMOOTH);
 
 	camara->reDisplay();

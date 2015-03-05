@@ -252,8 +252,6 @@ void Vein::generateBuffers(){
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
-
-	//generateTexture();
 }
 
 /* Draw the Vein */
