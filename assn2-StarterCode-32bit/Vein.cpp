@@ -120,15 +120,15 @@ void Vein::addPerlinNoise(float** perlinNoise){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Vein::generateShader(){
+void Vein::generateShader(GLint textCoord){
 
-	initValues();
+	initValues(textCoord);
 	generateVectors();
 	initShaders();
 	generateBuffers();
 }
 
-void Vein::initValues(){
+void Vein::initValues(GLint textCoord){
 
 	//GLenum a = glGetError();
 	program = 0;
@@ -136,7 +136,7 @@ void Vein::initValues(){
 	inVertex = -1;
 	inNormal = -1;
 	//inColor = -1;
-	//texCoordID = -1;
+	texCoordID = -1;
 
 	mvpMatrixID = -1;
 	modelViewID = -1;
@@ -161,7 +161,7 @@ void Vein::initShaders(){
 	glBindAttribLocation(program, 0, "inVertex");
 	glBindAttribLocation(program, 1, "inNormal");
 	//glBindAttribLocation(program, 2, "inColor");
-	//glBindAttribLocation(program, 3, "inTexCoord");
+	glBindAttribLocation(program, 3, "inTexCoord");
 
 	glLinkProgram(program);
 
@@ -195,7 +195,7 @@ void Vein::initShaders(){
 	inVertex = glGetAttribLocation(program, "inVertex");
 	inNormal = glGetAttribLocation(program, "inNormal");
 	//inColor = glGetAttribLocation(program, "inColor");
-	//texCoordID = glGetAttribLocation(program, "inTexCoord");
+	texCoordID = glGetAttribLocation(program, "inTexCoord");
 }
 
 void Vein::generateVectors(){
@@ -255,20 +255,6 @@ void Vein::generateBuffers(){
 
 	//generateTexture();
 }
-
-//void Lake::generateTexture(){
-//	TextureLoader loader("./Resources/...");
-//
-//	glGenTextures(1, &textureID);
-//	glBindTexture(GL_TEXTURE_2D, textureID);
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
-//		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
-//
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//}
 
 /* Draw the Vein */
 void Vein::draw(Camara* camara, int modo){

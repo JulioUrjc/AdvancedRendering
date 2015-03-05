@@ -356,7 +356,8 @@ int main (int argc, char ** argv){
 	std::cout << "Generating vein..." << std::endl;
 	vein = new Vein(veinSides, veinRadius, curve);
 	vein->addPerlinNoise(perlinNoise.getNoiseImage());
-	vein->generateShader();
+	vein->generateShader(loadTexture("./Textures/veinTexture.jpg"));
+	//loadTexture("./Textures/veinTexture.jpg");
 
 	/* Creamos los globulos dentro de la vena */
 	std::cout << "Generating blood..." << std::endl;

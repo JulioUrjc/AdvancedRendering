@@ -35,7 +35,7 @@ class Vein : public Mesh{
 		GLint inVertex;
 		GLint inNormal;
 		//GLint inColor;
-		//GLint texCoordID;
+		GLint texCoordID;
 
 		std::vector<float> vertexVector;
 		std::vector<float> normalVector;
@@ -53,8 +53,8 @@ class Vein : public Mesh{
 		GLint lightDirectionID;
 
 		//Texture
-		//GLuint textureID;
-		//std::vector<float> texCoords;
+		GLuint textureID;
+		std::vector<float> texCoords;
 
 		//Lighting
 		glm::vec3 ambientLight;
@@ -73,13 +73,13 @@ class Vein : public Mesh{
 		void addPerlinNoise(float** perlinNoise);
 
 		/* Init Shaders */
-		void generateShader();
+		void generateShader(GLint textcoord);
 
-		void initValues();
+		void initValues(GLint textcoord);
 		void initShaders();
 		void generateVectors();
 		void generateBuffers();
-		//void generateTexture();
+		void generateTexture();
 
 		void draw(Camara* camara, int modo);
 		void setDiffuseLight(glm::vec3 newLight);
