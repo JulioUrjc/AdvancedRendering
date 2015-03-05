@@ -17,7 +17,7 @@
 class Vein : public Mesh{
 	private:
 		int NP;
-		GLfloat radius;
+		GLfloat radiusVein;
 		BezierCurve* curve;
 
 		// Paint Vein
@@ -73,6 +73,8 @@ class Vein : public Mesh{
 		void addPerlinNoise(float** perlinNoise);
 
 		/* Init Shaders */
+		void generateShader();
+
 		void initValues();
 		void initShaders();
 		void generateVectors();
