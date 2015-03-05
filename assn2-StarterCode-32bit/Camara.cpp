@@ -36,14 +36,12 @@ void Camara::followCurve(bool alante){
 		pointCurve++;
 	else
 		pointCurve--;
-	//projectionMatrix = glm::perspective(glm::radians(fovy)*zoom, aspect, N, F);
-	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
-
 
 	if (pointCurve >= curve->nPoints())  pointCurve = 0;
 	if (pointCurve < 0)  pointCurve = curve->nPoints() - 1;
 
-	//eye = *curve->getPointList().at(pointCurve)->addition(curve->getBinormalList().at(pointCurve));
+	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+
 	eye = *curve->getPointList().at(pointCurve);
 
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),

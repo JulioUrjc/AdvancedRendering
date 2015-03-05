@@ -1,5 +1,6 @@
 #include "Blood.h"
 #include<iostream>
+#include <time.h>
 
 Blood::Blood(int numRed, int numWhite, BezierCurve *c, float rad){
 	numRedCorpuscles = numRed;
@@ -8,6 +9,7 @@ Blood::Blood(int numRed, int numWhite, BezierCurve *c, float rad){
 	curve = c;
 	radius = rad;
 
+	srand(time(NULL));
 	generateRedCorpuscles();
 	generateWhiteCorpuscles();
 }
@@ -26,7 +28,7 @@ void Blood::generateRedCorpuscles(){
 		//PV3D auxR = PV3D(numRandom(M_PI * 2), numRandom(M_PI * 2), numRandom(M_PI * 2));
 		//PV3D auxR = PV3D(intRandom(270), intRandom(270), intRandom(270));
 		PV3D auxR = PV3D(0, M_PI / 2, 0);
-		//auxP.toString();
+		auxP.toString();
 		BloodElement redCorpuscle = BloodElement(RED, auxP, auxR);
 		bloodObj.push_back(redCorpuscle);
 	}
@@ -46,10 +48,8 @@ void Blood::generateWhiteCorpuscles(){
 		PV3D auxR = PV3D(0, M_PI / 2, 0);
 		//auxP.toString();
 		BloodElement whiteCorpuscle1 = BloodElement(WHITE,auxP,auxR);
-		auxR = PV3D();
-		BloodElement whiteCorpuscle2 = BloodElement(WHITE, auxP, auxR);
-		//bloodObj.push_back(whiteCorpuscle1);
-		bloodObj.push_back(whiteCorpuscle2);
+		//auxR = PV3D();
+		bloodObj.push_back(whiteCorpuscle1);
 	}
 }
 
@@ -72,4 +72,10 @@ float Blood::numRandom(float range){
 
 int Blood::intRandom(int max){
 	return((int)rand() % (max + 1));
+}
+
+void Blood::freeMemory(){
+	for (int i = 0; i < bloodObj.size(); i++){
+		bloodObj.at(i).freeMemory();
+	}
 }

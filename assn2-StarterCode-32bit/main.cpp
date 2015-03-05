@@ -62,7 +62,7 @@ Vein* vein;
 
 /* - Blood Variable - */
  const int numRedCorpuscles = 0;
- const int numWhiteCorpuscles = 1;
+ const int numWhiteCorpuscles = 2;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -197,6 +197,7 @@ void mousebutton(int button, int state, int x, int y){
 void unlinkAndFree(){
 	vein->freeMemory();
 	drawCurve->freeMemory();
+	blood->freeMemory();
 }
 
 void key(unsigned char key, int x, int y){

@@ -1,6 +1,5 @@
 #include "BloodElement.h"
 
-
 BloodElement::BloodElement(Elements element, PV3D pos, PV3D rot){
 	position = pos;
 	rotation = rot;
