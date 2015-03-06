@@ -50,13 +50,13 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 25;
+const int curveSteps = 256;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 25;
+const int veinSides = 256;
 const float veinRadius = 2.0f;
 Vein* vein;
 
@@ -82,6 +82,9 @@ float displaced = 70.0;    // Init Distance from a vein in camera out
 
 /* Control del numero de captura */
 int captura = 0;
+
+/* Muesra los FPS en pantalla*/
+int cycle, fps;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -284,7 +287,45 @@ void display(){
 	vein->draw(camara, modo);
 	blood->draw(camara, modo);
 
-	glutSwapBuffers();
+	// Informacion de FPS
+	char scene_info[32];
+	void *font_type = GLUT_BITMAP_9_BY_15;
+	//sprintf(scene_info, "Resolution: %dx%d", WINDOW_WIDTH, WINDOW_HEIGHT);
+	//glutBitmapCharacter(font_type, *scene_info);
+	//l.DrawText(scene_info, 1.0, 95.0, LARGE, HELVETICA);
+	double x = 1.0 * 840 / 100.0;
+	double y = 93.0 * 640 / 100.0;
+	//set and save projection matrix
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	//orthogonal projection
+	glOrtho(0.0, 840, 0.0, 640, -1.0f, 1.0f);
+	//setn and save new matrix
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glColor3f(1.0, 1.0, 1.0);
+	sprintf(scene_info, "FPS: %d", fps);
+	glRasterPos2d(x - 3 + 1, y - 1);
+	for (char *p = scene_info; *p; p++)
+		glutBitmapCharacter(font_type, *p);
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+
+	glPopAttrib();
+	//l.DrawText(scene_info, 1.0, 93.0, LARGE, HELVETICA);
+	glutSwapBuffers(); 
+	cycle++;
+}
+
+void onSecond(int x){
+	fps = cycle;
+	cycle = 0;
+	glutTimerFunc(1000, onSecond, 0);
 }
 
 /*	menufunc - Menu Event-handler */
@@ -321,6 +362,7 @@ void startGlut(int argc, char** argv){
 	glutMotionFunc(mousedrag);			/* callback for mouse drags */
 	glutPassiveMotionFunc(mouseidle);	/* callback for idle mouse movement */
 	glutMouseFunc(mousebutton);			/* callback for mouse button changes */
+	glutTimerFunc(1000, onSecond, 0);   /* callback for calculate FPS */
 
 	/* allow the user to quit using the right mouse button menu */
 	g_iMenuId = glutCreateMenu(menufunc);

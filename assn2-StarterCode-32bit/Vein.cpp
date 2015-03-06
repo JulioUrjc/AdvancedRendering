@@ -242,10 +242,10 @@ void Vein::generateBuffers(){
 	glEnableVertexAttribArray(inNormal);
 
 	//Texture coordinates
-	glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*colorVector.size(), &(colorVector.front()), GL_STATIC_DRAW);
-	glVertexAttribPointer(inColor, 1, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
-	glEnableVertexAttribArray(inColor);
+	//glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*colorVector.size(), &(colorVector.front()), GL_STATIC_DRAW);
+	//glVertexAttribPointer(inColor, 1, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
+	//glEnableVertexAttribArray(inColor);
 
 	//Quads
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
