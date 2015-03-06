@@ -113,6 +113,9 @@
     <ClInclude Include="DrawCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\veinFShader.glsl">

@@ -38,7 +38,7 @@ class DrawCurve{
 		void initShaders();
 		void generateVectors();
 		void generateBuffers();
-
+		
 		void freeMemory();
 };
 

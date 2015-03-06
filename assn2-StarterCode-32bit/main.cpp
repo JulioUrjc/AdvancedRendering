@@ -79,6 +79,8 @@ GLdouble N=0.01, F=1000.0; //near and fare planes
 float angleYaw=0, angleRoll=0, anglePitch=0;
 float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
 bool automatic = false;    // Move Automatic
+bool heartBeat = false;    // Move Heart Beat
+int acceleration = 1;
 int modo = 2;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
 bool mutation = false;
@@ -143,21 +145,20 @@ GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
 	if (pHeight != NULL)
 		*pHeight = texture->ny;
 
-	switch (texture->bpp)
-	{
-	case 1:
-	default:
-		gluBuild2DMipmaps (GL_TEXTURE_2D, 1, texture->nx, texture->ny,
-					GL_R3_G3_B2, GL_UNSIGNED_BYTE, texture->pix);
-		break;
-	case 3:
-		gluBuild2DMipmaps (GL_TEXTURE_2D, 3, texture->nx, texture->ny,
-					GL_RGB, GL_UNSIGNED_BYTE, texture->pix);
-		break;
-	case 4:
-		gluBuild2DMipmaps (GL_TEXTURE_2D, 4, texture->nx, texture->ny,
-					GL_RGBA8, GL_UNSIGNED_BYTE, texture->pix);
-		break;
+	switch (texture->bpp){
+		case 1:
+		default:
+			gluBuild2DMipmaps (GL_TEXTURE_2D, 1, texture->nx, texture->ny,
+						GL_R3_G3_B2, GL_UNSIGNED_BYTE, texture->pix);
+			break;
+		case 3:
+			gluBuild2DMipmaps (GL_TEXTURE_2D, 3, texture->nx, texture->ny,
+						GL_RGB, GL_UNSIGNED_BYTE, texture->pix);
+			break;
+		case 4:
+			gluBuild2DMipmaps (GL_TEXTURE_2D, 4, texture->nx, texture->ny,
+						GL_RGBA8, GL_UNSIGNED_BYTE, texture->pix);
+			break;
 	}
 
 	pic_free(texture);
@@ -169,6 +170,10 @@ GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
 void doIdle(){
 	if (automatic)
 		camara->followCurve(true); // true indica ir hacia adelante
+	if (heartBeat){
+		camara->simulateHeartBeat(acceleration); // true indica ir hacia adelante
+		acceleration=(acceleration+1)%25;
+	}
 	glutPostRedisplay();
 }
 
@@ -289,6 +294,11 @@ void key(unsigned char key, int x, int y){
 		break;
 	case '4':
 			automatic = !automatic;
+			heartBeat = false;
+		break;
+	case '5':
+		heartBeat = !heartBeat;
+		automatic = false;
 		break;
 
 	// Capturas de pantalla
@@ -302,36 +312,27 @@ void key(unsigned char key, int x, int y){
 	}
 }
 
-/*	display - Function to modify with your heightfield rendering code (Currently displays a simple cube) */
-void display(){
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (camara->getCurrentPoint() == 0) ++countPoint0;
-	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
-	drawCurve->draw(camara, modo, mutation);
-	vein->draw(camara, modo, mutation);
-	blood->draw(camara, modo, mutation);
+void flopsForSecond(){
 
 	// Informacion de FPS
 	char scene_info[32];
 	void *font_type = GLUT_BITMAP_9_BY_15;
-	//sprintf(scene_info, "Resolution: %dx%d", WINDOW_WIDTH, WINDOW_HEIGHT);
-	//glutBitmapCharacter(font_type, *scene_info);
-	//l.DrawText(scene_info, 1.0, 95.0, LARGE, HELVETICA);
-	double x = 1.0 * 840 / 100.0;
-	double y = 93.0 * 640 / 100.0;
+
+	double x = 1.0 * WINDOW_WIDTH / 100.0;
+	double y = 97.0 * WINDOW_HEIGHT / 100.0;
 	//set and save projection matrix
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	//orthogonal projection
-	glOrtho(0.0, 840, 0.0, 640, -1.0f, 1.0f);
-	//setn and save new matrix
+	
+	glOrtho(0.0, WINDOW_WIDTH, 0.0, WINDOW_HEIGHT, -1.0f, 1.0f);
+	
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0, 0.0, 0.0);
 	sprintf(scene_info, "FPS: %d", fps);
 	glRasterPos2d(x - 3 + 1, y - 1);
 	for (char *p = scene_info; *p; p++)
@@ -342,7 +343,24 @@ void display(){
 	glPopMatrix();
 
 	glPopAttrib();
-	//l.DrawText(scene_info, 1.0, 93.0, LARGE, HELVETICA);
+}
+
+
+/*	display - Function to modify with your heightfield rendering code (Currently displays a simple cube) */
+void display(){
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (camara->getCurrentPoint() == 0) ++countPoint0;
+	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
+	drawCurve->draw(camara, modo, mutation);
+	vein->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation);
+
+	//drawCurve->draw(camara, modo);
+	//vein->draw(camara, modo);
+	//blood->draw(camara, modo);
+	flopsForSecond();
+
 	glutSwapBuffers(); 
 	cycle++;
 }
@@ -429,10 +447,11 @@ int main (int argc, char ** argv){
 	drawCurve = new DrawCurve(curve);
 
 	std::cout << "Generating vein..." << std::endl;
-	vein = new Vein(veinSides, veinRadius, curve);
+	//GLuint textureID = loadTexture("./Textures/veinTexture.jpg");
+	GLuint textureID = loadTexture("./Textures/veinTexture.jpg",new int(256), new int(256));
+	vein = new Vein(veinSides, veinRadius, curve, textureID);
 	vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	vein->generateShader();
-	//loadTexture("./Textures/veinTexture.jpg");
 
 	/* Creamos los globulos dentro de la vena */
 	std::cout << "Generating blood..." << std::endl;

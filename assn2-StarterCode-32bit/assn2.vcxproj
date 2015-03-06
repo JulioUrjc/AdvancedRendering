@@ -185,6 +185,7 @@
     <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="Perlin_noise\BitmapSaver.h" />
     <ClInclude Include="Perlin_noise\PerlinGenerator.h" />
+    <ClInclude Include="pic.h" />
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
     <ClInclude Include="ShaderLoader.h" />
