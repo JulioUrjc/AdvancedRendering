@@ -75,10 +75,10 @@ void BloodElement::initMatrix(){
 void BloodElement::createElement(Elements element){
 	switch (element){
 		case RED:
-			createPrimitive(TORUS, 0.01f, 0.1f, 10, 10);
+			createPrimitive(TORUS, 0.005f, 0.05f, 5, 8);
 			break;
 		case WHITE:
-			createPrimitive(TORUS, 0.01f, 0.1f, 10, 10);
+			createPrimitive(TORUS, 0.005f, 0.05f, 10, 10);
 			createPrimitive(TORUS, 0.01f, 0.1f, 10, 10);
 			break;
 	}
