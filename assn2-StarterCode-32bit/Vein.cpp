@@ -255,7 +255,7 @@ void Vein::generateBuffers(){
 }
 
 /* Draw the Vein */
-void Vein::draw(Camara* camara, int modo){
+void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 

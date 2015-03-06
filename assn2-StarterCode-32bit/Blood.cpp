@@ -62,9 +62,9 @@ void Blood::draw(int modo){
 	}
 }
 
-void Blood::draw(Camara* camara, int modo){
+void Blood::draw(Camara* camara, int modo, bool mutation){
 	for (int i = 0; i < bloodObj.size(); i++){
-		bloodObj.at(i)->draw(camara, modo);
+		bloodObj.at(i)->draw(camara, modo, mutation);
 	}
 }
 

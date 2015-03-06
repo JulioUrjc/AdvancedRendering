@@ -75,7 +75,7 @@ void BloodElement::initMatrix(){
 void BloodElement::createElement(Elements element){
 	switch (element){
 		case RED:
-			createPrimitive(TORUS, 0.005f, 0.05f, 5, 8);
+			createPrimitive(TORUS, -0.05f, 0.05f, 5, 8);
 			break;
 		case WHITE:
 			createPrimitive(TORUS, 0.005f, 0.05f, 10, 10);
@@ -92,6 +92,59 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 	GLfloat z = height / 2;
 
 	switch (primitive){
+		case CELL:
+		{
+			////FillTorus(0.1, 8, 1.0, 25);
+			//float rc = 0.1f;
+			//int numc = 8;
+			//float rt = 1.0f;
+			//int numt = 25;
+			//int i, j, k;
+			//double s, t;
+			//double x, y, z;
+			//double pi, twopi;
+
+			////float pi = M_PI;
+			////float twopi = 2 * pi;
+
+			//for (i = 0; i < numc; i++) {
+			//	glBegin(GL_QUAD_STRIP);
+			//	for (j = 0; j <= numt; j++) {
+			//		for (k = 1; k >= 0; k--) {
+			//			s = (i + k) % numc + 0.5;
+			//			t = j % numt;
+
+			//			x = cos(t * M_PI * 2 / numt) * cos(s * M_PI * 2 / numc);
+			//			y = sin(t * M_PI * 2 / numt) * cos(s * M_PI * 2 / numc);
+			//			z = sin(s * M_PI * 2 / numc);
+			//			//glNormal3f(x, y, z);
+
+			//			//Calculating the normals 
+			//			glm::vec4 normal1 = glm::vec4(x, y, z, 1);
+			//			//	glm::vec4 normal2 = glm::vec4(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi, 1);
+
+			//			normal1 = rotationMatrix*normal1;
+			//			//normal2 = rotationMatrix*normal2;
+
+			//			normals.push_back(PV3D(normal1.x, normal1.y, normal1.z));
+			//			//normals.push_back(PV3D(normal2.x, normal2.y, normal2.z));
+
+			//			x = (rt + rc * cos(s * M_PI * 2 / numc)) * cos(t * M_PI * 2 / numt);
+			//			y = (rt + rc * cos(s * M_PI * 2 / numc)) * sin(t * M_PI * 2 / numt);
+			//			z = rc * sin(s * M_PI * 2 / numc);
+			//			//glVertex3f(x, y, z);
+
+			//			glm::vec4 point1 = glm::vec4(x, y, z, 1);
+			//			point1 = rotationMatrix*point1;
+			//			point1 = translateMatrix*point1;
+			//			vertex.push_back(PV3D(point1.x, point1.y, point1.z));
+			//			//glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
+
+			//		}
+			//	}
+			//}
+
+		}
 		case TORUS:
 		{
 			//glutSolidTorus(size, height, sliceX, sliceY);
@@ -352,7 +405,7 @@ void BloodElement::generateBuffers(){
 //}
 
 /* Draw the Blood Element */
-void BloodElement::draw(Camara* camara, int modo){
+void BloodElement::draw(Camara* camara, int modo, bool mutation){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 

@@ -37,6 +37,7 @@ public:
 	void addZoom(float val);
 	void deductZoom(float val);
 	void setCurve(BezierCurve* c){ this->curve = c; }
+	int getCurrentPoint();
 
 	/* Camara antigua por CPU*/
 	//Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, float fovy, float aspect, BezierCurve* c);

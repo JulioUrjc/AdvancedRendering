@@ -79,6 +79,8 @@ float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
 bool automatic = false;    // Move Automatic
 int modo = 2;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
+bool mutation = false;
+int countPoint0 = 0;
 
 /* Control del numero de captura */
 int captura = 0;
@@ -279,10 +281,11 @@ void key(unsigned char key, int x, int y){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	drawCurve->draw(camara, modo);
-	vein->draw(camara, modo);
-	blood->draw(camara, modo);
+	if (camara->getCurrentPoint() == 0) ++countPoint0;
+	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
+	drawCurve->draw(camara, modo, mutation);
+	vein->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation);
 
 	glutSwapBuffers();
 }

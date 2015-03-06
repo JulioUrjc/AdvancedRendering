@@ -24,7 +24,7 @@ class Blood{
 		void generateWhiteCorpuscles();
 
 		void draw(int modo);
-		void draw(Camara* camara, int modo);
+		void draw(Camara* camara, int modo, bool mutation);
 		float numRandom(float range);
 		int intRandom(int max);
 		void freeMemory();

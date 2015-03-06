@@ -82,6 +82,8 @@ void Camara::reDisplay(){
 void Camara::addZoom(float val){ zoom = ((zoom + val)>MAX_ZOOM) ? MAX_ZOOM : (zoom + val); }
 void Camara::deductZoom(float val){ zoom = ((zoom - val)<MIN_ZOOM) ? MIN_ZOOM : (zoom - val); }
 
+int Camara::getCurrentPoint() { return pointCurve; }
+
 /* Camara Antigua */
 
 //Camara::Camara(PV3D eye, PV3D look, PV3D up){
