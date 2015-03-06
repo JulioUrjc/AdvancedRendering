@@ -7,10 +7,11 @@
 #include <amp.h>
 
 
-Vein::Vein(int NP, GLfloat radius, BezierCurve* curve) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
+Vein::Vein(int NP, GLfloat radius, BezierCurve* curve, GLint textureID) : Mesh(NP*curve->nPoints(), NP*curve->nPoints(), NP*curve->nPoints()){
 	this->NP = NP;
 	this->radiusVein = radius;
 	this->curve = curve;
+	this->textureID = textureID;
 
 	build();
 }
@@ -29,9 +30,6 @@ void Vein::build(){
 		PV3D* Bt = curve->getBinormalList().at(i)->clone();          // Binormal
 		PV3D* Nt = curve->getNormalList().at(i)->clone();
 		PV3D* Ct = curve->getPointList().at(i)->clone();             //Center Point with n steap
-		//Tt->toString();
-		//Bt->toString();
-		//Nt->toString();
 
 		for (int j = 0; j<NP; j++){			// Esto ocurre con cada uno de los vértices del polígono
 			// Se construyen los vertices
@@ -83,12 +81,10 @@ int Vein::nextVertex(int v){
 //-------------------------------------------------------------------------
 
 void Vein::draw(int modo){
-
 	Mesh::draw(modo);     // Draw Mesh whit point, alambric or face mode
 }
 
 void Vein::draw(bool relleno){
-
 	Mesh::draw(relleno);  // Dibuja la Mesh	
 }
 
@@ -130,7 +126,6 @@ void Vein::generateShader(){
 
 void Vein::initValues(){
 
-	//GLenum a = glGetError();
 	program = 0;
 
 	inVertex = -1;
@@ -161,7 +156,7 @@ void Vein::initShaders(){
 	glBindAttribLocation(program, 0, "inVertex");
 	glBindAttribLocation(program, 1, "inNormal");
 	//glBindAttribLocation(program, 2, "inColor");
-	//glBindAttribLocation(program, 3, "inTexCoord");
+	glBindAttribLocation(program, 2, "inTextCoord");
 
 	glLinkProgram(program);
 
@@ -195,7 +190,7 @@ void Vein::initShaders(){
 	inVertex = glGetAttribLocation(program, "inVertex");
 	inNormal = glGetAttribLocation(program, "inNormal");
 	//inColor = glGetAttribLocation(program, "inColor");
-	texCoordID = glGetAttribLocation(program, "inTexCoord");
+	//textureID = glGetAttribLocation(program, "inTexCoord");
 }
 
 void Vein::generateVectors(){
@@ -216,6 +211,17 @@ void Vein::generateVectors(){
 		indexVector.push_back(face->getVertexIndex(1));
 		indexVector.push_back(face->getVertexIndex(2));
 		indexVector.push_back(face->getVertexIndex(3));
+	}
+	float u=0.0, v=0.0;
+	float steap = 1.0f / 256;
+	for (int i = 0; i < curve->nPoints(); i++){
+		u = 0;
+		for (int j = 0; j < NP; j++){
+			texCoords.push_back(u);
+			texCoords.push_back(v);
+			u += steap;
+		}
+		v += steap;
 	}
 }
 
@@ -242,10 +248,10 @@ void Vein::generateBuffers(){
 	glEnableVertexAttribArray(inNormal);
 
 	//Texture coordinates
-	//glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*colorVector.size(), &(colorVector.front()), GL_STATIC_DRAW);
-	//glVertexAttribPointer(inColor, 1, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
-	//glEnableVertexAttribArray(inColor);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*texCoords.size(), &(texCoords.front()), GL_STATIC_DRAW);
+	glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
+	glEnableVertexAttribArray(textureID);
 
 	//Quads
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
@@ -274,11 +280,11 @@ void Vein::draw(Camara* camara, int modo){
 	glBindVertexArray(vao);
 
 	//Textures
-	/*glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 	glActiveTexture(GL_TEXTURE5);
-	GLint loc = glGetUniformLocation(program, "texMap");
+	GLint loc = glGetUniformLocation(program, "textureVein");
 	glUniform1i(loc, 5);
-	glBindTexture(GL_TEXTURE_2D, textureID);*/
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	if (modo == 1){
 		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
