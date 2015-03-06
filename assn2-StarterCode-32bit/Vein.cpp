@@ -131,7 +131,7 @@ void Vein::initValues(){
 	inVertex = -1;
 	inNormal = -1;
 	//inColor = -1;
-	//texCoordID = -1;
+	texCoordID = -1;
 
 	mvpMatrixID = -1;
 	modelViewID = -1;
@@ -140,7 +140,7 @@ void Vein::initValues(){
 	diffuseLightID = -1;
 	lightDirectionID = -1;
 
-	//textureID = -1;
+	textureID = -1;
 }
 
 //Prepare shaders
@@ -190,7 +190,7 @@ void Vein::initShaders(){
 	inVertex = glGetAttribLocation(program, "inVertex");
 	inNormal = glGetAttribLocation(program, "inNormal");
 	//inColor = glGetAttribLocation(program, "inColor");
-	//textureID = glGetAttribLocation(program, "inTexCoord");
+	texCoordID = glGetAttribLocation(program, "inTexCoord");
 }
 
 void Vein::generateVectors(){
@@ -250,8 +250,8 @@ void Vein::generateBuffers(){
 	//Texture coordinates
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*texCoords.size(), &(texCoords.front()), GL_STATIC_DRAW);
-	glVertexAttribPointer(textureID, 2, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
-	glEnableVertexAttribArray(textureID);
+	glVertexAttribPointer(texCoordID, 2, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
+	glEnableVertexAttribArray(texCoordID);
 
 	//Quads
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
@@ -261,7 +261,7 @@ void Vein::generateBuffers(){
 }
 
 /* Draw the Vein */
-void Vein::draw(Camara* camara, int modo){
+void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 

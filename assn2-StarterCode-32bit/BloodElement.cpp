@@ -38,53 +38,26 @@ void BloodElement::initMatrix(){
 	*/
 	glm::mat4x4 identity = glm::mat4x4(1.0f);
 	rotationMatrix = glm::rotate(identity,(float)rotation.getX(), glm::vec3(1, 0, 0));
-	//std::cout << "rotacion x" << std::endl;
-	//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
-	//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
-	//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
-	//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
 	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getY(), glm::vec3(0, 1, 0));
-	//std::cout << "rotacion x+y" << std::endl;
-	//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
-	//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
-	//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
-	//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
 	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getZ(), glm::vec3(0, 0, 1));
-	//std::cout << "rotacion x+y+z" << std::endl;
-	//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
-	//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
-	//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
-	//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
-
+	
 	translateMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.getX(), position.getY(), position.getZ()));
-	//std::cout << "translaccion" << std::endl;
-	//std::cout << translateMatrix[0][0] << " " << translateMatrix[0][1] << " " << translateMatrix[0][2] << " " << translateMatrix[0][3] << std::endl;
-	//std::cout << translateMatrix[1][0] << " " << translateMatrix[1][1] << " " << translateMatrix[1][2] << " " << translateMatrix[1][3] << std::endl;
-	//std::cout << translateMatrix[2][0] << " " << translateMatrix[2][1] << " " << translateMatrix[2][2] << " " << translateMatrix[2][3] << std::endl;
-	//std::cout << translateMatrix[3][0] << " " << translateMatrix[3][1] << " " << translateMatrix[3][2] << " " << translateMatrix[3][3] << std::endl;
-	//translateMatrix = glm::transpose(translateMatrix);
-	//std::cout << "translaccion transpose" << std::endl;
-	//std::cout << translateMatrix[0][0] << " " << translateMatrix[0][1] << " " << translateMatrix[0][2] << " " << translateMatrix[0][3] << std::endl;
-	//std::cout << translateMatrix[1][0] << " " << translateMatrix[1][1] << " " << translateMatrix[1][2] << " " << translateMatrix[1][3] << std::endl;
-	//std::cout << translateMatrix[2][0] << " " << translateMatrix[2][1] << " " << translateMatrix[2][2] << " " << translateMatrix[2][3] << std::endl;
-	//std::cout << translateMatrix[3][0] << " " << translateMatrix[3][1] << " " << translateMatrix[3][2] << " " << translateMatrix[3][3] << std::endl;
-
 
 }
 
 void BloodElement::createElement(Elements element){
 	switch (element){
 		case RED:
-			createPrimitive(TORUS, 0.005f, 0.05f, 5, 8);
+			createPrimitive(TORUS, -0.05f, 0.05f, 5, 8, false);
 			break;
 		case WHITE:
-			createPrimitive(TORUS, 0.005f, 0.05f, 10, 10);
-			createPrimitive(TORUS, 0.01f, 0.1f, 10, 10);
+			createPrimitive(TORUS, 0.04f, 0.05f, 10, 10, false);
+			createPrimitive(TORUS, 0.02f, 0.1f, 10, 10, true);
 			break;
 	}
 }
 
-void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat height, GLint sliceX, GLint sliceY){
+void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat height, GLint sliceX, GLint sliceY, bool interior){
 	
 	GLUquadricObj *q;
 
@@ -92,6 +65,59 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 	GLfloat z = height / 2;
 
 	switch (primitive){
+		case CELL:
+		{
+			////FillTorus(0.1, 8, 1.0, 25);
+			//float rc = 0.1f;
+			//int numc = 8;
+			//float rt = 1.0f;
+			//int numt = 25;
+			//int i, j, k;
+			//double s, t;
+			//double x, y, z;
+			//double pi, twopi;
+
+			////float pi = M_PI;
+			////float twopi = 2 * pi;
+
+			//for (i = 0; i < numc; i++) {
+			//	glBegin(GL_QUAD_STRIP);
+			//	for (j = 0; j <= numt; j++) {
+			//		for (k = 1; k >= 0; k--) {
+			//			s = (i + k) % numc + 0.5;
+			//			t = j % numt;
+
+			//			x = cos(t * M_PI * 2 / numt) * cos(s * M_PI * 2 / numc);
+			//			y = sin(t * M_PI * 2 / numt) * cos(s * M_PI * 2 / numc);
+			//			z = sin(s * M_PI * 2 / numc);
+			//			//glNormal3f(x, y, z);
+
+			//			//Calculating the normals 
+			//			glm::vec4 normal1 = glm::vec4(x, y, z, 1);
+			//			//	glm::vec4 normal2 = glm::vec4(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi, 1);
+
+			//			normal1 = rotationMatrix*normal1;
+			//			//normal2 = rotationMatrix*normal2;
+
+			//			normals.push_back(PV3D(normal1.x, normal1.y, normal1.z));
+			//			//normals.push_back(PV3D(normal2.x, normal2.y, normal2.z));
+
+			//			x = (rt + rc * cos(s * M_PI * 2 / numc)) * cos(t * M_PI * 2 / numt);
+			//			y = (rt + rc * cos(s * M_PI * 2 / numc)) * sin(t * M_PI * 2 / numt);
+			//			z = rc * sin(s * M_PI * 2 / numc);
+			//			//glVertex3f(x, y, z);
+
+			//			glm::vec4 point1 = glm::vec4(x, y, z, 1);
+			//			point1 = rotationMatrix*point1;
+			//			point1 = translateMatrix*point1;
+			//			vertex.push_back(PV3D(point1.x, point1.y, point1.z));
+			//			//glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
+
+			//		}
+			//	}
+			//}
+
+		}
 		case TORUS:
 		{
 			//glutSolidTorus(size, height, sliceX, sliceY);
@@ -124,6 +150,13 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 					glm::vec4 point1 = glm::vec4(cosTheta1 * dist, -sinTheta1 * dist, size * sinPhi, 1);
 					glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
 					//std::cout << "point1: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
+					// If is the interior torus of white Cell we rotate it
+					if (interior){
+						glm::mat4x4 identity = glm::mat4x4(1.0f);
+						glm::mat4x4 rotationAux = glm::rotate(identity, (float)M_PI_2, glm::vec3(1, 0, 0));
+						point1 = rotationAux*point1;
+						point2 = rotationAux*point2;
+					}
 					//Apply rotation matrix
 					point1 = rotationMatrix*point1;
 					point2 = rotationMatrix*point2;
@@ -352,7 +385,7 @@ void BloodElement::generateBuffers(){
 //}
 
 /* Draw the Blood Element */
-void BloodElement::draw(Camara* camara, int modo){
+void BloodElement::draw(Camara* camara, int modo, bool mutation){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 
@@ -367,7 +400,7 @@ void BloodElement::draw(Camara* camara, int modo){
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);
 
-	glm::vec3 color = (type == RED) ? glm::vec3(1.0, 0.0, 0.0) : glm::vec3(1.0, 1.0, 1.0);
+	glm::vec3 color = (type == RED) ? glm::vec3(1.0, 0.1, 0.3) : glm::vec3(1.0, 0.8, 1.0);
 	glUniform3f(inColor, color.x, color.y, color.z);
 
 	//Drawing   

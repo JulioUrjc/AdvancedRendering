@@ -19,7 +19,7 @@
 
 
 enum Obj_types{ PRIMITIVE, EXTERN };
-enum Primitives{ CUBE, PLANE, CONE, CYLINDER, DISK, SPHERE, TORUS, TEAPOT, SPLINE, FONT };
+enum Primitives{ CUBE, PLANE, CONE, CYLINDER, DISK, SPHERE, TORUS, TEAPOT, SPLINE, FONT, CELL};
 enum Elements{ RED, WHITE };
 
 class BloodElement
@@ -88,7 +88,7 @@ public:
 	void draw(int modo);
 
 	void createElement(Elements element);
-	void createPrimitive(Primitives primitive, GLfloat size = 0.0, GLfloat height = 0.0, GLint sliceX = 0, GLint sliceY = 0);
+	void createPrimitive(Primitives primitive, GLfloat size = 0.0, GLfloat height = 0.0, GLint sliceX = 0, GLint sliceY = 0, bool interior=false);
 
 	/* Init Shaders */
 	void initValues();
@@ -97,7 +97,7 @@ public:
 	void generateBuffers();
 	//void generateTexture();
 
-	void draw(Camara* camara, int modo);
+	void draw(Camara* camara, int modo, bool mutation);
 	void setDiffuseLight(glm::vec3 newLight);
 	void freeMemory();
 };

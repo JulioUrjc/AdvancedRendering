@@ -48,6 +48,22 @@ void Camara::followCurve(bool alante){
 		curve->getBinormalList().at(pointCurve)->convertVec3());
 }
 
+/* Simulate Heart Beat*/
+void Camara::simulateHeartBeat(int acceleration){
+	
+	(acceleration > 20) ? pointCurve += 4 : (acceleration>19)? pointCurve: ++pointCurve ;
+
+	if (pointCurve >= curve->nPoints())  pointCurve = 0;
+	//if (pointCurve < 0)  pointCurve = curve->nPoints() - 1;
+
+	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+
+	eye = *curve->getPointList().at(pointCurve);
+
+	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
+		curve->getBinormalList().at(pointCurve)->convertVec3());
+}
+
 /* Follow Curve Out*/
 void Camara::followCurveOut(int alante, float displaced){
 
@@ -81,6 +97,8 @@ void Camara::reDisplay(){
 /* zoom */
 void Camara::addZoom(float val){ zoom = ((zoom + val)>MAX_ZOOM) ? MAX_ZOOM : (zoom + val); }
 void Camara::deductZoom(float val){ zoom = ((zoom - val)<MIN_ZOOM) ? MIN_ZOOM : (zoom - val); }
+
+int Camara::getCurrentPoint() { return pointCurve; }
 
 /* Camara Antigua */
 

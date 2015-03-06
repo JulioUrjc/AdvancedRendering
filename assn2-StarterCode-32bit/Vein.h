@@ -35,6 +35,7 @@ class Vein : public Mesh{
 		GLint inVertex;
 		GLint inNormal;
 		//GLint inColor;
+		GLint texCoordID;
 		GLuint textureID;
 
 		std::vector<float> vertexVector;
@@ -77,7 +78,7 @@ class Vein : public Mesh{
 		void generateBuffers();
 		void generateTexture();
 
-		void draw(Camara* camara, int modo);
+		void draw(Camara* camara, int modo, bool mutation);
 		void setDiffuseLight(glm::vec3 newLight);
 		void freeMemory();
 };

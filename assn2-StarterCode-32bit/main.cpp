@@ -77,8 +77,12 @@ GLdouble N=0.01, F=1000.0; //near and fare planes
 float angleYaw=0, angleRoll=0, anglePitch=0;
 float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
 bool automatic = false;    // Move Automatic
+bool heartBeat = false;    // Move Heart Beat
+int acceleration = 1;
 int modo = 2;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
+bool mutation = false;
+int countPoint0 = 0;
 
 /* Control del numero de captura */
 int captura = 0;
@@ -164,6 +168,10 @@ GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
 void doIdle(){
 	if (automatic)
 		camara->followCurve(true); // true indica ir hacia adelante
+	if (heartBeat){
+		camara->simulateHeartBeat(acceleration); // true indica ir hacia adelante
+		acceleration=(acceleration+1)%25;
+	}
 	glutPostRedisplay();
 }
 
@@ -264,6 +272,11 @@ void key(unsigned char key, int x, int y){
 		break;
 	case '4':
 			automatic = !automatic;
+			heartBeat = false;
+		break;
+	case '5':
+		heartBeat = !heartBeat;
+		automatic = false;
 		break;
 
 	// Capturas de pantalla
@@ -277,7 +290,9 @@ void key(unsigned char key, int x, int y){
 	}
 }
 
+
 void flopsForSecond(){
+
 	// Informacion de FPS
 	char scene_info[32];
 	void *font_type = GLUT_BITMAP_9_BY_15;
@@ -313,11 +328,16 @@ void flopsForSecond(){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (camara->getCurrentPoint() == 0) ++countPoint0;
+	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
+	drawCurve->draw(camara, modo, mutation);
+	vein->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation);
 
-	drawCurve->draw(camara, modo);
-	vein->draw(camara, modo);
+	//drawCurve->draw(camara, modo);
+	//vein->draw(camara, modo);
 	//blood->draw(camara, modo);
-	//flopsForSecond();
+	flopsForSecond();
 
 	glutSwapBuffers(); 
 	cycle++;
