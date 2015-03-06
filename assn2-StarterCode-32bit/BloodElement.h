@@ -88,7 +88,7 @@ public:
 	void draw(int modo);
 
 	void createElement(Elements element);
-	void createPrimitive(Primitives primitive, GLfloat size = 0.0, GLfloat height = 0.0, GLint sliceX = 0, GLint sliceY = 0);
+	void createPrimitive(Primitives primitive, GLfloat size = 0.0, GLfloat height = 0.0, GLint sliceX = 0, GLint sliceY = 0, bool interior=false);
 
 	/* Init Shaders */
 	void initValues();

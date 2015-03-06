@@ -25,7 +25,7 @@ void Blood::generateRedCorpuscles(){
 		//We apply the random in the range of the diameter of the vein, and later we substract the radius, so we can have negative and positive numbers
 		//auxP = *auxP.addition(new PV3D(radius - numRandom(radius * 2), radius - numRandom(radius * 2), radius - numRandom(radius * 2)));
 		//auxP = *auxP.addition(new PV3D(radius - numRandom(radius * 2), radius - numRandom(radius * 2), radius - numRandom(radius * 2)));
-		auxP = *auxP.addition(new PV3D((radius - numRandom(radius*2))/2, (radius - numRandom(radius*2))/2, (radius - numRandom(radius*2))/2));
+		auxP = *auxP.addition(new PV3D((radius - numRandom(radius*2))/2.5, (radius - numRandom(radius*2))/2.5, (radius - numRandom(radius*2))/2.5));
 		float dist = (curve->getPointList().at(aux)->subtraction(&auxP))->magnitude();
 		//We rotate the position  a random in the tree axis, between 2 PI
 		//PV3D auxR = PV3D(numRandom(M_PI * 2), numRandom(M_PI * 2), numRandom(M_PI * 2));
@@ -43,7 +43,7 @@ void Blood::generateWhiteCorpuscles(){
 		PV3D auxP = *curve->getPointList().at(aux);
 		//At the point that we are (position x, y z) we add a random number at x, y, z to create our corpuscle.
 		//We apply the random in the range of the diameter of the vein, and later we substract the radius, so we can have negative and positive numbers
-		auxP = *auxP.addition(new PV3D((radius - numRandom(radius * 2)) / 2, (radius - numRandom(radius * 2)) / 2, (radius - numRandom(radius * 2)) / 2));
+		auxP = *auxP.addition(new PV3D((radius - numRandom(radius * 2)) / 2.5, (radius - numRandom(radius * 2)) / 2.5, (radius - numRandom(radius * 2)) / 2.5));
 		//We rotate the position  a random in the tree axis, between 2 PI
 		//Rotation vector is: x = rotation at x-axis; y = rotation at y-axis; z=rotation at z-axis;
 		//PV3D auxR = PV3D(numRandom(M_PI * 2), numRandom(M_PI * 2), numRandom(M_PI * 2));
