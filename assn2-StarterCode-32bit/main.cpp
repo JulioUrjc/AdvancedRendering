@@ -40,6 +40,8 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
+int old_mouse_x = WINDOW_WIDTH / 2, old_mouse_y = WINDOW_HEIGHT / 2;
+
 /* - Menu State Identifier - */
 int g_iMenuId;
 
@@ -50,19 +52,19 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 256;
+const int curveSteps = 100;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 256;
+const int veinSides = 25;
 const float veinRadius = 2.0f;
 Vein* vein;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 300;
- const int numWhiteCorpuscles = 120;
+ const int numRedCorpuscles = 10;
+ const int numWhiteCorpuscles = 12;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -175,6 +177,8 @@ void mousedrag(int x, int y){
 	int vMouseDelta[2] = {x-g_vMousePos[0], y-g_vMousePos[1]};
 	g_vMousePos[0] = x;
 	g_vMousePos[1] = y;
+
+	//camara->move((x - WINDOW_WIDTH / 2) / WINDOW_WIDTH, (y - WINDOW_HEIGHT / 2) / WINDOW_HEIGHT);
 }
 
 /*	mouseidle - Idle mouse movement callback function */
@@ -252,6 +256,24 @@ void key(unsigned char key, int x, int y){
 		break;
 	case '-':
 		camara->deductZoom(zoom);
+		camara->reDisplay();
+		break;
+
+	//Teclas para moverse
+	case 'j':
+		camara->move(-0.01f, 0.0f);
+		camara->reDisplay();
+		break;
+	case 'k':
+		camara->move(0.0f, -0.01f);
+		camara->reDisplay();
+		break;
+	case 'l':
+		camara->move(0.01f, 0.0f);
+		camara->reDisplay();
+		break;
+	case 'i':
+		camara->move(0.0f, 0.01f);
 		camara->reDisplay();
 		break;
 
@@ -422,7 +444,7 @@ int main (int argc, char ** argv){
 	look = eye->addition(curve->getTangentList().at(INITPOINT));
 	up = curve->getBinormalList().at(INITPOINT);
 
-	camara = new Camara(*eye, *look, *up, N, F, fovy, aspect, curve);
+	camara = new Camara(*eye, *look, *up, N, F, fovy, aspect, curve,veinRadius);
 	startCam();
 	
 	glutMainLoop();

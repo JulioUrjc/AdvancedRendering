@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-Camara::Camara(PV3D eye, PV3D look, PV3D up, float N, float F, float fovy, float aspect, BezierCurve* c){
+Camara::Camara(PV3D eye, PV3D look, PV3D up, float N, float F, float fovy, float aspect, BezierCurve* c, float radius){
 	this->eye = eye;
 	this->look = look;
 	this->up = up;
@@ -15,6 +15,11 @@ Camara::Camara(PV3D eye, PV3D look, PV3D up, float N, float F, float fovy, float
 	this->curve = c;
 	this->pointCurve = 0;
 	this->zoom = 1.0f;
+
+	veinRadius = radius;
+
+	displaceNormal = glm::vec3(0.0f,0.0f,0.0f);
+	displaceBinormal = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + look.convertVec3(), up.convertVec3());
 	projectionMatrix = glm::perspective(glm::radians(fovy), aspect, N, F);
@@ -43,6 +48,8 @@ void Camara::followCurve(bool alante){
 	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
 	eye = *curve->getPointList().at(pointCurve);
+	eye = *eye.addition(&PV3D(displaceNormal.x, displaceNormal.y, displaceNormal.z));
+	eye = *eye.addition(&PV3D(displaceBinormal.x, displaceBinormal.y, displaceBinormal.z));
 
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 		curve->getBinormalList().at(pointCurve)->convertVec3());
@@ -62,6 +69,7 @@ void Camara::followCurveOut(int alante, float displaced){
 	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
 	eye = *curve->getPointList().at(pointCurve);
+
 	glm::vec3 displacement = glm::vec3(0.0, 0.0, displaced);
 	viewMatrix = glm::lookAt(eye.convertVec3()+displacement, eye.convertVec3(),
 		curve->getBinormalList().at(pointCurve)->convertVec3());
@@ -78,10 +86,25 @@ void Camara::reDisplay(){
 		curve->getBinormalList().at(pointCurve)->convertVec3());
 }
 
+void Camara::move(float x, float y){
+	cout << "eye antes:  " << eye.getX() << " " << eye.getY() << " " << eye.getZ() << endl;
+	glm::vec3 displaceNormalAux = curve->getNormalList().at(pointCurve)->convertVec3()*x;
+	displaceNormal += displaceNormalAux;
+	cout << "displace normal:  " << displaceNormal.x << " " << displaceNormal.y << " " << displaceNormal.z << endl;
+	glm::vec3 displaceBinormalAux = up.convertVec3()*y;
+	displaceBinormal += displaceBinormalAux;
+	glm::vec3 newEye = eye.convertVec3() + displaceNormalAux + displaceBinormalAux;
+	if (glm::distance(newEye, curve->getPointList().at(pointCurve)->convertVec3()) < veinRadius/2){
+		eye = PV3D(newEye.x, newEye.y, newEye.z);
+		cout << "eye despues:  " << eye.getX() << " " << eye.getY() << " " << eye.getZ() << endl;
+	}
+}
+
 /* zoom */
 void Camara::addZoom(float val){ zoom = ((zoom + val)>MAX_ZOOM) ? MAX_ZOOM : (zoom + val); }
 void Camara::deductZoom(float val){ zoom = ((zoom - val)<MIN_ZOOM) ? MIN_ZOOM : (zoom - val); }
 
+/* Return the current point where is the camera*/
 int Camara::getCurrentPoint() { return pointCurve; }
 
 /* Camara Antigua */

@@ -17,6 +17,13 @@ private:
 	float aspect;
 	float zoom;
 
+	//Displace translate variables
+	glm::vec3 displaceNormal;
+	glm::vec3 displaceBinormal;
+
+	//Variable with vein radius
+	float veinRadius;
+
 	//View and projection matrix
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
@@ -26,7 +33,7 @@ private:
 	int pointCurve;
 
 public:
-	Camara(PV3D eye, PV3D look, PV3D up, float N, float F, float fovy, float aspect, BezierCurve* c);
+	Camara(PV3D eye, PV3D look, PV3D up, float N, float F, float fovy, float aspect, BezierCurve* c, float veinRadius);
 	~Camara();
 	/* Camara en OpenGL*/
 	glm::mat4 getModelView(glm::mat4 modelMatrix);
@@ -38,6 +45,7 @@ public:
 	void deductZoom(float val);
 	void setCurve(BezierCurve* c){ this->curve = c; }
 	int getCurrentPoint();
+	void move(float x, float y);
 
 	/* Camara antigua por CPU*/
 	//Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, float fovy, float aspect, BezierCurve* c);
