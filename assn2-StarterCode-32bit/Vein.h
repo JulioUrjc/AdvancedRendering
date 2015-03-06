@@ -73,9 +73,9 @@ class Vein : public Mesh{
 		void addPerlinNoise(float** perlinNoise);
 
 		/* Init Shaders */
-		void generateShader(GLint textcoord);
+		void generateShader();
 
-		void initValues(GLint textcoord);
+		void initValues();
 		void initShaders();
 		void generateVectors();
 		void generateBuffers();

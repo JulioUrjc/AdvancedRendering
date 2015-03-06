@@ -10,7 +10,7 @@ class Blood{
 		int numWhiteCorpuscles;
 		int numObj;
 
-		std::vector<BloodElement> bloodObj;
+		std::vector<BloodElement*> bloodObj;
 		
 		BezierCurve* curve;
 		float radius;

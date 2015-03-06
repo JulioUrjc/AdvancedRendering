@@ -2,11 +2,13 @@
 
 BloodElement::BloodElement(Elements element, PV3D pos, PV3D rot){
 	position = pos;
+	//std::cout << "Position:" << position.getX() << " " << position.getY() << " " << position.getZ() << std::endl;
 	rotation = rot;
-	createElement(element);
 	type = element;
 
 	initMatrix();
+	createElement(element);
+
 	initValues();
 	generateVectors();
 	initShaders();
@@ -36,10 +38,38 @@ void BloodElement::initMatrix(){
 	*/
 	glm::mat4x4 identity = glm::mat4x4(1.0f);
 	rotationMatrix = glm::rotate(identity,(float)rotation.getX(), glm::vec3(1, 0, 0));
+	//std::cout << "rotacion x" << std::endl;
+	//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
+	//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
+	//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
+	//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
 	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getY(), glm::vec3(0, 1, 0));
+	//std::cout << "rotacion x+y" << std::endl;
+	//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
+	//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
+	//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
+	//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
 	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getZ(), glm::vec3(0, 0, 1));
+	//std::cout << "rotacion x+y+z" << std::endl;
+	//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
+	//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
+	//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
+	//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
 
-	translateMatrix = glm::translate( glm::vec3(position.getX(), position.getY(), position.getZ()));
+	translateMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.getX(), position.getY(), position.getZ()));
+	//std::cout << "translaccion" << std::endl;
+	//std::cout << translateMatrix[0][0] << " " << translateMatrix[0][1] << " " << translateMatrix[0][2] << " " << translateMatrix[0][3] << std::endl;
+	//std::cout << translateMatrix[1][0] << " " << translateMatrix[1][1] << " " << translateMatrix[1][2] << " " << translateMatrix[1][3] << std::endl;
+	//std::cout << translateMatrix[2][0] << " " << translateMatrix[2][1] << " " << translateMatrix[2][2] << " " << translateMatrix[2][3] << std::endl;
+	//std::cout << translateMatrix[3][0] << " " << translateMatrix[3][1] << " " << translateMatrix[3][2] << " " << translateMatrix[3][3] << std::endl;
+	//translateMatrix = glm::transpose(translateMatrix);
+	//std::cout << "translaccion transpose" << std::endl;
+	//std::cout << translateMatrix[0][0] << " " << translateMatrix[0][1] << " " << translateMatrix[0][2] << " " << translateMatrix[0][3] << std::endl;
+	//std::cout << translateMatrix[1][0] << " " << translateMatrix[1][1] << " " << translateMatrix[1][2] << " " << translateMatrix[1][3] << std::endl;
+	//std::cout << translateMatrix[2][0] << " " << translateMatrix[2][1] << " " << translateMatrix[2][2] << " " << translateMatrix[2][3] << std::endl;
+	//std::cout << translateMatrix[3][0] << " " << translateMatrix[3][1] << " " << translateMatrix[3][2] << " " << translateMatrix[3][3] << std::endl;
+
+
 }
 
 void BloodElement::createElement(Elements element){
@@ -93,14 +123,28 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 
 					glm::vec4 point1 = glm::vec4(cosTheta1 * dist, -sinTheta1 * dist, size * sinPhi, 1);
 					glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
-
+					//std::cout << "point1: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
 					//Apply rotation matrix
 					point1 = rotationMatrix*point1;
 					point2 = rotationMatrix*point2;
+					//std::cout << "rotacion matrix:" << std::endl;
+					//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
+					//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
+					//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
+					//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
+
+					//std::cout << "point1 rotated: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
 
 					//Apply translate matrix
 					point1 = translateMatrix*point1;
 					point2 = translateMatrix*point2;
+					//std::cout << "translate matrix:" << std::endl;
+					//std::cout << translateMatrix[0][0] << " " << translateMatrix[0][1] << " " << translateMatrix[0][2] << " " << translateMatrix[0][3] << std::endl;
+					//std::cout << translateMatrix[1][0] << " " << translateMatrix[1][1] << " " << translateMatrix[1][2] << " " << translateMatrix[1][3] << std::endl;
+					//std::cout << translateMatrix[2][0] << " " << translateMatrix[2][1] << " " << translateMatrix[2][2] << " " << translateMatrix[2][3] << std::endl;
+					//std::cout << translateMatrix[3][0] << " " << translateMatrix[3][1] << " " << translateMatrix[3][2] << " " << translateMatrix[3][3] << std::endl;
+
+					//std::cout << "point1 translated: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
 
 					vertex.push_back(PV3D(point1.x, point1.y, point1.z));
 					vertex.push_back(PV3D(point2.x, point2.y, point2.z));

@@ -61,8 +61,8 @@ const float veinRadius = 2.0f;
 Vein* vein;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 1;
- const int numWhiteCorpuscles = 0;
+ const int numRedCorpuscles = 300;
+ const int numWhiteCorpuscles = 120;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -364,7 +364,7 @@ int main (int argc, char ** argv){
 	std::cout << "Generating vein..." << std::endl;
 	vein = new Vein(veinSides, veinRadius, curve);
 	vein->addPerlinNoise(perlinNoise.getNoiseImage());
-	vein->generateShader(loadTexture("./Textures/veinTexture.jpg"));
+	vein->generateShader();
 	//loadTexture("./Textures/veinTexture.jpg");
 
 	/* Creamos los globulos dentro de la vena */
