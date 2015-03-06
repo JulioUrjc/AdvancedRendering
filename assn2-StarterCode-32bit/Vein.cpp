@@ -120,15 +120,15 @@ void Vein::addPerlinNoise(float** perlinNoise){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Vein::generateShader(GLint textCoord){
+void Vein::generateShader(){
 
-	initValues(textCoord);
+	initValues();
 	generateVectors();
 	initShaders();
 	generateBuffers();
 }
 
-void Vein::initValues(GLint textCoord){
+void Vein::initValues(){
 
 	//GLenum a = glGetError();
 	program = 0;
@@ -136,7 +136,7 @@ void Vein::initValues(GLint textCoord){
 	inVertex = -1;
 	inNormal = -1;
 	//inColor = -1;
-	texCoordID = -1;
+	//texCoordID = -1;
 
 	mvpMatrixID = -1;
 	modelViewID = -1;
@@ -161,7 +161,7 @@ void Vein::initShaders(){
 	glBindAttribLocation(program, 0, "inVertex");
 	glBindAttribLocation(program, 1, "inNormal");
 	//glBindAttribLocation(program, 2, "inColor");
-	glBindAttribLocation(program, 3, "inTexCoord");
+	//glBindAttribLocation(program, 3, "inTexCoord");
 
 	glLinkProgram(program);
 
