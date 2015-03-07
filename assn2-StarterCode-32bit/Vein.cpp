@@ -12,6 +12,7 @@ Vein::Vein(int NP, GLfloat radius, BezierCurve* curve, GLint textureID) : Mesh(N
 	this->radiusVein = radius;
 	this->curve = curve;
 	this->textureID = textureID;
+	showTexture = 0;
 
 	build();
 }
@@ -140,6 +141,8 @@ void Vein::initValues(){
 	diffuseLightID = -1;
 	lightDirectionID = -1;
 
+	showTextureID = -1;
+
 	textureID = -1;
 }
 
@@ -186,6 +189,9 @@ void Vein::initShaders(){
 	diffuseLightID = glGetUniformLocation(program, "diffuseLight");
 	lightDirectionID = glGetUniformLocation(program, "lightDirection");
 
+	//Uniform variables
+	showTextureID = glGetUniformLocation(program, "showTexture");
+
 	//Attributes
 	inVertex = glGetAttribLocation(program, "inVertex");
 	inNormal = glGetAttribLocation(program, "inNormal");
@@ -213,16 +219,24 @@ void Vein::generateVectors(){
 		indexVector.push_back(face->getVertexIndex(3));
 	}
 	float u=0.0, v=0.0;
-	float steap = 1.0f / 256;
+	float steapU = 1.0f / NP;
+	float steapV = 1.0f / curve->nPoints();
+	cout << curve->nPoints() << endl;
+	cout << steapV << endl;
 	for (int i = 0; i < curve->nPoints(); i++){
 		u = 0;
 		for (int j = 0; j < NP; j++){
 			texCoords.push_back(u);
 			texCoords.push_back(v);
-			u += steap;
+			u += steapU;
 		}
-		v += steap;
+		v += steapV;
 	}
+	//for (int i = 0; i < texCoords.size(); i++){
+	//	//std::cout << texCoords.at(i) << " " << std::ends;
+	//	if ((i % (NP * 2)) == 0){}
+	//		//std::cout << "\n" << std::ends;
+	//}
 }
 
 
@@ -233,7 +247,7 @@ void Vein::generateBuffers(){
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
-	glGenBuffers(3, buffer);
+	glGenBuffers(4, buffer);
 
 	//Vertex
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
@@ -254,10 +268,12 @@ void Vein::generateBuffers(){
 	glEnableVertexAttribArray(texCoordID);
 
 	//Quads
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[3]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
+
+	generateTexture();
 }
 
 /* Draw the Vein */
@@ -275,6 +291,7 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUniform3f(ambientLightID, ambientLight.x, ambientLight.y, ambientLight.z);
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);
+	glUniform1i(showTextureID, showTexture);
 
 	//Drawing   
 	glBindVertexArray(vao);
@@ -321,4 +338,22 @@ void Vein::freeMemory(){
 
 	//Texture
 	//glDeleteTextures(1, &textureID);
+}
+
+void Vein::generateTexture(){
+	TextureLoader loader("./Textures/level5.bmp");
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
+		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
+void Vein::setShowTexture(int showtext){
+	showTexture = showtext;
 }

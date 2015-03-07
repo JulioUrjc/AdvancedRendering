@@ -1,0 +1,573 @@
+[33mcommit dfb95cb2ffadff5c695fe21d17073f1ffdce0d48[m
+Merge: b57d4d4 9c0161c
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 21:48:23 2015 +0100
+
+    bleble
+
+[33mcommit 9c0161cfdfe444034a864fdbd468bbf2c28bb1a7[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 21:42:45 2015 +0100
+
+    a ver si lo pinta esto bien
+
+[33mcommit b57d4d4070ff841bae9c643c0f240e2c526541c7[m
+Merge: d73e7c8 e4a17a2
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 21:40:50 2015 +0100
+
+    Lineas fuera
+
+[33mcommit d73e7c8554dc5122ad8097c0a25567c629cbf0bd[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 21:35:10 2015 +0100
+
+    Black Texture
+
+[33mcommit e4a17a243773f2ae7b7be8042d91344b92bbd6d5[m
+Merge: 1842759 918cc0a
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 21:14:55 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 18427594524e9a89351fa69158fde6f6800e6be3[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 21:14:40 2015 +0100
+
+    translate keys
+
+[33mcommit 918cc0ad825fc580b6679d6b318cb856352b4105[m
+Merge: 8a13ceb 4a7a9d6
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 19:08:19 2015 +0100
+
+    HeartBeat
+
+[33mcommit 8a13ceb53de0dc5d9f98ccd814fe73ce6c6a1732[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 17:54:03 2015 +0100
+
+    Incluyendo las texturas
+
+[33mcommit 4a7a9d6533b2751dada4f781dac8e4df4561225b[m
+Merge: 0ceddba 0dc1425
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 17:44:42 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 0ceddbaa64c6a736e1d794a5042a5a03bcaea2bd[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 17:43:52 2015 +0100
+
+    ajustar globulos
+
+[33mcommit 60602415b1514cc76bd1c71975202c7cfb85957f[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 05:49:50 2015 +0100
+
+    globulos rojos y variables para mutacion en los metodos
+
+[33mcommit 0dc142554a6c17494eb4a4a0cca913334785ed1a[m
+Merge: 1c27e0e 9da138f
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 03:31:44 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 1c27e0e071562671b416425792eb8683285ccde1[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Mar 6 03:30:37 2015 +0100
+
+    Pues esto va volando
+
+[33mcommit 9da138f1789e6377916866b5ed52b1230f98e3f6[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 03:16:55 2015 +0100
+
+    globulos chulis
+
+[33mcommit d10055c632a4bd971a67cb537b15f7c97ec6db90[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Mar 6 03:09:59 2015 +0100
+
+    korpesel
+
+[33mcommit 98cc59252ac821e89854dc7b8d9d6c2687e8847c[m
+Merge: 3068594 7377a48
+Author: unknown <raquelpm23@gmail.com>
+Date:   Thu Mar 5 12:51:08 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 7377a48c950f3c54cf4136ae8d31c119c0f96d9f[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Thu Mar 5 12:46:54 2015 +0100
+
+    Cam out and cam in
+
+[33mcommit 30685948aec4d0f774f8edbcfa941b733bdcaaab[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Thu Mar 5 02:49:23 2015 +0100
+
+    vein a medias
+
+[33mcommit ec3a287b2fdc0b284bb71726809bfb6c56163c22[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Thu Mar 5 02:48:59 2015 +0100
+
+    Empezando con las texturas
+
+[33mcommit 9db7943020bcb43e63c294e1e9bc6799d3712b99[m
+Merge: b8e2f58 b6b4fba
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Thu Mar 5 01:26:57 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit b8e2f587a7677c8c71f5ebb9b298417cce125ed5[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Thu Mar 5 01:26:01 2015 +0100
+
+    Limpieza 2
+
+[33mcommit b6b4fba492cfec19f0b4b71cee34c33da75185e6[m
+Merge: 53a6368 3bddd76
+Author: unknown <raquelpm23@gmail.com>
+Date:   Thu Mar 5 01:23:43 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 53a636828f84e01c7ee9abca1ce50227334c0fa1[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Thu Mar 5 01:22:27 2015 +0100
+
+    Perlin with the veingit add .git add .
+
+[33mcommit 3bddd76452e46eef428bad8b5daa1c030b98a36d[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Thu Mar 5 00:43:41 2015 +0100
+
+    Limpieza 1
+
+[33mcommit 6c5dc0bc54040893e9a953906164a1474922c7d5[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 23:46:36 2015 +0100
+
+    Habemussss Venaaaaa
+
+[33mcommit 401899c1f090cda4148f4913cc297e989f1e8dd7[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 20:08:19 2015 +0100
+
+    Despues d etutorias te quedas igual
+
+[33mcommit 87a3bacc3d2fec9752f13db6502fc572ff558a45[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 04:54:58 2015 +0100
+
+    Pintado de la curva por Shader
+
+[33mcommit 69945120f2b6ce2eacd152bc1c06903541effd30[m
+Merge: f354334 0ecd464
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 03:47:29 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit f354334089d74c585345434f7ef0eb5c6ea86ded[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 03:46:33 2015 +0100
+
+    Blood is float
+
+[33mcommit 0ecd4640f86ea874a1149cadc359775a02df5127[m
+Merge: c240900 e1ecc95
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Mar 4 03:37:11 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit c240900bd47962f49de2cdf6a93f70bab9dbcc49[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Mar 4 03:36:29 2015 +0100
+
+    curve vbo
+
+[33mcommit e1ecc9541733086aa5456e7c7892f08e68f80bdd[m
+Merge: 144e75d 980f999
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 03:20:45 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 144e75dcdc475da49588b1af138130e21e434b05[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 03:19:28 2015 +0100
+
+    Zoom y movimientos basicos
+
+[33mcommit 980f99935fb647381ffb9b0421aa2c978e2aedad[m
+Merge: 7556d19 9915b99
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Mar 4 03:17:18 2015 +0100
+
+    merge otra vez
+
+[33mcommit 7556d19d8dd293bbeb03188d0b3b8c01e6f07d94[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Mar 4 02:37:14 2015 +0100
+
+    intentos de globulos
+
+[33mcommit 9915b9984d9f4f00d8f6ae80ab93cdb9faca610b[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 02:35:52 2015 +0100
+
+    Funciona el shader de la vena
+
+[33mcommit 5b9bf0bfd1cf1e251f23c5af8133c9d6edcc9205[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Wed Mar 4 00:36:58 2015 +0100
+
+    Girame el toroide carinyo
+
+[33mcommit 922f6f4637765e4c04e484f179b7823489f73544[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Tue Mar 3 15:36:00 2015 +0100
+
+    Muesra shader y capturas de pantalla
+
+[33mcommit 5443389c0542a86227fb1383b8a225c4784c9be6[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Tue Mar 3 01:40:17 2015 +0100
+
+    Primera aproximacion de shader
+
+[33mcommit e5ca54a7f2545f253f1b7b224a53f85cb51c71b0[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Mon Mar 2 13:06:14 2015 +0100
+
+    Inclusion de shaders y vao
+
+[33mcommit 0f093d3cb8560a739a9588e39f5f2d93ed55a794[m
+Merge: 0889638 40a87be
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Mon Mar 2 04:28:11 2015 +0100
+
+    merge Domingo
+
+[33mcommit 08896388ccf3b15f57351324bebfa71cb9daed7f[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Mon Mar 2 04:20:47 2015 +0100
+
+    Shader de la vena y teclas Point, Line y Fill
+
+[33mcommit 40a87beb750b2f836dd3c2cd9a0cb37583659085[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Mon Mar 2 03:24:19 2015 +0100
+
+    fix clamp functions
+
+[33mcommit cae8f7aa9b5d6e76341afcfa3ad3ba45a65e95be[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Mon Mar 2 02:28:44 2015 +0100
+
+    blood with corpuscles
+
+[33mcommit 53c5240325bd96c97c1ab019005160cd5a2ccba3[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sun Mar 1 22:12:46 2015 +0100
+
+    Tu te quedas la normal de otro
+
+[33mcommit d31c8dc179f8e2e162a13cb0082b55ebf578df34[m
+Merge: d0ac4d1 82c36ee
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sun Mar 1 21:11:29 2015 +0100
+
+    merge
+
+[33mcommit d0ac4d1f30ff11f1e08daca8a646def6e7ef3229[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sun Mar 1 21:03:55 2015 +0100
+
+    bloodElement
+
+[33mcommit 82c36ee4c76ecc8c614b021c04edeb3f2f1aed7d[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sun Mar 1 21:02:07 2015 +0100
+
+    Con eye + tangent
+
+[33mcommit 9b71adcc75f3fde07455b1d114bf4fae5ec521b3[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sun Mar 1 19:23:11 2015 +0100
+
+    PV3D added functions without pointers; main preparing blood variable and cout messages; BezierCurve set z-axis as vector normal; VEIN WITHOUT WRINKLE
+
+[33mcommit 56d1a5021cc78efc7eca6da1b2b739f5dbdac4fd[m
+Merge: e8f26de 9e8fdbb
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sun Mar 1 14:33:12 2015 +0100
+
+    merge y getters y setters de los globulos
+
+[33mcommit e8f26de85cd8e1aa765dfe52c09de6b6731b3f69[m
+Merge: 26fb6e5 47c4372
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sun Mar 1 14:13:40 2015 +0100
+
+    sangre con globulos
+
+[33mcommit 9e8fdbbc5ad881861624afdbdb6b4e7d21d5b54c[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sun Mar 1 14:11:37 2015 +0100
+
+    Ya vamos por dentro de la vena
+
+[33mcommit 26fb6e512067ba6d458c577ea8fb59cee7001269[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sun Mar 1 12:42:42 2015 +0100
+
+    toString pv3d
+
+[33mcommit 47c43721ba0c8a97db8cba5b409170a765c5d3b4[m
+Merge: 0e1e459 97f0aea
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sun Mar 1 12:38:15 2015 +0100
+
+    Controles de la camara sin acabar
+
+[33mcommit 6153737dd21de82dfa4be2770a1772efd24b454d[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 22:43:11 2015 +0100
+
+    toroides en los puntos de control
+
+[33mcommit 0e1e4599453fe22637f721e178f77ce29a0604ea[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 22:15:56 2015 +0100
+
+    merge Perlin, Camara, Vena, Main
+
+[33mcommit 97f0aeac6dde7bd28ca55b1592e73fe34c9b93a5[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 22:06:22 2015 +0100
+
+    curva por fuera
+
+[33mcommit 7e77b6964af77d5831d97e6cab31363b0d45ae2d[m
+Merge: c63fd3e d050be4
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 21:47:22 2015 +0100
+
+    merge
+
+[33mcommit c63fd3ebabab487583801c590f4658e72a7365a6[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 21:39:45 2015 +0100
+
+    ruido perlin,color perlin, y desastres varios
+
+[33mcommit d050be48ad86737c93410b7f1a5f7e1c89478174[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 20:21:44 2015 +0100
+
+    Funciona la clase Camara y se mueve por la curva
+
+[33mcommit 1d4c3275fece2d3182cf2d3d79798d1b04862874[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 18:20:47 2015 +0100
+
+    Creacion de la clase Camara
+
+[33mcommit 86a67b8746fe66a8efc567764450e6747f722873[m
+Merge: a4f31cb 98d24f5
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 17:43:09 2015 +0100
+
+    bla
+
+[33mcommit a4f31cb84bb0a4027eda09f2d521feca307ae863[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 14:47:16 2015 +0100
+
+    a ver si me deja hacer pull
+
+[33mcommit 98d24f500e57f58398ee4148a1d743b3e9a989b9[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 14:45:52 2015 +0100
+
+    librerias del infierno
+
+[33mcommit 684f2a4ddaa80bed158444a1f98935f0678b5066[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 13:56:36 2015 +0100
+
+    No compila GLEW, estara a por husmos?
+
+[33mcommit 211c5764cedd5296be143472f0f21c563134d8fc[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 02:21:56 2015 +0100
+
+    curva y tubo
+
+[33mcommit 58fd49513fb2e08929e6ed062055ce96031fdb2b[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 01:51:12 2015 +0100
+
+    delete gitignore files
+
+[33mcommit a6a49d67bccb4bf7fe7f3d0f5bd77c6393aaa973[m
+Merge: f72f116 2fc946d
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 01:42:54 2015 +0100
+
+    cariñ
+
+[33mcommit f72f116c83993bce2f3747792f3d2faf742fe072[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 01:34:32 2015 +0100
+
+    odio git
+
+[33mcommit bdbbb23240c0e60939e121360aba0659c099aa96[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 01:30:26 2015 +0100
+
+    curva de BEzier con pv3d otra vezzzzzz
+
+[33mcommit 2fc946d974e03ab513fe6de6f840be04b4b3df40[m
+Merge: c88c61d 9f8cc66
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 01:19:19 2015 +0100
+
+    La niña de la curva
+
+[33mcommit c88c61dcf2b10896b8cd5e3f8caff19b2e4d56f1[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Sat Feb 28 01:17:47 2015 +0100
+
+    Sale la curvaaaaa
+
+[33mcommit 9f8cc669d8f05abf250e28931ac8e206df92084d[m
+Merge: bfee1b0 ced3de8
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 01:15:50 2015 +0100
+
+    merge y commit del infiernoooooooooo
+
+[33mcommit bfee1b02255ea87f6a8be2c8a86fac35ec9a0caf[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Sat Feb 28 01:06:39 2015 +0100
+
+    bezier curve static
+
+[33mcommit ced3de8a9da65b9d0849b539d70fea007ec50072[m
+Merge: 8593986 17b82cd
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Feb 27 22:33:12 2015 +0100
+
+    No carga vertex
+
+[33mcommit 85939868e83d9548acc0660e3449f3df5e9f6c2b[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Feb 27 22:30:30 2015 +0100
+
+    No carga valores en vertex
+
+[33mcommit 17b82cdd6993c37c8ef6e2dbe064e732ce0ae344[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Fri Feb 27 22:21:09 2015 +0100
+
+    pointer to curve and vein
+
+[33mcommit a2c90362b47c94b7ee8f0e00030f0e6bb03eb64c[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Feb 27 21:13:45 2015 +0100
+
+    Vena
+
+[33mcommit bffe257ca18564686747e4fecf9e57cdd1a8fe09[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Feb 27 18:46:56 2015 +0100
+
+    BezierCurve
+
+[33mcommit 289710e93b20307fb0b43650c0ba35f10f43c8bf[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Fri Feb 27 17:54:54 2015 +0100
+
+    de todo
+
+[33mcommit 87b902831eaa012372bdcaa6dfb98a4fc476d307[m
+Merge: ba4fc82 5f00e57
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Thu Feb 26 13:36:35 2015 +0100
+
+    blablabla
+
+[33mcommit ba4fc82a32e090c28388e63cf72d3627312f830c[m
+Author: july <j.martinsae@alumnos.urjc.es>
+Date:   Thu Feb 26 13:32:11 2015 +0100
+
+    Incluyo path
+
+[33mcommit 5f00e572262e74ad7ecb422aef0ea2e17c234d71[m
+Merge: 7dff702 50cb807
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Feb 25 19:03:32 2015 +0100
+
+    merge
+
+[33mcommit 7dff702240a1ee17429c2153d41e82b74aa7a450[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Feb 25 19:01:06 2015 +0100
+
+    perlin noise
+
+[33mcommit 50cb80778614cd37654254c0980e8446f82b2561[m
+Merge: aeac9f8 f155bcb
+Author: Julio Martin <j.martinsae@alumnos.urjc.es>
+Date:   Wed Feb 25 00:38:29 2015 +0100
+
+    bla bla bla 2
+
+[33mcommit aeac9f85ed5ba7a179b68af17d07a6817d0f9b39[m
+Author: Julio Martin <j.martinsae@alumnos.urjc.es>
+Date:   Wed Feb 25 00:24:48 2015 +0100
+
+    bla bla bla
+
+[33mcommit f155bcbd0cb045d19b1b29ca0156b45c8eb3d12a[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Wed Feb 25 00:06:52 2015 +0100
+
+    Rutas relativas a glm
+
+[33mcommit 02b217763d442781ca3d5ff4406b1822e6d8e085[m
+Author: unknown <raquelpm23@gmail.com>
+Date:   Tue Feb 24 23:58:40 2015 +0100
+
+    gitignore
+
+[33mcommit 09933a2f87c399bae7d1d70e4a9328084d1c63f3[m
+Merge: 3f62e00 989638c
+Author: Julio Martin <j.martinsae@alumnos.urjc.es>
+Date:   Mon Feb 23 14:02:36 2015 +0100
+
+    Merge branch 'master' of https://github.com/JulioUrjc/AdvancedRendering
+
+[33mcommit 3f62e00e2dcd4b274837bf0c0d9371b683739e8e[m
+Author: Julio Martin <j.martinsae@alumnos.urjc.es>
+Date:   Mon Feb 23 13:53:07 2015 +0100
+
+    Curvas de Catmull Rom Splines
+
+[33mcommit 989638c6ac531bdb693cb6aab5dca2ca7592079f[m
+Author: JulioUrjc <j.martinsae@alumnos.urjc.es>
+Date:   Mon Feb 23 13:45:12 2015 +0100
+
+    Initial commit

@@ -18,6 +18,11 @@ uniform sampler2D textureVein;
 const vec3 specularLight = vec3(0.6f,0.6f,0.6f);
 const float shininess = 0.9f;
 
+//Show or not normals or texture
+//0 -> don't
+//1 -> show them
+uniform int showTexture;
+
 void main(){
 	
     //Ambient. The material is the same for all light components (just color)
@@ -37,7 +42,7 @@ void main(){
 	specular = clamp(specular,0.0,1.0);
 
 	//Texture
-	outColor = (texture2D(textureVein, vTextCoord)*0.3f + vec4(amb+diffuse+specular,1)*0.7f );
+	outColor = (texture2D(textureVein, vTextCoord)*showTexture*0.3f + vec4(amb+diffuse+specular,1)*0.7f );
 	//outColor = vec4(amb+diffuse+specular,1)*0.6f;
 	//outColor = vec4(amb+diffuse,1)*0.6f;
 }

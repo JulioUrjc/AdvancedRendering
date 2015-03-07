@@ -52,7 +52,7 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 100;
+const int curveSteps = 51;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
@@ -61,6 +61,7 @@ DrawCurve* drawCurve;
 const int veinSides = 25;
 const float veinRadius = 2.0f;
 Vein* vein;
+int showTexture;
 
 /* - Blood Variable - */
  const int numRedCorpuscles = 10;
@@ -247,14 +248,6 @@ void key(unsigned char key, int x, int y){
 		break;
 
 	// Teclas para giros
-	case 'f':
-		angleYaw += 0.01;
-		//camara->yaw(angleYaw);
-		break;
-	case 'v':
-		angleYaw -= 0.01;
-		//camara->yaw(angleYaw);
-		break;
 	case '+':
 		camara->addZoom(zoom);
 		camara->reDisplay();
@@ -300,7 +293,11 @@ void key(unsigned char key, int x, int y){
 		heartBeat = !heartBeat;
 		automatic = false;
 		break;
-
+	// Mostrar textura
+	case 'c':
+		showTexture = 1 - showTexture;
+		vein->setShowTexture(showTexture);
+		break;
 	// Capturas de pantalla
 	case '0':
 		string folder = "./Capturas/screenShot" + to_string(captura) + ".jpg";
