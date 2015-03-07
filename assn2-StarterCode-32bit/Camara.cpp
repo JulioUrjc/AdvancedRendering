@@ -1,6 +1,7 @@
 #include "Camara.h"
 
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\rotate_vector.hpp>
 #include <iostream>
 using namespace std;
 
@@ -95,25 +96,29 @@ void Camara::followCurveOut(int alante, float displaced){
 void Camara::reDisplay(){
 	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
-	//viewMatrix = glm::lookAt(glm::vec3(0.0,0.0,16.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.1, 0.0));
-
-	//viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0,0.1,0.0));
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 		curve->getBinormalList().at(pointCurve)->convertVec3());
 }
 
 void Camara::move(float x, float y){
-	cout << "eye antes:  " << eye.getX() << " " << eye.getY() << " " << eye.getZ() << endl;
 	glm::vec3 displaceNormalAux = curve->getNormalList().at(pointCurve)->convertVec3()*x;
 	displaceNormal += displaceNormalAux;
-	cout << "displace normal:  " << displaceNormal.x << " " << displaceNormal.y << " " << displaceNormal.z << endl;
 	glm::vec3 displaceBinormalAux = up.convertVec3()*y;
 	displaceBinormal += displaceBinormalAux;
 	glm::vec3 newEye = eye.convertVec3() + displaceNormalAux + displaceBinormalAux;
 	if (glm::distance(newEye, curve->getPointList().at(pointCurve)->convertVec3()) < veinRadius/2){
 		eye = PV3D(newEye.x, newEye.y, newEye.z);
-		cout << "eye despues:  " << eye.getX() << " " << eye.getY() << " " << eye.getZ() << endl;
 	}
+}
+
+void Camara::rotate(float roll, float yaw, float pitch){
+
+	/*glm::vec3 roller = glm::rotate(curve->getBinormalList().at(pointCurve)->convertVec3(),glm::radians(roll),look.convertVec3());
+
+	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+
+	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
+		roller);*/
 }
 
 /* zoom */

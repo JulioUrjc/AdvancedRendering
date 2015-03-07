@@ -213,15 +213,16 @@ void Vein::generateVectors(){
 		indexVector.push_back(face->getVertexIndex(3));
 	}
 	float u=0.0, v=0.0;
-	float steap = 1.0f / 256;
+	float steapU = 1.0f / NP;
+	float steapV = 1.0f / curve->nPoints();
 	for (int i = 0; i < curve->nPoints(); i++){
 		u = 0;
 		for (int j = 0; j < NP; j++){
 			texCoords.push_back(u);
 			texCoords.push_back(v);
-			u += steap;
+			u += steapU;
 		}
-		v += steap;
+		v += steapV;
 	}
 }
 
@@ -233,7 +234,7 @@ void Vein::generateBuffers(){
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
-	glGenBuffers(3, buffer);
+	glGenBuffers(4, buffer);
 
 	//Vertex
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
@@ -254,7 +255,7 @@ void Vein::generateBuffers(){
 	glEnableVertexAttribArray(texCoordID);
 
 	//Quads
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[3]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
@@ -281,9 +282,9 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 
 	//Textures
 	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE5);
+	glActiveTexture(0);
 	GLint loc = glGetUniformLocation(program, "textureVein");
-	glUniform1i(loc, 5);
+	glUniform1i(loc, 0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	if (modo == 1){
@@ -320,5 +321,5 @@ void Vein::freeMemory(){
 	glDeleteProgram(program);
 
 	//Texture
-	//glDeleteTextures(1, &textureID);
+	glDeleteTextures(1, &textureID);
 }
