@@ -12,6 +12,7 @@
 #include <math.h>
 #include <vector>
 
+#include "TextureLoader.h"
 #include "ShaderLoader.h"
 #include "PV3D.h"
 #include "Camara.h"
@@ -54,12 +55,11 @@ private:
 	GLint inVertex;
 	GLint inNormal;
 	GLint inColor;
-	//GLint texCoordID;
+	GLint texCoordID;
 
 	std::vector<float> vertexVector;
 	std::vector<float> normalVector;
 	//std::vector<float> colorVector;
-	//std::vector<float> texCoords;
 	std::vector<unsigned int> indexVector;
 
 	//Uniform variables for shaders
@@ -72,8 +72,8 @@ private:
 	GLint lightDirectionID;
 
 	//Texture
-	//GLuint textureID;
-	//std::vector<float> texCoords;
+	GLuint textureID;
+	std::vector<float> texCoords;
 
 	//Lighting
 	glm::vec3 ambientLight;
@@ -95,7 +95,7 @@ public:
 	void initShaders();
 	void generateVectors();
 	void generateBuffers();
-	//void generateTexture();
+	void generateTexture();
 
 	void draw(Camara* camara, int modo, bool mutation);
 	void setDiffuseLight(glm::vec3 newLight);

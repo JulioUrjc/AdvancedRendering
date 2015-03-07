@@ -85,5 +85,6 @@ class Vein : public Mesh{
 		void setDiffuseLight(glm::vec3 newLight);
 		void freeMemory();
 		void setShowTexture(int showtext);
+
 };
 

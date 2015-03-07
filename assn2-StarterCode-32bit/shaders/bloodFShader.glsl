@@ -3,6 +3,7 @@
 in vec3 vertex;
 in vec3 vnormal;
 in vec3 vcolor;
+in vec2 vTextCoord;
 
 out vec4 outColor;
 
@@ -10,6 +11,8 @@ out vec4 outColor;
 uniform vec3 ambientLight;
 uniform vec3 diffuseLight;
 uniform vec3 lightDirection;
+
+uniform sampler2D textureVein;
 
 //Material dependant
 const vec3 specularLight = vec3(0.6f,0.6f,0.6f);
@@ -34,7 +37,7 @@ void main(){
 	specular = clamp(specular,0.0,1.0);
 
 	//Texture
-
-	outColor = vec4(amb+diffuse+specular,1)*0.6f;
+	outColor = (texture2D(textureVein, vTextCoord)*0.8f + vec4(amb+diffuse+specular,1)*0.2f );
+	//outColor = vec4(amb+diffuse+specular,1)*0.6f;
 	//outColor = vec4(amb+diffuse,1)*0.6f;
 }

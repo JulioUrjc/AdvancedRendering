@@ -65,59 +65,6 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 	GLfloat z = height / 2;
 
 	switch (primitive){
-		case CELL:
-		{
-			////FillTorus(0.1, 8, 1.0, 25);
-			//float rc = 0.1f;
-			//int numc = 8;
-			//float rt = 1.0f;
-			//int numt = 25;
-			//int i, j, k;
-			//double s, t;
-			//double x, y, z;
-			//double pi, twopi;
-
-			////float pi = M_PI;
-			////float twopi = 2 * pi;
-
-			//for (i = 0; i < numc; i++) {
-			//	glBegin(GL_QUAD_STRIP);
-			//	for (j = 0; j <= numt; j++) {
-			//		for (k = 1; k >= 0; k--) {
-			//			s = (i + k) % numc + 0.5;
-			//			t = j % numt;
-
-			//			x = cos(t * M_PI * 2 / numt) * cos(s * M_PI * 2 / numc);
-			//			y = sin(t * M_PI * 2 / numt) * cos(s * M_PI * 2 / numc);
-			//			z = sin(s * M_PI * 2 / numc);
-			//			//glNormal3f(x, y, z);
-
-			//			//Calculating the normals 
-			//			glm::vec4 normal1 = glm::vec4(x, y, z, 1);
-			//			//	glm::vec4 normal2 = glm::vec4(cosTheta * cosPhi, -sinTheta * cosPhi, sinPhi, 1);
-
-			//			normal1 = rotationMatrix*normal1;
-			//			//normal2 = rotationMatrix*normal2;
-
-			//			normals.push_back(PV3D(normal1.x, normal1.y, normal1.z));
-			//			//normals.push_back(PV3D(normal2.x, normal2.y, normal2.z));
-
-			//			x = (rt + rc * cos(s * M_PI * 2 / numc)) * cos(t * M_PI * 2 / numt);
-			//			y = (rt + rc * cos(s * M_PI * 2 / numc)) * sin(t * M_PI * 2 / numt);
-			//			z = rc * sin(s * M_PI * 2 / numc);
-			//			//glVertex3f(x, y, z);
-
-			//			glm::vec4 point1 = glm::vec4(x, y, z, 1);
-			//			point1 = rotationMatrix*point1;
-			//			point1 = translateMatrix*point1;
-			//			vertex.push_back(PV3D(point1.x, point1.y, point1.z));
-			//			//glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
-
-			//		}
-			//	}
-			//}
-
-		}
 		case TORUS:
 		{
 			//glutSolidTorus(size, height, sliceX, sliceY);
@@ -160,25 +107,10 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 					//Apply rotation matrix
 					point1 = rotationMatrix*point1;
 					point2 = rotationMatrix*point2;
-					//std::cout << "rotacion matrix:" << std::endl;
-					//std::cout << rotationMatrix[0][0] << " " << rotationMatrix[0][1] << " " << rotationMatrix[0][2] << " " << rotationMatrix[0][3] << std::endl;
-					//std::cout << rotationMatrix[1][0] << " " << rotationMatrix[1][1] << " " << rotationMatrix[1][2] << " " << rotationMatrix[1][3] << std::endl;
-					//std::cout << rotationMatrix[2][0] << " " << rotationMatrix[2][1] << " " << rotationMatrix[2][2] << " " << rotationMatrix[2][3] << std::endl;
-					//std::cout << rotationMatrix[3][0] << " " << rotationMatrix[3][1] << " " << rotationMatrix[3][2] << " " << rotationMatrix[3][3] << std::endl;
-
-					//std::cout << "point1 rotated: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
-
 					//Apply translate matrix
 					point1 = translateMatrix*point1;
 					point2 = translateMatrix*point2;
-					//std::cout << "translate matrix:" << std::endl;
-					//std::cout << translateMatrix[0][0] << " " << translateMatrix[0][1] << " " << translateMatrix[0][2] << " " << translateMatrix[0][3] << std::endl;
-					//std::cout << translateMatrix[1][0] << " " << translateMatrix[1][1] << " " << translateMatrix[1][2] << " " << translateMatrix[1][3] << std::endl;
-					//std::cout << translateMatrix[2][0] << " " << translateMatrix[2][1] << " " << translateMatrix[2][2] << " " << translateMatrix[2][3] << std::endl;
-					//std::cout << translateMatrix[3][0] << " " << translateMatrix[3][1] << " " << translateMatrix[3][2] << " " << translateMatrix[3][3] << std::endl;
-
-					//std::cout << "point1 translated: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
-
+					
 					vertex.push_back(PV3D(point1.x, point1.y, point1.z));
 					vertex.push_back(PV3D(point2.x, point2.y, point2.z));
 
@@ -191,6 +123,14 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 
 					normals.push_back(PV3D(normal1.x, normal1.y, normal1.z));
 					normals.push_back(PV3D(normal2.x, normal2.y, normal2.z));
+
+					//Calculating texture coords
+					//Texture coords for point1
+					texCoords.push_back(cosTheta1 * cosPhi);
+					texCoords.push_back(-sinTheta1 * cosPhi);
+					//Texture coords for point2
+					texCoords.push_back(cosTheta * cosPhi);
+					texCoords.push_back(-sinTheta * cosPhi);
 
 					//glTexCoord2f(cosTheta1 * cosPhi, -sinTheta1 * cosPhi);
 					//glNormal3f(cosTheta1 * cosPhi, -sinTheta1 * cosPhi, sinPhi);
@@ -254,7 +194,7 @@ void BloodElement::initValues(){
 	inVertex = -1;
 	inNormal = -1;
 	inColor = -1;
-	//texCoordID = -1;
+	texCoordID = -1;
 
 	mvpMatrixID = -1;
 	modelViewID = -1;
@@ -263,7 +203,7 @@ void BloodElement::initValues(){
 	diffuseLightID = -1;
 	lightDirectionID = -1;
 
-	//textureID = -1;
+	textureID = -1;
 }
 
 //Prepare shaders
@@ -279,7 +219,7 @@ void BloodElement::initShaders(){
 	glBindAttribLocation(program, 0, "inVertex");
 	glBindAttribLocation(program, 1, "inNormal");
 	//glBindAttribLocation(program, 2, "inColor");
-	//glBindAttribLocation(program, 3, "inTexCoord");
+	glBindAttribLocation(program, 3, "inTexCoord");
 
 	glLinkProgram(program);
 
@@ -314,7 +254,7 @@ void BloodElement::initShaders(){
 	inVertex = glGetAttribLocation(program, "inVertex");
 	inNormal = glGetAttribLocation(program, "inNormal");
 	//inColor = glGetAttribLocation(program, "inColor");
-	//texCoordID = glGetAttribLocation(program, "inTexCoord");
+	texCoordID = glGetAttribLocation(program, "inTexCoord");
 }
 
 void BloodElement::generateVectors(){
@@ -355,34 +295,34 @@ void BloodElement::generateBuffers(){
 	glVertexAttribPointer(inNormal, 3, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
 	glEnableVertexAttribArray(inNormal);
 
-	//Color
-	//glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*colorVector.size(), &(colorVector.front()), GL_STATIC_DRAW);
-	//glVertexAttribPointer(inColor, 1, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
-	//glEnableVertexAttribArray(inColor);
+	//Texture
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*texCoords.size(), &(texCoords.front()), GL_STATIC_DRAW);
+	glVertexAttribPointer(texCoordID, 2, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
+	glEnableVertexAttribArray(texCoordID);
 
 	//Quads
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[2]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[3]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 
-	//generateTexture();
+	generateTexture();
 }
 
-//void Lake::generateTexture(){
-//	TextureLoader loader("./Resources/...");
-//
-//	glGenTextures(1, &textureID);
-//	glBindTexture(GL_TEXTURE_2D, textureID);
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
-//		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
-//
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//}
+void BloodElement::generateTexture(){
+	TextureLoader loader("./Textures/level5.bmp");
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
+		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
 
 /* Draw the Blood Element */
 void BloodElement::draw(Camara* camara, int modo, bool mutation){
@@ -407,11 +347,11 @@ void BloodElement::draw(Camara* camara, int modo, bool mutation){
 	glBindVertexArray(vao);
 
 	//Textures
-	/*glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE5);
+	glEnable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE6);
 	GLint loc = glGetUniformLocation(program, "texMap");
-	glUniform1i(loc, 5);
-	glBindTexture(GL_TEXTURE_2D, textureID);*/
+	glUniform1i(loc, 6);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	if (modo == 1){
 		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
