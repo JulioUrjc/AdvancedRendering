@@ -17,6 +17,8 @@ private:
 	float aspect;
 	float zoom;
 
+	bool mutation;
+
 	//Displace translate variables
 	glm::vec3 displaceNormal;
 	glm::vec3 displaceBinormal;
@@ -48,6 +50,8 @@ public:
 	int getCurrentPoint();
 	void move(float x, float y);
 	void rotate(float roll, float yaw, float pitch);
+	
+	void setMutation(bool b);
 
 	/* Camara antigua por CPU*/
 	//Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, float fovy, float aspect, BezierCurve* c);

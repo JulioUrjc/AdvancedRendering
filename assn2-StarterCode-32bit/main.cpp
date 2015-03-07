@@ -53,20 +53,20 @@ int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
 
-const int curveSteps = 50;
+const int curveSteps = 100;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 50;
+const int veinSides = 100;
 const float veinRadius = 2.0f;
 Vein* vein;
 int texture;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 10;
- const int numWhiteCorpuscles = 12;
+ const int numRedCorpuscles = 100;
+ const int numWhiteCorpuscles = 50;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -248,7 +248,7 @@ void key(unsigned char key, int x, int y){
 		camara->followCurveOut(2, displaced);
 		break;
 
-	// Teclas para giros
+	// Teclas para zoom
 	case '+':
 		camara->addZoom(zoom);
 		camara->reDisplay();
@@ -275,12 +275,17 @@ void key(unsigned char key, int x, int y){
 		camara->move(0.0f, 0.01f);
 		camara->reDisplay();
 		break;
-	case 's':
-		//camara->move(0.0f, 0.01f);
+	//Teclas para rotacion
+	case 'u':
+		camara->rotate(0.1f, 0.00f, 0.0f);
 		camara->reDisplay();
 		break;
-	case 'x':
-		camara->rotate(0.1f, 0.0f, 0.0f);
+	case 'o':
+		camara->rotate(0.0f, 0.1f, 0.0f);
+		camara->reDisplay();
+		break;
+	case 'p':
+		camara->rotate(0.0f, 0.0f, 1.0f);
 		camara->reDisplay();
 		break;
 
@@ -357,12 +362,16 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (camara->getCurrentPoint() == 0) ++countPoint0;
-	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
+	if (camara->getCurrentPoint() == curve->getPointList().size()-1) 
+		++countPoint0;
+
+	(countPoint0 % 2 == 1) ? mutation = true : mutation = false;
 	
-		drawCurve->draw(camara, modo, mutation);
-		vein->draw(camara, modo, mutation);
-		blood->draw(camara, modo, mutation);
+	camara->setMutation(mutation);
+
+	drawCurve->draw(camara, modo, mutation);
+	vein->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation);
 
 	//drawCurve->draw(camara, modo);
 	//vein->draw(camara, modo);

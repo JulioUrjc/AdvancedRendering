@@ -37,7 +37,7 @@ void main(){
 	specular = clamp(specular,0.0,1.0);
 
 	//Texture
-	outColor = (texture2D(textureVein, vTextCoord)*0.8f + vec4(amb+diffuse+specular,1)*0.2f );
+	outColor = (texture2D(textureVein, vTextCoord)*0.1f + vec4(amb+diffuse+specular,1)*0.9f );
 	//outColor = vec4(amb+diffuse+specular,1)*0.6f;
 	//outColor = vec4(amb+diffuse,1)*0.6f;
 }
