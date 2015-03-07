@@ -12,7 +12,7 @@ Vein::Vein(int NP, GLfloat radius, BezierCurve* curve, GLint textureID) : Mesh(N
 	this->radiusVein = radius;
 	this->curve = curve;
 	this->textureID = textureID;
-	showTexture = 0;
+	texture = 1;
 
 	build();
 }
@@ -190,7 +190,7 @@ void Vein::initShaders(){
 	lightDirectionID = glGetUniformLocation(program, "lightDirection");
 
 	//Uniform variables
-	showTextureID = glGetUniformLocation(program, "showTexture");
+	showTextureID = glGetUniformLocation(program, "texture");
 
 	//Attributes
 	inVertex = glGetAttribLocation(program, "inVertex");
@@ -221,8 +221,7 @@ void Vein::generateVectors(){
 	float u=0.0, v=0.0;
 	float steapU = 1.0f / NP;
 	float steapV = 1.0f / curve->nPoints();
-	cout << curve->nPoints() << endl;
-	cout << steapV << endl;
+
 	for (int i = 0; i < curve->nPoints(); i++){
 		u = 0;
 		for (int j = 0; j < NP; j++){
@@ -232,13 +231,7 @@ void Vein::generateVectors(){
 		}
 		v += steapV;
 	}
-	//for (int i = 0; i < texCoords.size(); i++){
-	//	//std::cout << texCoords.at(i) << " " << std::ends;
-	//	if ((i % (NP * 2)) == 0){}
-	//		//std::cout << "\n" << std::ends;
-	//}
 }
-
 
 //Generate VBO && VAO
 void Vein::generateBuffers(){
@@ -291,16 +284,16 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUniform3f(ambientLightID, ambientLight.x, ambientLight.y, ambientLight.z);
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);
-	glUniform1i(showTextureID, showTexture);
+	glUniform1i(showTextureID, texture);
 
 	//Drawing   
 	glBindVertexArray(vao);
 
 	//Textures
 	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE5);
+	glActiveTexture(0);
 	GLint loc = glGetUniformLocation(program, "textureVein");
-	glUniform1i(loc, 5);
+	glUniform1i(loc, 0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	if (modo == 1){
@@ -323,7 +316,7 @@ void Vein::setDiffuseLight(glm::vec3 newLight){
 void Vein::freeMemory(){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(3, buffer);
+	glDeleteBuffers(4, buffer);
 
 	glBindVertexArray(0);
 	glDeleteVertexArrays(1, &vao);
@@ -337,7 +330,7 @@ void Vein::freeMemory(){
 	glDeleteProgram(program);
 
 	//Texture
-	//glDeleteTextures(1, &textureID);
+	glDeleteTextures(1, &textureID);
 }
 
 void Vein::generateTexture(){
@@ -357,6 +350,6 @@ void Vein::generateTexture(){
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
-void Vein::setShowTexture(int showtext){
-	showTexture = showtext;
+void Vein::setShowTexture(int text){
+	texture = text;
 }

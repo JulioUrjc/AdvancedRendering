@@ -13,7 +13,7 @@ uniform mat4 modelViewProjection;
 uniform mat4 modelView;
 
 void main(){
-	vcolor = vec3(0.5,0.0,0.0);
+	vcolor = vec3(1.0,0.0,0.0);
 	vnormal= inNormal;
 	vTextCoord= inTextCoord;
 	vertex = (modelView*vec4(inVertex,1)).xyz;

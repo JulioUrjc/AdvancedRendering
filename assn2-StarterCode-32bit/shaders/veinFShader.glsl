@@ -18,9 +18,8 @@ uniform sampler2D textureVein;
 const vec3 specularLight = vec3(0.6f,0.6f,0.6f);
 const float shininess = 0.9f;
 
-//Show or not normals or texture
-//0 -> don't
-//1 -> show them
+//Show or not texture
+
 uniform int showTexture;
 
 void main(){

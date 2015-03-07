@@ -47,6 +47,7 @@ public:
 	void setCurve(BezierCurve* c){ this->curve = c; }
 	int getCurrentPoint();
 	void move(float x, float y);
+	void rotate(float roll, float yaw, float pitch);
 
 	/* Camara antigua por CPU*/
 	//Camara(PV3D eye, PV3D look, PV3D up, float xRight, float xLeft, float yTop, float yBot, float N, float F, float fovy, float aspect, BezierCurve* c);

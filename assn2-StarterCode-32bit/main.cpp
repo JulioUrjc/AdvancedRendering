@@ -52,16 +52,17 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 51;
+
+const int curveSteps = 50;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 25;
+const int veinSides = 50;
 const float veinRadius = 2.0f;
 Vein* vein;
-int showTexture;
+int texture;
 
 /* - Blood Variable - */
  const int numRedCorpuscles = 10;
@@ -274,6 +275,14 @@ void key(unsigned char key, int x, int y){
 		camara->move(0.0f, 0.01f);
 		camara->reDisplay();
 		break;
+	case 's':
+		//camara->move(0.0f, 0.01f);
+		camara->reDisplay();
+		break;
+	case 'x':
+		camara->rotate(0.1f, 0.0f, 0.0f);
+		camara->reDisplay();
+		break;
 
 	// Cambio de Modo entre puntos, aristas o poligonos
 	case '1':
@@ -290,13 +299,13 @@ void key(unsigned char key, int x, int y){
 			heartBeat = false;
 		break;
 	case '5':
-		heartBeat = !heartBeat;
-		automatic = false;
+			heartBeat = !heartBeat;
+			automatic = false;
 		break;
 	// Mostrar textura
 	case 'c':
-		showTexture = 1 - showTexture;
-		vein->setShowTexture(showTexture);
+		texture = 1 - texture;
+		vein->setShowTexture(texture);
 		break;
 	// Capturas de pantalla
 	case '0':
@@ -347,11 +356,13 @@ void flopsForSecond(){
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	if (camara->getCurrentPoint() == 0) ++countPoint0;
 	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
-	drawCurve->draw(camara, modo, mutation);
-	vein->draw(camara, modo, mutation);
-	blood->draw(camara, modo, mutation);
+	
+		drawCurve->draw(camara, modo, mutation);
+		vein->draw(camara, modo, mutation);
+		blood->draw(camara, modo, mutation);
 
 	//drawCurve->draw(camara, modo);
 	//vein->draw(camara, modo);
