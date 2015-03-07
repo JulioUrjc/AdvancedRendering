@@ -52,6 +52,7 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
+
 const int curveSteps = 50;
 const float curveT = 0.7f;
 BezierCurve* curve;
@@ -61,6 +62,7 @@ DrawCurve* drawCurve;
 const int veinSides = 50;
 const float veinRadius = 2.0f;
 Vein* vein;
+int texture;
 
 /* - Blood Variable - */
  const int numRedCorpuscles = 10;
@@ -300,7 +302,11 @@ void key(unsigned char key, int x, int y){
 			heartBeat = !heartBeat;
 			automatic = false;
 		break;
-
+	// Mostrar textura
+	case 'c':
+		texture = 1 - texture;
+		vein->setShowTexture(texture);
+		break;
 	// Capturas de pantalla
 	case '0':
 		string folder = "./Capturas/screenShot" + to_string(captura) + ".jpg";

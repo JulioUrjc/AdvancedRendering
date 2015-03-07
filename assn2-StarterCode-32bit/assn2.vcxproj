@@ -91,7 +91,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir)libs;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\FreeImage;$(ProjectDir)libs;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <IgnoreSpecificDefaultLibraries>libc.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -100,7 +100,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>glut32.lib;glew32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\FreeImage;$(ProjectDir)\libs</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -171,6 +171,7 @@
     <ClCompile Include="PV3D.cpp" />
     <ClCompile Include="Poligon.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Vein.cpp" />
     <ClCompile Include="VertexNormal.cpp" />
   </ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="PV3D.h" />
     <ClInclude Include="Poligon.h" />
     <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Vein.h" />
     <ClInclude Include="VertexNormal.h" />
   </ItemGroup>

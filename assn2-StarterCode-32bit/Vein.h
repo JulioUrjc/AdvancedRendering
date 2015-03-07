@@ -6,6 +6,7 @@
 #include "BezierCurve.h"
 #include "Camara.h"
 #include "ShaderLoader.h"
+#include "TextureLoader.h"
 #include <vector>
 #include <glm\gtx\transform.hpp>
 
@@ -47,6 +48,8 @@ class Vein : public Mesh{
 		//Uniform variables for shaders
 		GLint mvpMatrixID;
 		GLint modelViewID;
+		int texture;
+		GLint showTextureID;
 
 		//Lighting
 		GLint ambientLightID;
@@ -80,6 +83,7 @@ class Vein : public Mesh{
 
 		void draw(Camara* camara, int modo, bool mutation);
 		void setDiffuseLight(glm::vec3 newLight);
+		void setShowTexture(int text);
 		void freeMemory();
 };
 
