@@ -50,6 +50,8 @@ class Vein : public Mesh{
 		GLint modelViewID;
 		int texture;
 		GLint showTextureID;
+		GLint globalTimeID;
+		float time;
 
 		//Lighting
 		GLint ambientLightID;
