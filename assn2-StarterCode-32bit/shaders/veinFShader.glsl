@@ -19,8 +19,7 @@ const vec3 specularLight = vec3(0.6f,0.6f,0.6f);
 const float shininess = 0.9f;
 
 //Show or not texture
-
-uniform int texture;
+uniform int showTexture;
 
 void main(){
 	
@@ -41,5 +40,5 @@ void main(){
 	specular = clamp(specular,0.0,1.0);
 
 	//Texture
-	outColor = (texture2D(textureVein, vTextCoord)*texture*0.3f + vec4(amb+diffuse+specular,1)*0.7f );
+	outColor = (texture(textureVein, vTextCoord)*showTexture*0.0f + vec4(amb+diffuse+specular,1)*0.9f);
 }

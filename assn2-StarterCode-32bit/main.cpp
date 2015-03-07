@@ -53,20 +53,21 @@ int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
 
-const int curveSteps = 50;
+const int curveSteps = 70;
 const float curveT = 0.7f;
 BezierCurve* curve;
+BezierCurve* curve2;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 50;
+const int veinSides = 60;
 const float veinRadius = 2.0f;
 Vein* vein;
 int texture;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 10;
- const int numWhiteCorpuscles = 12;
+ const int numRedCorpuscles = 170;
+ const int numWhiteCorpuscles = 62;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -323,7 +324,8 @@ void flopsForSecond(){
 
 	// Informacion de FPS
 	char scene_info[32];
-	void *font_type = GLUT_BITMAP_9_BY_15;
+	//void *font_type = GLUT_BITMAP_9_BY_15;
+	void *font_type = GLUT_BITMAP_HELVETICA_18;
 
 	double x = 1.0 * WINDOW_WIDTH / 100.0;
 	double y = 97.0 * WINDOW_HEIGHT / 100.0;
@@ -338,7 +340,7 @@ void flopsForSecond(){
 	glPushMatrix();
 	glLoadIdentity();
 
-	glColor3f(1.0, 0.0, 0.0);
+	glColor3f(1.0, 1.0, 1.0);
 	sprintf(scene_info, "FPS: %d", fps);
 	glRasterPos2d(x - 3 + 1, y - 1);
 	for (char *p = scene_info; *p; p++)
@@ -351,7 +353,6 @@ void flopsForSecond(){
 	glPopAttrib();
 }
 
-
 /*	display - Function to modify with your heightfield rendering code (Currently displays a simple cube) */
 void display(){
 
@@ -359,14 +360,13 @@ void display(){
 
 	if (camara->getCurrentPoint() == 0) ++countPoint0;
 	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
+	if (mutation){ camara->setCurve(curve2); }
+	else{ camara->setCurve(curve); }
 	
 		drawCurve->draw(camara, modo, mutation);
 		vein->draw(camara, modo, mutation);
 		blood->draw(camara, modo, mutation);
 
-	//drawCurve->draw(camara, modo);
-	//vein->draw(camara, modo);
-	//blood->draw(camara, modo);
 	flopsForSecond();
 
 	glutSwapBuffers(); 
@@ -453,6 +453,7 @@ int main (int argc, char ** argv){
 	std::cout << "Generating bezier curve..." << std::endl;
 	curve = new BezierCurve(curveSteps, curveT);
 	drawCurve = new DrawCurve(curve);
+	curve2 = new BezierCurve(5, 10);
 
 	std::cout << "Generating vein..." << std::endl;
 	//GLuint textureID = loadTexture("./Textures/veinTexture.jpg");
