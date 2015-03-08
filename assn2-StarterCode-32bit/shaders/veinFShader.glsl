@@ -22,8 +22,9 @@ const float shininess = 0.9f;
 
 uniform int showTexture;
 uniform float iGlobalTime;
+uniform int mutation;
 
-#define PI 3.14159265359
+#define PI 3.141592653589
 
 void main(){
 
@@ -62,7 +63,7 @@ void main(){
 	specular = clamp(specular,0.0,1.0);
 
 	//Texture
-	outColor = vec4(ret,1);
+	outColor =(texture2D(textureVein, vTextCoord)*showTexture*0.1f + vec4(amb+diffuse+specular,1)*(1-showTexture)*(1-mutation)*0.7f + vec4(ret,1)*mutation*1.0f);
 	//outColor = (texture2D(textureVein, vTextCoord)*showTexture*0.1f + vec4(amb+diffuse+specular,1)*(1-showTexture)*0.1f + vec4(ret,1)*showTexture*0.9f );
 	//outColor = vec4(amb+diffuse+specular,1)*0.6f;
 	//outColor = vec4(amb+diffuse,1)*0.6f;

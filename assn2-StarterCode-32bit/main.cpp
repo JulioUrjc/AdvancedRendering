@@ -53,20 +53,20 @@ int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
 
-const int curveSteps = 100;
+const int curveSteps = 50;
 const float curveT = 0.7f;
 BezierCurve* curve;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 100;
+const int veinSides = 50;
 const float veinRadius = 2.0f;
 Vein* vein;
 int texture;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 100;
- const int numWhiteCorpuscles = 50;
+ const int numRedCorpuscles = 50;
+ const int numWhiteCorpuscles = 25;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -83,9 +83,9 @@ float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
 bool automatic = false;    // Move Automatic
 bool heartBeat = false;    // Move Heart Beat
 int acceleration = 1;
-int modo = 2;			   // Default Mode lines
+int modo = 3;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
-bool mutation = false;
+int mutation = 0;
 int countPoint0 = 0;
 
 /* Control del numero de captura */
@@ -365,7 +365,7 @@ void display(){
 	if (camara->getCurrentPoint() == curve->getPointList().size()-1) 
 		++countPoint0;
 
-	(countPoint0 % 2 == 1) ? mutation = true : mutation = false;
+	(countPoint0 % 2 == 1) ? mutation = 1 : mutation = 0;
 	
 	camara->setMutation(mutation);
 

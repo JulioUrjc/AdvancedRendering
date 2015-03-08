@@ -146,6 +146,8 @@ void Vein::initValues(){
 
 	textureID = -1;
 	globalTimeID = -1;
+
+	mutationID = -1;
 }
 
 //Prepare shaders
@@ -191,6 +193,7 @@ void Vein::initShaders(){
 	diffuseLightID = glGetUniformLocation(program, "diffuseLight");
 	lightDirectionID = glGetUniformLocation(program, "lightDirection");
 	globalTimeID = glGetUniformLocation(program, "iGlobalTime");
+	mutationID = glGetUniformLocation(program, "mutation");
 
 	//Uniform variables
 	showTextureID = glGetUniformLocation(program, "texture");
@@ -273,7 +276,7 @@ void Vein::generateBuffers(){
 }
 
 /* Draw the Vein */
-void Vein::draw(Camara* camara, int modo, bool mutation){
+void Vein::draw(Camara* camara, int modo, int mutation){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 
@@ -289,6 +292,7 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);
 	glUniform1f(globalTimeID, time);
 	glUniform1i(showTextureID, texture);
+	glUniform1i(mutationID, mutation);
 
 	//Drawing   
 	glBindVertexArray(vao);
@@ -300,14 +304,22 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUniform1i(loc, 0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
-	if (modo == 1){
-		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
-	}else if (modo == 2){
-		glPolygonMode(GL_BACK, GL_LINE);
+	if (mutation == 1){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
-	}else{
-		glPolygonMode(GL_BACK, GL_FILL);
-		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
+	}
+	else{
+		if (modo == 1){
+			glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
+		}
+		else if (modo == 2){
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
+		}
+		else{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
+		}
 	}
 	
 	glUseProgram(NULL);
