@@ -40,5 +40,5 @@ void main(){
 	specular = clamp(specular,0.0,1.0);
 
 	//Texture
-	outColor = (texture(textureVein, vTextCoord)*showTexture*0.0f + vec4(amb+diffuse+specular,1)*0.9f);
+	outColor = (texture(textureVein, vTextCoord)*showTexture*0.0f + vec4(amb+diffuse+specular,1)*0.8f);
 }

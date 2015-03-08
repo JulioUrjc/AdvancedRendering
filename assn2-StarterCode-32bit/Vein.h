@@ -83,6 +83,7 @@ class Vein : public Mesh{
 
 		void draw(Camara* camara, int modo, bool mutation);
 		void setDiffuseLight(glm::vec3 newLight);
+		void setAmbientLight(glm::vec3 newLight);
 		void setShowTexture(int text);
 		void freeMemory();
 };

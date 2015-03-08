@@ -46,7 +46,10 @@ void Camara::followCurve(bool alante){
 	if (pointCurve >= curve->nPoints())  pointCurve = 0;
 	if (pointCurve < 0)  pointCurve = curve->nPoints() - 1;
 
-	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+	if (mutation)
+		projectionMatrix = glm::perspective(120.0f*zoom, 0.5f, N, F);
+	else
+		projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
 	eye = *curve->getPointList().at(pointCurve);
 	eye = *eye.addition(&PV3D(displaceNormal.x, displaceNormal.y, displaceNormal.z));
@@ -64,7 +67,10 @@ void Camara::simulateHeartBeat(int acceleration){
 	if (pointCurve >= curve->nPoints())  pointCurve = 0;
 	//if (pointCurve < 0)  pointCurve = curve->nPoints() - 1;
 
-	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+	if (mutation)
+		projectionMatrix = glm::perspective(fovy*zoom, aspect, N, F);
+	else
+		projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
 	eye = *curve->getPointList().at(pointCurve);
 
@@ -94,7 +100,10 @@ void Camara::followCurveOut(int alante, float displaced){
 
 /* ReDisplay */
 void Camara::reDisplay(){
-	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
+	if (mutation)
+		projectionMatrix = glm::perspective(fovy*zoom, aspect, N, F);
+	else
+		projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 		curve->getBinormalList().at(pointCurve)->convertVec3());
@@ -112,11 +121,20 @@ void Camara::move(float x, float y){
 }
 
 void Camara::rotate(float roll, float yaw, float pitch){
-
+	glm::mat4x4 identity = glm::mat4x4(1.0f);
+	//Roll, look dont change, change the up vector, we rotate with look vector
+	glm::mat4x4 rotationMatrix = glm::rotate(identity, glm::radians(roll), look.convertVec3());
+	//Yaw, up dont change, change the look vector, we rotate with up vector
+	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(yaw), up.convertVec3());
+	//Pitch, change look y up vector, we rotate with normal vector
+	glm::vec3 normal = glm::cross(look.convertVec3(), up.convertVec3());
+	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(pitch), normal);
+	glm::vec4 auxEye = rotationMatrix*glm::vec4(eye.getX(),eye.getY(),eye.getZ(),1);
+	glm::vec4 auxLook = rotationMatrix*glm::vec4(look.getX(), look.getY(), look.getZ(), 1);
+	eye.setX(auxEye.x); eye.setY(auxEye.y); eye.setZ(auxEye.z);
+	look.setX(auxLook.x); look.setY(auxLook.y); look.setZ(auxLook.z);
 	/*glm::vec3 roller = glm::rotate(curve->getBinormalList().at(pointCurve)->convertVec3(),glm::radians(roll),look.convertVec3());
-
 	projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
-
 	viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 		roller);*/
 }
@@ -127,6 +145,8 @@ void Camara::deductZoom(float val){ zoom = ((zoom - val)<MIN_ZOOM) ? MIN_ZOOM : 
 
 /* Return the current point where is the camera*/
 int Camara::getCurrentPoint() { return pointCurve; }
+
+void Camara::setMutation(bool b) { mutation = b; }
 
 /* Camara Antigua */
 

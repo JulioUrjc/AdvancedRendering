@@ -13,6 +13,7 @@ Vein::Vein(int NP, GLfloat radius, BezierCurve* curve, GLint textureID) : Mesh(N
 	this->curve = curve;
 	this->textureID = textureID;
 	texture = 1;
+	diffuseLight = glm::vec3(0.7f, 0.7f, 0.7f);
 
 	build();
 }
@@ -218,13 +219,13 @@ void Vein::generateVectors(){
 		indexVector.push_back(face->getVertexIndex(2));
 		indexVector.push_back(face->getVertexIndex(3));
 	}
-	float u=0.8, v=0.2;
+	float u=0.0, v=0.0;
 	float steapU = 1.0f / (NP-1);
 	float steapV = 1.0f / (curve->nPoints()-1);
-	cout << "NP "<< NP << endl;
-	cout << "CP " << curve->nPoints() << endl;
-	cout << "U " << steapU << endl;
-	cout << "V " << steapV << endl;
+	//cout << "NP "<< NP << endl;
+	//cout << "CP " << curve->nPoints() << endl;
+	//cout << "U " << steapU << endl;
+	//cout << "V " << steapV << endl;
 	/*float steapU = 1.0f / 256;
 	float steapV = 1.0f / 256;*/
 	for (int i = 0; i < curve->nPoints(); i++){
@@ -287,7 +288,7 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 	glUniformMatrix4fv(modelViewID, 1, GL_FALSE, &camara->getModelView(modelMatrix)[0][0]);
 	//Lighting uniforms
 	ambientLight= glm::vec3(0.3f, 0.3f, 0.3f);
-	diffuseLight = glm::vec3(0.7f, 0.7f, 0.7f);
+	//diffuseLight = glm::vec3(0.7f, 0.7f, 0.7f);
 	lightDirection = normalize(glm::vec3(2.0f, 5.0f, 2.0f));
 	glUniform3f(ambientLightID, ambientLight.x, ambientLight.y, ambientLight.z);
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
@@ -303,6 +304,7 @@ void Vein::draw(Camara* camara, int modo, bool mutation){
 	GLint loc = glGetUniformLocation(program, "textureVein");
 	glUniform1i(loc, 0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
+
 
 	if (modo == 1){
 		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
@@ -338,6 +340,7 @@ void Vein::freeMemory(){
 }
 
 void Vein::generateTexture(){
+
 	//TextureLoader loader("./Textures/veinTexture.jpg");
 	//TextureLoader loader("./Textures/textura-hoja.jpg");
 	//TextureLoader loader("./Textures/textura-azul.jpg");
@@ -348,10 +351,14 @@ void Vein::generateTexture(){
 	//TextureLoader loader("./Textures/colores2.jpg");
 	TextureLoader loader("./Textures/color.bmp");
 
+
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loader.getWidth(), loader.getHeight(), 0,
+		GL_BGR, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
+
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
+	//	GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -368,3 +375,8 @@ void Vein::setShowTexture(int text){
 void Vein::setDiffuseLight(glm::vec3 newLight){
 	diffuseLight = newLight;
 }
+
+void Vein::setAmbientLight(glm::vec3 newLight){
+	ambientLight = newLight;
+}
+

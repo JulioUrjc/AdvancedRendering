@@ -52,7 +52,6 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-
 const int curveSteps = 70;
 const float curveT = 0.7f;
 BezierCurve* curve;
@@ -60,7 +59,7 @@ BezierCurve* curve2;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 60;
+const int veinSides = 100;
 const float veinRadius = 2.0f;
 Vein* vein;
 int texture;
@@ -94,6 +93,9 @@ int captura = 0;
 
 /* Muesra los FPS en pantalla*/
 int cycle, fps;
+
+/* Mutacion */
+float r=0.0, g=0.0, b=0.0;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -249,7 +251,7 @@ void key(unsigned char key, int x, int y){
 		camara->followCurveOut(2, displaced);
 		break;
 
-	// Teclas para giros
+	// Teclas para zoom
 	case '+':
 		camara->addZoom(zoom);
 		camara->reDisplay();
@@ -276,12 +278,17 @@ void key(unsigned char key, int x, int y){
 		camara->move(0.0f, 0.01f);
 		camara->reDisplay();
 		break;
-	case 's':
-		//camara->move(0.0f, 0.01f);
+	//Teclas para rotacion
+	case 'u':
+		camara->rotate(0.1f, 0.00f, 0.0f);
 		camara->reDisplay();
 		break;
-	case 'x':
-		camara->rotate(0.1f, 0.0f, 0.0f);
+	case 'o':
+		camara->rotate(0.0f, 0.1f, 0.0f);
+		camara->reDisplay();
+		break;
+	case 'p':
+		camara->rotate(0.0f, 0.0f, 1.0f);
 		camara->reDisplay();
 		break;
 
@@ -358,14 +365,20 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (camara->getCurrentPoint() == 0) ++countPoint0;
-	(countPoint0 % 5 > 3) ? mutation = true : mutation = false;
-	if (mutation){ camara->setCurve(curve2); }
+	if (camara->getCurrentPoint() == (curve->nPoints()-1)) ++countPoint0;
+	(countPoint0 % 5 > 2) ? mutation = true : mutation = false;
+	if (mutation){ 
+		camara->setCurve(curve2);
+		automatic = false;
+		camara->followCurveOut(1, displaced);
+	}
 	else{ camara->setCurve(curve); }
-	
-		drawCurve->draw(camara, modo, mutation);
-		vein->draw(camara, modo, mutation);
-		blood->draw(camara, modo, mutation);
+
+	camara->setMutation(mutation);
+
+	drawCurve->draw(camara, modo, mutation);
+	vein->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation);
 
 	flopsForSecond();
 
@@ -453,7 +466,7 @@ int main (int argc, char ** argv){
 	std::cout << "Generating bezier curve..." << std::endl;
 	curve = new BezierCurve(curveSteps, curveT);
 	drawCurve = new DrawCurve(curve);
-	curve2 = new BezierCurve(5, 10);
+	curve2 = new BezierCurve(40, 10);
 
 	std::cout << "Generating vein..." << std::endl;
 	//GLuint textureID = loadTexture("./Textures/veinTexture.jpg");
