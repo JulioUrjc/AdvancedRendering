@@ -33,7 +33,7 @@ class DrawCurve{
 	public:
 		/* Init Shaders */
 		DrawCurve(BezierCurve* c);
-		void draw(Camara* camara, int modo, bool mutation);
+		void draw(Camara* camara, int modo, int mutation);
 		void initValues();
 		void initShaders();
 		void generateVectors();

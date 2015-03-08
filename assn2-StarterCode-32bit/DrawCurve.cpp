@@ -11,7 +11,7 @@ DrawCurve::DrawCurve(BezierCurve* c){
 }
 
 /* OpenGL 3.3 - gpu compute */
-void DrawCurve::draw(Camara* camera, int modo, bool mutation){
+void DrawCurve::draw(Camara* camera, int modo, int mutation){
 
 	glUseProgram(program);
 

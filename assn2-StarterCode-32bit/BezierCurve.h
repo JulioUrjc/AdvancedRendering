@@ -48,5 +48,6 @@ public:
 	int nPoints();
 	void draw(int modo);
 
+	int intRandom(int max);
 };
 

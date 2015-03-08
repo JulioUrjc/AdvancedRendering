@@ -97,7 +97,7 @@ public:
 	void generateBuffers();
 	void generateTexture();
 
-	void draw(Camara* camara, int modo, bool mutation);
+	void draw(Camara* camara, int modo, int mutation);
 	void setDiffuseLight(glm::vec3 newLight);
 	void freeMemory();
 };

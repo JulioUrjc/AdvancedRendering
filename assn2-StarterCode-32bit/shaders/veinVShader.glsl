@@ -12,6 +12,7 @@ out vec2 vTextCoord;
 
 uniform mat4 modelViewProjection;
 uniform mat4 modelView;
+uniform float inGlobalTime;
 
 void main(){
 	vcolor = vec3(1.0,0.0,0.0);

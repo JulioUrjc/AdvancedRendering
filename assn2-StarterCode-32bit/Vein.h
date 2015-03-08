@@ -50,6 +50,9 @@ class Vein : public Mesh{
 		GLint modelViewID;
 		int texture;
 		GLint showTextureID;
+		GLint globalTimeID;
+		float time;
+		GLint mutationID;
 
 		//Lighting
 		GLint ambientLightID;
@@ -81,7 +84,7 @@ class Vein : public Mesh{
 		void generateBuffers();
 		void generateTexture();
 
-		void draw(Camara* camara, int modo, bool mutation);
+		void draw(Camara* camara, int modo, int mutation);
 		void setDiffuseLight(glm::vec3 newLight);
 		void setAmbientLight(glm::vec3 newLight);
 		void setShowTexture(int text);

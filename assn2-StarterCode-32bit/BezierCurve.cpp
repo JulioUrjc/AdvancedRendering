@@ -17,16 +17,20 @@ BezierCurve::BezierCurve(int steps, float curv){
 
 void BezierCurve::createPoints(){
 	/* Create some initial points */
-	glm::vec4 initialPoint = glm::vec4(-40, 50, 0, 0);
+	glm::vec4 initialPoint = glm::vec4(-40 + intRandom(5), 50 - intRandom(5), 0, 0);
 	controlPointsList.push_back(initialPoint);
 	////2
-	controlPointsList.push_back(glm::vec4(-20,-50,0,0));
+	controlPointsList.push_back(glm::vec4(-20 - intRandom(5), -25 + intRandom(5), 0, 0));
 	////3
-	controlPointsList.push_back(glm::vec4(0,0,0,0));
+	controlPointsList.push_back(glm::vec4(intRandom(10), intRandom(10), 0, 0));
 	////4
-	controlPointsList.push_back(glm::vec4(20,-50,0,0));
+	controlPointsList.push_back(glm::vec4(20 + intRandom(5), -50 + intRandom(5), 0, 0));
 	////5
-	controlPointsList.push_back(glm::vec4(40,50,0,0));
+	controlPointsList.push_back(glm::vec4(40 - intRandom(5), 80 - intRandom(5), 0, 0));
+	////6
+	controlPointsList.push_back(glm::vec4(60 + intRandom(5), intRandom(10), 0, 0));
+	////7
+	controlPointsList.push_back(glm::vec4(100, 100, 0, 0));
 }
 
 void BezierCurve::createCurve(){
@@ -118,4 +122,8 @@ void BezierCurve::draw(int modo){
 		}
 		glVertex3f(pointList.at(0)->getX(), pointList.at(0)->getY(), pointList.at(0)->getZ()); // El primero también se dibuja el ultimo
 	glEnd();
+}
+
+int BezierCurve::intRandom(int max){
+	return((int)rand() % (max));
 }

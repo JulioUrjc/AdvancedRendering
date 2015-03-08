@@ -52,21 +52,21 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-const int curveSteps = 70;
+const int curveSteps = 256;
 const float curveT = 0.7f;
 BezierCurve* curve;
 BezierCurve* curve2;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
-const int veinSides = 100;
+const int veinSides = 256;
 const float veinRadius = 2.0f;
 Vein* vein;
 int texture;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 170;
- const int numWhiteCorpuscles = 62;
+ const int numRedCorpuscles = 300;
+ const int numWhiteCorpuscles = 150;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -83,9 +83,9 @@ float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
 bool automatic = false;    // Move Automatic
 bool heartBeat = false;    // Move Heart Beat
 int acceleration = 1;
-int modo = 2;			   // Default Mode lines
+int modo = 3;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
-bool mutation = false;
+int mutation = 0;
 int countPoint0 = 0;
 
 /* Control del numero de captura */
@@ -93,9 +93,6 @@ int captura = 0;
 
 /* Muesra los FPS en pantalla*/
 int cycle, fps;
-
-/* Mutacion */
-float r=0.0, g=0.0, b=0.0;
 
 /*	saveScreenshot - Writes a screenshot to the specified filename in JPEG */
 void saveScreenshot (char *filename){
@@ -366,14 +363,8 @@ void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (camara->getCurrentPoint() == (curve->nPoints()-1)) ++countPoint0;
-	(countPoint0 % 5 > 2) ? mutation = true : mutation = false;
-	if (mutation){ 
-		camara->setCurve(curve2);
-		automatic = false;
-		camara->followCurveOut(1, displaced);
-	}
-	else{ camara->setCurve(curve); }
-
+	(countPoint0 % 2 == 1) ? mutation = 1 : mutation = 0;
+	
 	camara->setMutation(mutation);
 
 	drawCurve->draw(camara, modo, mutation);

@@ -325,7 +325,7 @@ void BloodElement::generateTexture(){
 }
 
 /* Draw the Blood Element */
-void BloodElement::draw(Camara* camara, int modo, bool mutation){
+void BloodElement::draw(Camara* camara, int modo, int mutation){
 	glUseProgram(program);
 	glm::mat4 modelMatrix = glm::translate(glm::vec3(0, 0, 0));
 

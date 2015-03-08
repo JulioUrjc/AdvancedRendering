@@ -3,3 +3,18 @@ D:\Master\Rendering Avanzado (RA)\Prac1-Vena\AdvancedRendering\assn2-StarterCode
 Linea 675
 
 #define GLM_HAS_ANONYMOUS_UNION !defined(GLM_FORCE_CXX98) && !defined(GLM_FORCE_CXX03) && (GLM_LANG & GLM_LANG_CXXMS_FLAG) && !(GLM_COMPILER & GLM_COMPILER_VC)
+
+
+
+
+
+
+
+ERROR DE SEGURIDAD
+
+Arreglar Error LNK2026: "Módulo no seguro de una imagen SAFESEH[...]" 
+Abre la ventana de propiedades del proyecto. (Ver paso 2.6) 
+Selecciona Vinculador. 
+Selecciona Línea de comandos. 
+Escribe (o c&p) en la caja de texto Opciones adicionales: 
+/SAFESEH:NO
