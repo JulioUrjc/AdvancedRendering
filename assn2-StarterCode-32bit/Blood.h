@@ -14,6 +14,7 @@ class Blood{
 		
 		BezierCurve* curve;
 		float radius;
+		int showTexture;
 
 	public:
 
@@ -27,6 +28,7 @@ class Blood{
 		void draw(Camara* camara, int modo, bool mutation);
 		float numRandom(float range);
 		int intRandom(int max);
+		void setShowTexture(int showText);
 		void freeMemory();
 };
 

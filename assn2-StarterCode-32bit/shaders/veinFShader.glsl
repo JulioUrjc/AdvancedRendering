@@ -19,7 +19,6 @@ const vec3 specularLight = vec3(0.6f,0.6f,0.6f);
 const float shininess = 0.9f;
 
 //Show or not texture
-
 uniform int showTexture;
 uniform float iGlobalTime;
 uniform int mutation;
@@ -41,11 +40,8 @@ void main(){
 	vec3 ret;
 	//v *= 3.0;
 	ret = vec3(sin(v), sin(v+0.5*PI), sin(v+1.0*PI));
-
 	ret = 0.5 + 0.5*ret;
 
-
-	
     //Ambient. The material is the same for all light components (just color)
 	vec3 amb = ambientLight * vcolor;
 	amb = clamp(amb, 0.0, 1.0);
@@ -64,7 +60,4 @@ void main(){
 
 	//Texture
 	outColor =(texture2D(textureVein, vTextCoord)*showTexture*0.1f + vec4(amb+diffuse+specular,1)*(1-showTexture)*(1-mutation)*0.7f + vec4(ret,1)*mutation*1.0f);
-	//outColor = (texture2D(textureVein, vTextCoord)*showTexture*0.1f + vec4(amb+diffuse+specular,1)*(1-showTexture)*0.1f + vec4(ret,1)*showTexture*0.9f );
-	//outColor = vec4(amb+diffuse+specular,1)*0.6f;
-	//outColor = vec4(amb+diffuse,1)*0.6f;
 }

@@ -73,9 +73,7 @@ void Camara::simulateHeartBeat(int acceleration){
 		projectionMatrix = glm::perspective(90.0f*zoom, 0.1f, N, F);
 		viewMatrix = glm::lookAt(eye.convertVec3(), curve->getTangentList().at(pointCurve)->convertVec3(),
 			curve->getBinormalList().at(pointCurve)->convertVec3());
-
-	}
-	else{
+	}else{
 		projectionMatrix = glm::perspective(glm::radians(fovy*zoom), aspect, N, F);
 		viewMatrix = glm::lookAt(eye.convertVec3(), eye.convertVec3() + curve->getTangentList().at(pointCurve)->convertVec3(),
 			curve->getBinormalList().at(pointCurve)->convertVec3());

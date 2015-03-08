@@ -2,6 +2,7 @@
 
 in vec3 inVertex;
 in vec3 inNormal;
+in vec3 inColor;
 in vec2 inTextCoord;
 
 out vec3 vertex;

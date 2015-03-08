@@ -52,17 +52,18 @@ int g_iMiddleMouseButton = 0;
 int g_iRightMouseButton = 0;
 
 /* - BezierCurve Variable - */
-
 const int curveSteps = 256;
 const float curveT = 0.7f;
 BezierCurve* curve;
+BezierCurve* curve2;
 DrawCurve* drawCurve;
 
 /* - Vein Variable - */
 const int veinSides = 256;
 const float veinRadius = 2.0f;
 Vein* vein;
-int texture;
+int showTexture;
+int showTexture2;
 
 /* - Blood Variable - */
  const int numRedCorpuscles = 300;
@@ -78,15 +79,17 @@ const int INITPOINT = 0;
 Camara* camara;
 PV3D *eye, *look, *up;
 GLdouble N=0.01, F=1000.0; //near and fare planes
-float angleYaw=0, angleRoll=0, anglePitch=0;
+//float angleYaw=0, angleRoll=0, anglePitch=0;
 float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
-bool automatic = false;    // Move Automatic
+bool automatic = true;    // Move Automatic
 bool heartBeat = false;    // Move Heart Beat
 int acceleration = 1;
 int modo = 3;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
 int mutation = 0;
+int mutation2 = 0;
 int countPoint0 = 0;
+int countPoint1 = 0;
 
 /* Control del numero de captura */
 int captura = 0;
@@ -309,8 +312,12 @@ void key(unsigned char key, int x, int y){
 		break;
 	// Mostrar textura
 	case 'c':
-		texture = 1 - texture;
-		vein->setShowTexture(texture);
+		showTexture = 1 - showTexture;
+		vein->setShowTexture(showTexture);
+		break;
+	case 'v':
+		showTexture2 = 1 - showTexture2;
+		blood->setShowTexture(showTexture2);
 		break;
 	// Capturas de pantalla
 	case '0':
@@ -328,7 +335,8 @@ void flopsForSecond(){
 
 	// Informacion de FPS
 	char scene_info[32];
-	void *font_type = GLUT_BITMAP_9_BY_15;
+	//void *font_type = GLUT_BITMAP_9_BY_15;
+	void *font_type = GLUT_BITMAP_HELVETICA_18;
 
 	double x = 1.0 * WINDOW_WIDTH / 100.0;
 	double y = 97.0 * WINDOW_HEIGHT / 100.0;
@@ -343,7 +351,7 @@ void flopsForSecond(){
 	glPushMatrix();
 	glLoadIdentity();
 
-	glColor3f(1.0, 0.0, 0.0);
+	glColor3f(1.0, 1.0, 1.0);
 	sprintf(scene_info, "FPS: %d", fps);
 	glRasterPos2d(x - 3 + 1, y - 1);
 	for (char *p = scene_info; *p; p++)
@@ -356,26 +364,22 @@ void flopsForSecond(){
 	glPopAttrib();
 }
 
-
 /*	display - Function to modify with your heightfield rendering code (Currently displays a simple cube) */
 void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (camara->getCurrentPoint() == curve->getPointList().size()-1) 
-		++countPoint0;
-
-	(countPoint0 % 2 == 1) ? mutation = 1 : mutation = 0;
+	if (camara->getCurrentPoint() == (curve->nPoints()-1)) ++countPoint0;
+	if (camara->getCurrentPoint() == (curve->nPoints()*2/3)) ++countPoint1;
+	if (countPoint1 % 2 == 1) mutation2 = 1; else  mutation2 = 0;
+	if (countPoint0 % 2 == 1){ mutation = 1; mutation2 = 0; }else{ mutation = 0; }
 	
 	camara->setMutation(mutation);
 
 	drawCurve->draw(camara, modo, mutation);
 	vein->draw(camara, modo, mutation);
-	blood->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation2);
 
-	//drawCurve->draw(camara, modo);
-	//vein->draw(camara, modo);
-	//blood->draw(camara, modo);
 	flopsForSecond();
 
 	glutSwapBuffers(); 
@@ -462,6 +466,7 @@ int main (int argc, char ** argv){
 	std::cout << "Generating bezier curve..." << std::endl;
 	curve = new BezierCurve(curveSteps, curveT);
 	drawCurve = new DrawCurve(curve);
+	curve2 = new BezierCurve(40, 10);
 
 	std::cout << "Generating vein..." << std::endl;
 	//GLuint textureID = loadTexture("./Textures/veinTexture.jpg");
