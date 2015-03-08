@@ -308,7 +308,8 @@ void BloodElement::generateBuffers(){
 }
 
 void BloodElement::generateTexture(){
-	TextureLoader loader("./Textures/veinTexture.jpg");
+	//TextureLoader loader("./Textures/veinTexture.jpg");
+	TextureLoader loader("./Textures/colores.jpg");
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
