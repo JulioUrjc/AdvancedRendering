@@ -8,6 +8,7 @@ Blood::Blood(int numRed, int numWhite, BezierCurve *c, float rad){
 	numObj = numRed + numWhite;
 	curve = c;
 	radius = rad;
+	showTexture = 0;
 
 	srand(time(NULL));
 	generateRedCorpuscles();
@@ -65,6 +66,12 @@ void Blood::draw(int modo){
 void Blood::draw(Camara* camara, int modo, bool mutation){
 	for (int i = 0; i < bloodObj.size(); i++){
 		bloodObj.at(i)->draw(camara, modo, mutation);
+	}
+}
+
+void Blood::setShowTexture(int showText){
+	for (int i = 0; i < bloodObj.size(); i++){
+		bloodObj.at(i)->setShowTexture(showText);
 	}
 }
 

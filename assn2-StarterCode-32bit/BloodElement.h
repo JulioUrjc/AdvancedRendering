@@ -44,7 +44,7 @@ private:
 	//VAO
 	GLuint vao;
 	//VBO
-	GLuint buffer[3];
+	GLuint buffer[4];
 	//Shaders
 	ShaderLoader vShader = ShaderLoader("./shaders/bloodVShader.glsl", GL_VERTEX_SHADER);
 	ShaderLoader fShader = ShaderLoader("./shaders/bloodFShader.glsl", GL_FRAGMENT_SHADER);
@@ -65,6 +65,9 @@ private:
 	//Uniform variables for shaders
 	GLint mvpMatrixID;
 	GLint modelViewID;
+	GLint globalTimeID;
+	float time;
+	GLint mutationID;
 
 	//Lighting
 	GLint ambientLightID;
@@ -72,6 +75,8 @@ private:
 	GLint lightDirectionID;
 
 	//Texture
+	int showTexture;
+	GLint showTextureID;
 	GLuint textureID;
 	std::vector<float> texCoords;
 
@@ -99,6 +104,7 @@ public:
 
 	void draw(Camara* camara, int modo, int mutation);
 	void setDiffuseLight(glm::vec3 newLight);
+	void setShowTexture(int showTex);
 	void freeMemory();
 };
 

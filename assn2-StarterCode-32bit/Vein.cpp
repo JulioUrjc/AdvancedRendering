@@ -12,7 +12,7 @@ Vein::Vein(int NP, GLfloat radius, BezierCurve* curve, GLint textureID) : Mesh(N
 	this->radiusVein = radius;
 	this->curve = curve;
 	this->textureID = textureID;
-	texture = 1;
+	showTexture = 0;
 	ambientLight = glm::vec3(0.3f, 0.3f, 0.3f);
 	diffuseLight = glm::vec3(0.7f, 0.7f, 0.7f);
 	lightDirection = normalize(glm::vec3(2.0f, 5.0f, 2.0f));
@@ -300,7 +300,7 @@ void Vein::draw(Camara* camara, int modo, int mutation){
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);
 	glUniform1f(globalTimeID, time);
-	glUniform1i(showTextureID, texture);
+	glUniform1i(showTextureID, showTexture);
 	glUniform1i(mutationID, mutation);
 
 	//Drawing   
@@ -316,7 +316,6 @@ void Vein::draw(Camara* camara, int modo, int mutation){
 
 	if (mutation == 1){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 		glDrawElements(GL_QUADS, indexVector.size(), GL_UNSIGNED_INT, 0);
 	}
 	else{
@@ -386,8 +385,8 @@ void Vein::generateTexture(){
 	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
-void Vein::setShowTexture(int text){
-	texture = text;
+void Vein::setShowTexture(int showText){
+	showTexture = showText;
 }
 
 void Vein::setDiffuseLight(glm::vec3 newLight){

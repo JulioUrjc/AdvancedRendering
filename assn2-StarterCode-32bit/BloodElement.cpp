@@ -5,9 +5,13 @@ BloodElement::BloodElement(Elements element, PV3D pos, PV3D rot){
 	//std::cout << "Position:" << position.getX() << " " << position.getY() << " " << position.getZ() << std::endl;
 	rotation = rot;
 	type = element;
-
 	initMatrix();
 	createElement(element);
+	showTexture = 0;
+	time = 0;
+	ambientLight = glm::vec3(0.3f, 0.3f, 0.3f);
+	diffuseLight = glm::vec3(0.7f, 0.7f, 0.7f);
+	lightDirection = normalize(glm::vec3(2.0f, 5.0f, 2.0f));
 
 	initValues();
 	generateVectors();
@@ -20,22 +24,6 @@ BloodElement::~BloodElement(){}
 void BloodElement::initMatrix(){
 
 	//Calculate matrix
-	/*
-	glm::mat4x4 matRotX	(1, 0, 0, 0,
-						0, glm::cos(rotation.getX()), -glm::sin(rotation.getX()), 0,
-						0, glm::sin(rotation.getX()), glm::cos(rotation.getX()), 0,
-						0, 0, 0, 1);
-
-	glm::mat4x4 matRotY(glm::cos(rotation.getY()), 0, glm::sin(rotation.getY()), 0,
-						0, 1, 0, 0,
-						-glm::sin(rotation.getY()), 0, glm::cos(rotation.getY()), 0,
-						0, 0, 0, 1);
-
-	glm::mat4x4 matRotZ(glm::cos(rotation.getZ()), -glm::sin(rotation.getZ()), 0, 0,
-						glm::sin(rotation.getZ()), glm::cos(rotation.getZ()), 0, 0,
-						0, 0, 1, 0,
-						0, 0, 0, 1);
-	*/
 	glm::mat4x4 identity = glm::mat4x4(1.0f);
 	rotationMatrix = glm::rotate(identity,(float)rotation.getX(), glm::vec3(1, 0, 0));
 	rotationMatrix = glm::rotate(rotationMatrix, (float)rotation.getY(), glm::vec3(0, 1, 0));
@@ -96,7 +84,7 @@ void BloodElement::createPrimitive(Primitives primitive, GLfloat size, GLfloat h
 
 					glm::vec4 point1 = glm::vec4(cosTheta1 * dist, -sinTheta1 * dist, size * sinPhi, 1);
 					glm::vec4 point2 = glm::vec4(cosTheta * dist, -sinTheta * dist, size * sinPhi, 1);
-					//std::cout << "point1: " << point1.x << " " << point1.y << " " << point1.z << std::endl;
+
 					// If is the interior torus of white Cell we rotate it
 					if (interior){
 						glm::mat4x4 identity = glm::mat4x4(1.0f);
@@ -204,6 +192,10 @@ void BloodElement::initValues(){
 	lightDirectionID = -1;
 
 	textureID = -1;
+	showTextureID = -1;
+	globalTimeID = -1;
+
+	mutationID = -1;
 }
 
 //Prepare shaders
@@ -249,6 +241,11 @@ void BloodElement::initShaders(){
 	ambientLightID = glGetUniformLocation(program, "ambientLight");
 	diffuseLightID = glGetUniformLocation(program, "diffuseLight");
 	lightDirectionID = glGetUniformLocation(program, "lightDirection");
+	globalTimeID = glGetUniformLocation(program, "iGlobalTime");
+	mutationID = glGetUniformLocation(program, "mutation");
+
+	//Uniform variables
+	showTextureID = glGetUniformLocation(program, "showTexture");
 
 	//Attributes
 	inVertex = glGetAttribLocation(program, "inVertex");
@@ -281,7 +278,7 @@ void BloodElement::generateBuffers(){
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
-	glGenBuffers(3, buffer);
+	glGenBuffers(4, buffer);
 
 	//Vertex
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
@@ -311,7 +308,7 @@ void BloodElement::generateBuffers(){
 }
 
 void BloodElement::generateTexture(){
-	TextureLoader loader("./Textures/level5.bmp");
+	TextureLoader loader("./Textures/veinTexture.jpg");
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -332,13 +329,13 @@ void BloodElement::draw(Camara* camara, int modo, int mutation){
 	//Set ModelViewProjection matrix uniform
 	glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &camara->getModelViewProjection(modelMatrix)[0][0]);
 	glUniformMatrix4fv(modelViewID, 1, GL_FALSE, &camara->getModelView(modelMatrix)[0][0]);
-	//Lighting uniforms
-	ambientLight = glm::vec3(0.3f, 0.3f, 0.3f);
-	diffuseLight = glm::vec3(0.7f, 0.7f, 0.7f);
-	lightDirection = normalize(glm::vec3(2.0f, 5.0f, 2.0f));
+	
 	glUniform3f(ambientLightID, ambientLight.x, ambientLight.y, ambientLight.z);
 	glUniform3f(diffuseLightID, diffuseLight.x, diffuseLight.y, diffuseLight.z);
 	glUniform3f(lightDirectionID, lightDirection.x, lightDirection.y, lightDirection.z);
+	glUniform1f(globalTimeID, time);
+	glUniform1i(showTextureID, showTexture);
+	glUniform1i(mutationID, mutation);
 
 	glm::vec3 color = (type == RED) ? glm::vec3(1.0, 0.1, 0.3) : glm::vec3(1.0, 0.8, 1.0);
 	glUniform3f(inColor, color.x, color.y, color.z);
@@ -348,10 +345,11 @@ void BloodElement::draw(Camara* camara, int modo, int mutation){
 
 	//Textures
 	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE6);
-	GLint loc = glGetUniformLocation(program, "texMap");
-	glUniform1i(loc, 6);
+	glActiveTexture(GL_TEXTURE2);
+	GLint loc = glGetUniformLocation(program, "textureBlood");
+	glUniform1i(loc, 2);
 	glBindTexture(GL_TEXTURE_2D, textureID);
+
 
 	if (modo == 1){
 		glDrawElements(GL_POINTS, indexVector.size(), GL_UNSIGNED_INT, 0);
@@ -364,16 +362,21 @@ void BloodElement::draw(Camara* camara, int modo, int mutation){
 	}
 
 	glUseProgram(NULL);
+	time += 1;
 }
 
 void BloodElement::setDiffuseLight(glm::vec3 newLight){
 	diffuseLight = newLight;
 }
 
+void BloodElement::setShowTexture(int showTex){
+	showTexture = showTex;
+}
+
 void BloodElement::freeMemory(){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(3, buffer);
+	glDeleteBuffers(4, buffer);
 
 	glBindVertexArray(0);
 	glDeleteVertexArrays(1, &vao);
@@ -387,5 +390,5 @@ void BloodElement::freeMemory(){
 	glDeleteProgram(program);
 
 	//Texture
-	//glDeleteTextures(1, &textureID);
+	glDeleteTextures(1, &textureID);
 }

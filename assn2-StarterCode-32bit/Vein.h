@@ -48,7 +48,7 @@ class Vein : public Mesh{
 		//Uniform variables for shaders
 		GLint mvpMatrixID;
 		GLint modelViewID;
-		int texture;
+		int showTexture;
 		GLint showTextureID;
 		GLint globalTimeID;
 		float time;
@@ -87,7 +87,7 @@ class Vein : public Mesh{
 		void draw(Camara* camara, int modo, int mutation);
 		void setDiffuseLight(glm::vec3 newLight);
 		void setAmbientLight(glm::vec3 newLight);
-		void setShowTexture(int text);
+		void setShowTexture(int showText);
 		void freeMemory();
 };
 

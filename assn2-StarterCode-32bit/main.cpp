@@ -62,7 +62,8 @@ DrawCurve* drawCurve;
 const int veinSides = 256;
 const float veinRadius = 2.0f;
 Vein* vein;
-int texture;
+int showTexture;
+int showTexture2;
 
 /* - Blood Variable - */
  const int numRedCorpuscles = 300;
@@ -78,15 +79,17 @@ const int INITPOINT = 0;
 Camara* camara;
 PV3D *eye, *look, *up;
 GLdouble N=0.01, F=1000.0; //near and fare planes
-float angleYaw=0, angleRoll=0, anglePitch=0;
+//float angleYaw=0, angleRoll=0, anglePitch=0;
 float fovy = 45.0, aspect = WINDOW_WIDTH / WINDOW_HEIGHT, zoom = 0.1;
-bool automatic = false;    // Move Automatic
+bool automatic = true;    // Move Automatic
 bool heartBeat = false;    // Move Heart Beat
 int acceleration = 1;
 int modo = 3;			   // Default Mode lines
 float displaced = 70.0;    // Init Distance from a vein in camera out
 int mutation = 0;
+int mutation2 = 0;
 int countPoint0 = 0;
+int countPoint1 = 0;
 
 /* Control del numero de captura */
 int captura = 0;
@@ -309,8 +312,12 @@ void key(unsigned char key, int x, int y){
 		break;
 	// Mostrar textura
 	case 'c':
-		texture = 1 - texture;
-		vein->setShowTexture(texture);
+		showTexture = 1 - showTexture;
+		vein->setShowTexture(showTexture);
+		break;
+	case 'v':
+		showTexture2 = 1 - showTexture2;
+		blood->setShowTexture(showTexture2);
 		break;
 	// Capturas de pantalla
 	case '0':
@@ -363,13 +370,15 @@ void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (camara->getCurrentPoint() == (curve->nPoints()-1)) ++countPoint0;
-	(countPoint0 % 2 == 1) ? mutation = 1 : mutation = 0;
+	if (camara->getCurrentPoint() == (curve->nPoints()*2/3)) ++countPoint1;
+	if (countPoint1 % 2 == 1) mutation2 = 1; else  mutation2 = 0;
+	if (countPoint0 % 2 == 1){ mutation = 1; mutation2 = 0; }else{ mutation = 0; }
 	
 	camara->setMutation(mutation);
 
 	drawCurve->draw(camara, modo, mutation);
 	vein->draw(camara, modo, mutation);
-	blood->draw(camara, modo, mutation);
+	blood->draw(camara, modo, mutation2);
 
 	flopsForSecond();
 
