@@ -1,0 +1,30 @@
+CONTROLES:
+
+'0' => Genera y guarda una captura de pantalla
+'1' => Renderiza la imagen en modo PUNTOS
+'2' => Renderiza la imagen en modo LINEAS
+'3' => Renderiza la imagen rellena
+'4' => Activa el modo de avance automático de la cámara
+'5' => Activa el modo de avance en latido de la cámara
+'6' => Zoom menos por fuera de la curva
+'7' => Zoom más por fuera de la curva
+'8' => Avance por fuera de la vena
+'9' => Retroceso por fuera de la vena
+
+'+' => Zoom más por dentro de la curva
+'-' => Zoom menos por dentro de la curva
+
+'j' => Movimiento de translacción en el eje normal negativo
+'k' => Movimiento de translacción en el eje up negativo
+'l' => Movimiento de translacción en el eje normal positivo
+'i' => Movimiento de translacción en el eje up positivo
+
+'a' => Movimiento de avance punto a punto por dentro de la vena
+'z' => Movimiento de retroceso punto a punto por dentro de la vena
+
+'u' => Rotación izquierda
+'o' => Rotación derecha
+'p' => Rotación arribag
+
+'c' => Activa/desactiva texturas de la vena
+'v' => Activa/desactiva texturas de los glóbulos
