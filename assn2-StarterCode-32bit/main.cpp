@@ -66,8 +66,8 @@ int showTexture;
 int showTexture2;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 300;
- const int numWhiteCorpuscles = 150;
+ const int numRedCorpuscles = 400;
+ const int numWhiteCorpuscles = 250;
  Blood* blood;
 
 /* - Perlin Noise - */
@@ -352,10 +352,12 @@ void flopsForSecond(){
 	glLoadIdentity();
 
 	glColor3f(1.0, 1.0, 1.0);
+
 	sprintf(scene_info, "FPS: %d", fps);
 	glRasterPos2d(x - 3 + 1, y - 1);
 	for (char *p = scene_info; *p; p++)
 		glutBitmapCharacter(font_type, *p);
+
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
