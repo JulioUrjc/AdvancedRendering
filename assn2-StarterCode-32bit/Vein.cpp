@@ -98,12 +98,24 @@ void Vein::addPerlinNoise(float** perlinNoise){
 	float deformation=0;
 	float maxDef = radiusVein/4;
 	float minDef = radiusVein/8;
+	
+	/* Degradado de color dependiente de Perlin*/
+	std::vector<PV3D*> colores;
+	//Colores monocromaticos rojizos
+	colores.push_back(new PV3D(1.0f, 0.0f, 0.0f));
+	colores.push_back(new PV3D(0.95f, 0.0f, 0.0f));
+	colores.push_back(new PV3D(0.90f, 0.0f, 0.0f));
+	colores.push_back(new PV3D(0.85f, 0.0f, 0.0f));
+	colores.push_back(new PV3D(0.80f, 0.0f, 0.0f));
+	/*colores.push_back(new PV3D(1.0f, 1.0f, 0.0f));
+	colores.push_back(new PV3D(0.0f, 0.0f, 1.0f));
+	colores.push_back(new PV3D(0.0f, 1.0f, 0.0f));*/
+
 	for (int i = 0; i < curve->nPoints(); i++){
 		//I'm in each subdivision
 		for (int j = 0; j < NP; j++){
 			//I'm in each vertex at subdivision
-			deformation = ((perlinNoise[i%256][j] + 1) / 2)*(maxDef - minDef) + minDef;
-			//cout << "deformation: " << deformation << endl;
+			deformation = (((perlinNoise[i%256][j] + 1) / 2)*(maxDef - minDef)) + minDef;
 			int iV = (i*NP)+j;
 			PV3D* radiusVector = (curve->getPointList().at(i)->clone())->subtraction(vertex->at(iV));
 			//radiusVector->normalize();
@@ -114,7 +126,9 @@ void Vein::addPerlinNoise(float** perlinNoise){
 			vertex->at(iV)->setZ((vertex->at(iV)->getZ() + (float)radiusVector->getZ()*deformation));
 			//cout << "punto despues:" << endl;
 			//vertex->at(iV)->toString();
-			vertex->at(iV)->setColor(new PV3D(glm::clamp(deformation, 0.0f, 0.8f), glm::clamp(deformation, 0.0f, 0.5f), 0.0f));
+			int col = 0;
+			if (deformation < minDef) col = 0; else if (deformation < minDef + 0.1) col = 1; else if (deformation < minDef + 0.2) col = 2; else if (deformation < minDef+0.3) col = 3; else col = 4;
+			vertex->at(iV)->setColor(colores.at(col));
 			delete radiusVector;
 		}
 	}
@@ -136,7 +150,7 @@ void Vein::initValues(){
 
 	inVertex = -1;
 	inNormal = -1;
-	//inColor = -1;
+	inColor = -1;
 	texCoordID = -1;
 
 	mvpMatrixID = -1;
@@ -166,8 +180,8 @@ void Vein::initShaders(){
 	glAttachShader(program, fShader.getShaderID());
 	glBindAttribLocation(program, 0, "inVertex");
 	glBindAttribLocation(program, 1, "inNormal");
-	//glBindAttribLocation(program, 2, "inColor");
-	glBindAttribLocation(program, 2, "inTextCoord");
+	glBindAttribLocation(program, 2, "inColor");
+	glBindAttribLocation(program, 3, "inTextCoord");
 
 	glLinkProgram(program);
 
@@ -205,7 +219,7 @@ void Vein::initShaders(){
 	//Attributes
 	inVertex = glGetAttribLocation(program, "inVertex");
 	inNormal = glGetAttribLocation(program, "inNormal");
-	//inColor = glGetAttribLocation(program, "inColor");
+	inColor = glGetAttribLocation(program, "inColor");
 	texCoordID = glGetAttribLocation(program, "inTexCoord");
 }
 
@@ -215,6 +229,11 @@ void Vein::generateVectors(){
 		vertexVector.push_back(punto->getX());
 		vertexVector.push_back(punto->getY());
 		vertexVector.push_back(punto->getZ());
+
+		PV3D* color = vertex->at(i)->getColor()->clone();
+		colorVector.push_back(color->getX());
+		colorVector.push_back(color->getY());
+		colorVector.push_back(color->getZ());
 
 		PV3D* normal = normals->at(i)->clone();
 		normalVector.push_back(normal->getX());
@@ -258,7 +277,7 @@ void Vein::generateBuffers(){
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
-	glGenBuffers(4, buffer);
+	glGenBuffers(5, buffer);
 
 	//Vertex
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
@@ -272,14 +291,20 @@ void Vein::generateBuffers(){
 	glEnableVertexAttribArray(inNormal);
 	glVertexAttribPointer(inNormal, 3, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
 
-	//Texture coordinates
+	//Color
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*colorVector.size(), &(colorVector.front()), GL_STATIC_DRAW);
+	glEnableVertexAttribArray(inColor);
+	glVertexAttribPointer(inColor, 3, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
+
+	//Texture coordinates
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[3]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*texCoords.size(), &(texCoords.front()), GL_STATIC_DRAW);
 	glEnableVertexAttribArray(texCoordID);
 	glVertexAttribPointer(texCoordID, 2, GL_FLOAT, GL_FALSE, 0, 0);  //Shader input
 
 	//Quads
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[3]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[4]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexVector.size(), &(indexVector.front()), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
@@ -339,7 +364,7 @@ void Vein::draw(Camara* camara, int modo, int mutation){
 void Vein::freeMemory(){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(4, buffer);
+	glDeleteBuffers(5, buffer);
 
 	glBindVertexArray(0);
 	glDeleteVertexArrays(1, &vao);

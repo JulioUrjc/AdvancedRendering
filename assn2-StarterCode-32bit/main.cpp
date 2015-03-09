@@ -66,8 +66,8 @@ int showTexture;
 int showTexture2;
 
 /* - Blood Variable - */
- const int numRedCorpuscles = 400;
- const int numWhiteCorpuscles = 250;
+ const int numRedCorpuscles = 300;
+ const int numWhiteCorpuscles = 150;
  Blood* blood;
 
 /* - Perlin Noise - */

@@ -15,7 +15,8 @@ uniform mat4 modelView;
 uniform float inGlobalTime;
 
 void main(){
-	vcolor = vec3(1.0,0.0,0.0);
+	//vcolor = vec3(1.0,0.0,0.0);
+	vcolor = inColor;
 	vnormal= inNormal;
 	vTextCoord= inTextCoord;
 	vertex = (modelView*vec4(inVertex,1)).xyz;
