@@ -25,7 +25,7 @@ class Vein : public Mesh{
 		//VAO
 		GLuint vao;
 		//VBO
-		GLuint buffer[4];
+		GLuint buffer[5];
 		//Shaders
 		ShaderLoader vShader= ShaderLoader("./shaders/veinVShader.glsl", GL_VERTEX_SHADER);
 		ShaderLoader fShader = ShaderLoader("./shaders/veinFShader.glsl", GL_FRAGMENT_SHADER);
@@ -35,13 +35,13 @@ class Vein : public Mesh{
 		//Shader atributes
 		GLint inVertex;
 		GLint inNormal;
-		//GLint inColor;
+		GLint inColor;
 		GLint texCoordID;
 		GLuint textureID;
 
 		std::vector<float> vertexVector;
 		std::vector<float> normalVector;
-		//std::vector<float> colorVector;
+		std::vector<float> colorVector;
 		std::vector<float> texCoords;
 		std::vector<unsigned int> indexVector;
 
