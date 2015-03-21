@@ -313,8 +313,8 @@ void BloodElement::generateTexture(){
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loader.getWidth(), loader.getHeight(), 0,
+		GL_RGB, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture2());
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

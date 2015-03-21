@@ -24,6 +24,43 @@ uniform float iGlobalTime;
 uniform int mutation;
 
 #define PI 3.141592653589
+const float NUMCELL = 15.0;
+
+vec2 Hash2(vec2 p){
+	float r = 523.0*sin(iGlobalTime/900000+dot(p, vec2(53.3158, 43.6143)));
+	return vec2(fract(15.32354 * r), fract(17.25865 * r));
+}
+
+float minDistance(in vec2 p){
+	p *= NUMCELL;
+	float minD = 2.0;
+	float minD2 = 2.0;
+	float minD3 = 2.0;
+	float minAux=0;
+
+	for (int i = -1; i <= 1; i++){
+		for (int j = -1; j <= 1; j++){
+			vec2 auxP = floor(p) + vec2(i, j);
+			vec2 hashP = Hash2(mod(auxP, NUMCELL));
+			//Euclidea distance
+			//minD = min(minD, sqrt(pow((p.x-auxP.x-hashP.x),2)+pow((p.y-auxP.y-hashP.y),2)));
+			minD = min(minD, length(p - auxP - hashP)); //mod to do a circular texture
+			//Manhattan distance
+			//minD = min(minD, (abs(p.x-auxP.x-hashP.x)+abs(p.y-auxP.y-hashP.y)));
+			////Teselas mode
+			minD2 = min(minD3, length(p - auxP - hashP));
+			
+			if (minD2<minD){
+				minAux= minD2;
+				minD2=minD;
+				minD=minAux;
+			} 
+		}
+	}
+	return minD;               //Celular
+	//return minD2-minD;         //Teselas
+	//return minD3-minD2-minD;   //Teselas Distantes
+}
 
 void main(){
 
@@ -58,6 +95,11 @@ void main(){
 	vec3 specular = vcolor * specularLight * pow(max(dot(reflected,eyeDirection),0.0),shininess);
 	specular = clamp(specular,0.0,1.0);
 
+	vec2 uv = gl_FragCoord.xy / vec2(640.0,480.0);
+	float minD = minDistance(uv);
+
 	//Texture
-	outColor =(texture2D(textureVein, vTextCoord)*showTexture*0.1f + vec4(amb+diffuse+specular,1)*(1-showTexture)*(1-mutation)*0.7f + vec4(ret,1)*mutation*1.0f);
+	//outColor =(texture2D(textureVein, vTextCoord)*showTexture*0.8f + vec4(amb+diffuse+specular,1)*(1-showTexture)*(1-mutation)*0.7f + vec4(ret,1)*mutation*1.0f);
+	//outColor =texture(textureVein, vTextCoord)*showTexture*0.8f + vec4(amb+diffuse+specular,1)*(1-showTexture)*(1-mutation)*0.7f + vec4(ret,1)*mutation*0.4f;
+	outColor = vec4(minD*.93, minD*.23, minD*.13,1.0)*showTexture*0.3f + vec4(amb+diffuse+specular,1)*(1-mutation)*0.7f + vec4(ret,1)*mutation*0.4f;
 }

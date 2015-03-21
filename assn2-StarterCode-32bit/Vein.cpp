@@ -390,14 +390,18 @@ void Vein::generateTexture(){
 	//TextureLoader loader("./Textures/simtrix.jpg");
 	//TextureLoader loader("./Textures/veinmesh.png");
 	//TextureLoader loader("./Textures/colores.jpg");
-	//TextureLoader loader("./Textures/colores2.jpg");
-	TextureLoader loader("./Textures/color.bmp");
+	TextureLoader loader("./Textures/colores2.jpg");
+	//TextureLoader loader("./Textures/color.bmp");
+	//TextureLoader loader("./Textures/img_test.bmp");
 
+	unsigned char* img = loader.getTexture2();
+		cout << loader.getHeight()<<"  x  "<<loader.getWidth() << endl;
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loader.getWidth(), loader.getHeight(), 0,
-		GL_BGR, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());
+		GL_RGB, GL_UNSIGNED_BYTE, img);
+	loader.freeTexture(img);
 
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, loader.getWidth(), loader.getHeight(), 0,
 	//	GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)loader.getTexture());

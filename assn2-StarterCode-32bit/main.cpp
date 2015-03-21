@@ -125,51 +125,51 @@ void saveScreenshot (char *filename){
 }
 
 /*	loadTexture - Loads a texture from a JPEG file to memory and returns the handle	*/
-GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
-	GLuint texIndex;
-
-	if (filename == NULL)
-		return 0;
-
-	Pic *texture = jpeg_read (filename, NULL);
-	if (texture == NULL)
-		return 0;
-
-	glGenTextures (1, &texIndex);
-	glBindTexture (GL_TEXTURE_2D, texIndex);
-
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-	if (pWidth != NULL)
-		*pWidth = texture->nx;
-	if (pHeight != NULL)
-		*pHeight = texture->ny;
-
-	switch (texture->bpp){
-		case 1:
-		default:
-			gluBuild2DMipmaps (GL_TEXTURE_2D, 1, texture->nx, texture->ny,
-						GL_R3_G3_B2, GL_UNSIGNED_BYTE, texture->pix);
-			break;
-		case 3:
-			gluBuild2DMipmaps (GL_TEXTURE_2D, 3, texture->nx, texture->ny,
-						GL_RGB, GL_UNSIGNED_BYTE, texture->pix);
-			break;
-		case 4:
-			gluBuild2DMipmaps (GL_TEXTURE_2D, 4, texture->nx, texture->ny,
-						GL_RGBA8, GL_UNSIGNED_BYTE, texture->pix);
-			break;
-	}
-
-	pic_free(texture);
-
-	return texIndex;
-}
+//GLuint loadTexture (char *filename, int *pWidth = NULL, int *pHeight = NULL){
+//	GLuint texIndex;
+//
+//	if (filename == NULL)
+//		return 0;
+//
+//	Pic *texture = jpeg_read (filename, NULL);
+//	if (texture == NULL)
+//		return 0;
+//
+//	glGenTextures (1, &texIndex);
+//	glBindTexture (GL_TEXTURE_2D, texIndex);
+//
+//	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+//
+//	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//
+//	if (pWidth != NULL)
+//		*pWidth = texture->nx;
+//	if (pHeight != NULL)
+//		*pHeight = texture->ny;
+//
+//	switch (texture->bpp){
+//		case 1:
+//		default:
+//			gluBuild2DMipmaps (GL_TEXTURE_2D, 1, texture->nx, texture->ny,
+//						GL_R3_G3_B2, GL_UNSIGNED_BYTE, texture->pix);
+//			break;
+//		case 3:
+//			gluBuild2DMipmaps (GL_TEXTURE_2D, 3, texture->nx, texture->ny,
+//						GL_RGB, GL_UNSIGNED_BYTE, texture->pix);
+//			break;
+//		case 4:
+//			gluBuild2DMipmaps (GL_TEXTURE_2D, 4, texture->nx, texture->ny,
+//						GL_RGBA8, GL_UNSIGNED_BYTE, texture->pix);
+//			break;
+//	}
+//
+//	pic_free(texture);
+//
+//	return texIndex;
+//}
 
 /*	doIdle - The idle-function that can be used to update the screen */
 void doIdle(){
@@ -444,9 +444,9 @@ void startCam(){
 	glEnable(GL_DEPTH_TEST);
 	glPolygonMode(GL_BACK, GL_LINE);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_COLOR_MATERIAL);
-	glShadeModel(GL_SMOOTH);
+	//glEnable(GL_NORMALIZE);
+	//glEnable(GL_COLOR_MATERIAL);
+	//glShadeModel(GL_SMOOTH);
 
 	camara->reDisplay();
 
@@ -472,8 +472,7 @@ int main (int argc, char ** argv){
 
 	std::cout << "Generating vein..." << std::endl;
 	//GLuint textureID = loadTexture("./Textures/veinTexture.jpg");
-	GLuint textureID = loadTexture("./Textures/veinTexture.jpg",new int(256), new int(256));
-	vein = new Vein(veinSides, veinRadius, curve, textureID);
+	vein = new Vein(veinSides, veinRadius, curve, -1);
 	vein->addPerlinNoise(perlinNoise.getNoiseImage());
 	vein->generateShader();
 

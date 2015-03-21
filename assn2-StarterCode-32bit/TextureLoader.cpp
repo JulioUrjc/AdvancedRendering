@@ -1,11 +1,17 @@
 #include "TextureLoader.h"
 #include <FreeImage.h>
+#include "SOIL/src/SOIL.h"
 #include <iostream>
 
 
 TextureLoader::TextureLoader(char *fileName):fileName(fileName)
 {
-	loadTextureFromFile();
+	loadTextureFromFile2();
+}
+
+void TextureLoader::loadTextureFromFile2(){
+	texture2 = SOIL_load_image(fileName, &width, &height, 0, SOIL_LOAD_RGB);
+
 }
 
 void TextureLoader::loadTextureFromFile()
@@ -65,7 +71,15 @@ char *TextureLoader::getTexture()
 	return texture;
 }
 
-TextureLoader::~TextureLoader(void)
+unsigned char *TextureLoader::getTexture2()
 {
-	delete texture;
+	return texture2;
 }
+
+void TextureLoader::freeTexture(unsigned char* image){
+	SOIL_free_image_data(image);
+}
+//TextureLoader::~TextureLoader(void)
+//{
+//	delete texture;
+//}
