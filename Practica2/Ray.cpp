@@ -15,28 +15,48 @@ float Ray::collisionSphere(SceneSphere* sphere){
 	float radius = sphere->getGlobalRadius();
 
 	//Vector from sphere center to ray origin (C - P)
-	Vector toCenter = center - origin;
-	float distance = toCenter.Dot(toCenter) - pow(radius, 2);
+	Vector toCenter = origin - center;
 
-	// if ray origin is outside the sphere
-	if (distance>0){
-		float projection = toCenter.Dot(direction);
-		//Check if sphere is in front of the camera, using the angle
-		if (projection >= 0){
-			float p2 = pow(projection,2);
+	float a = direction.Dot(direction);
+	float b = 2 * direction.Dot(origin);
+	float c = origin.Dot(origin) - pow(radius, 2);
 
-			
-			if (distance == p2){				// Ray tangent to the sphere
-				return projection;
-			}else if (distance < p2){			// Ray throw the sphere	
-				float sq = sqrt(p2 - distance);
-				
-				return glm::min(projection - sq, projection + sq);	// return the min (nearest)
-			}
+	float disc = pow(b, 2) - 4 * a*c;
+
+	if (disc >= 0){
+		//Existe al menos un punto de intersección
+		if (disc == 0){
+			//Hay una solución, rayo tangente a la esfera
+			return -b / 2 * a;
+		}
+		else{
+			float sqrt = glm::sqrt(disc);
+			return glm::min((-b - sqrt) / 2 * a, (-b + sqrt) / 2 * a);
 		}
 	}
 	return -1;
 }
+	//float distance = toCenter.Dot(toCenter) - pow(radius, 2);
+
+	// if ray origin is outside the sphere
+//	if (distance>0){
+//		float projection = toCenter.Dot(direction);
+//		//Check if sphere is in front of the camera, using the angle
+//		if (projection >= 0){
+//			float p2 = pow(projection,2);
+//
+//			
+//			if (distance == p2){				// Ray tangent to the sphere
+//				return projection;
+//			}else if (distance < p2){			// Ray throw the sphere	
+//				float sq = sqrt(p2 - distance);
+//				
+//				return glm::min(projection - sq, projection + sq);	// return the min (nearest)
+//			}
+//		}
+//	}
+//	return -1;
+//}
 
 Vector Ray::testCollisions(Scene &scene){
 
