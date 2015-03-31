@@ -289,9 +289,7 @@ bool Scene::Load (char *filename)
 						{
 							Vector norm = ParseOBJVector (&(line[position]));
 							normals.push_back (norm);
-						}
-						else if (strcmp (command,"f")==0)
-						{
+						}else if (strcmp (command,"f")==0){
 							int num = 0; // number of edges
 							int v_index[3]; // vertex index
 							int n_index[3]; // normal index
@@ -329,24 +327,18 @@ bool Scene::Load (char *filename)
 							tempTriangle.v[2] = 0.0f;
 
 							tempModel->triangleList.push_back (tempTriangle);
-						}
-						else
-						{
+						}else{
 							//printf ("Ignoring command <%s> in obj file\n", command);
 						}
 					}
 					infile.close ();
-				}
-				else
-				{
+				}else{
 					printf ("Unsupported file format\n");
 					return false;
 				}
 
 				m_ObjectList.push_back (tempModel);
-			}
-			else
-			{
+			}else{
 				printf ("Unrecognized Node <%s> in <object_list>\n", tempObjectNode.getName ());
 				exit (255);
 			}
@@ -370,8 +362,7 @@ bool Scene::Load (char *filename)
 	return true;
 }
 
-void Scene::ParseOBJCommand (char *line, int max, char *command, int &position)
-{
+void Scene::ParseOBJCommand (char *line, int max, char *command, int &position){
 	int i = 0;
 	int j = 0;
 
@@ -386,8 +377,7 @@ void Scene::ParseOBJCommand (char *line, int max, char *command, int &position)
 	position = i;
 }
 
-Vector Scene::ParseOBJVector (char *str)
-{
+Vector Scene::ParseOBJVector (char *str){
 	int i = 0;
 	float x,y,z;
 	while (str[i]!='\0' && str[i]==' ') i++;
@@ -400,14 +390,12 @@ Vector Scene::ParseOBJVector (char *str)
 	return Vector (x,y,z);
 }
 
-bool Scene::ParseOBJCoords (char *str, int &num, int v_index[3], int n_index[3])
-{
+bool Scene::ParseOBJCoords (char *str, int &num, int v_index[3], int n_index[3]){
 	int i = 0;
 	num = 0;
 
 	while (str[i]!='\0' && str[i]==' ') i++;
-	while (str[i]!='\0')
-	{
+	while (str[i]!='\0'){
 		while (str[i]!='\0' && str[i]!=' ') i++;
 		while (str[i]!='\0' && str[i]==' ') i++;
 		num++;
@@ -416,8 +404,7 @@ bool Scene::ParseOBJCoords (char *str, int &num, int v_index[3], int n_index[3])
 		return false;
 
 	i = 0;
-	for (int j=0; j<num; j++)
-	{
+	for (int j=0; j<num; j++){
 		while (str[i]==' ') i++;
 		v_index[j] = atoi (&(str[i])) - 1;
 		while (str[i]!='/' && str[i]!=' ') i++;

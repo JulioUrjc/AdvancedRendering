@@ -86,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3ds.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RayTrace.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="starter.cpp" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="3ds.h" />
     <ClInclude Include="NormalRenderer.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RayTrace.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Utils.h" />

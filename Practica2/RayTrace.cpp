@@ -81,5 +81,6 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY)
 
    //Ray ray(cameraPosition, rayDirection, NUM_REFLECTIONS);
    //return ray.testCollisions(m_Scene);
+   return Vector(0.0f, 0.0f, 0.0f);
 
 }
