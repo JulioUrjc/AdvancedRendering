@@ -3,7 +3,7 @@
 
 #include "Utils.h"
 #include "Scene.h"
-#include <math.h>
+#include <Math.h>
 
 class Ray{
 
@@ -23,9 +23,9 @@ class Ray{
 		Vector collisions(Scene &scene);
 
 		//Getters
-		Vector getRayDirection(){ return direction; }
-		//Vector getIntersectionPoint(){ return origin+direction*alpha; }
-		float getAlpha(){ return alpha; }
+		inline Vector getRayDirection(){ return direction; }
+		//inline Vector getIntersectionPoint(){ return origin+direction*alpha; }
+		inline float getAlpha(){ return alpha; }
 	
 	private:	
 		Vector origin;
