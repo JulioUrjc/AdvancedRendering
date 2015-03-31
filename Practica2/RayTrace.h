@@ -17,25 +17,32 @@
 #include <stdlib.h>
 
 #include "Utils.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 /*
-	RayTrace Class - The class containing the function you will need to implement
-
-	This is the class with the function you need to implement
+	RayTrace Class - The class containing the function you will need to implement.This is the class with the function you need to implement
 */
-class RayTrace
-{
-public:
-	/* - Scene Variable for the Scene Definition - */
-	Scene m_Scene;
+class RayTrace{
+	public:
+		/* - Scene Variable for the Scene Definition - */
+		Scene m_Scene;
 
-	// -- Constructors & Destructors --
-	RayTrace (void) {}
-	~RayTrace (void) {}
+		// -- Constructors & Destructors --
+		RayTrace(void) {}
+		~RayTrace (void) {}
 
-	// -- Main Functions --
-	// - CalculatePixel - Returns the Computed Pixel for that screen coordinate
-   Vector CalculatePixel (int screenX, int screenY);
+		// -- Main Functions --
+		// - CalculatePixel - Returns the Computed Pixel for that screen coordinate
+	   Vector CalculatePixel (int screenX, int screenY);
+	
+	private:
+		
+		float fovX, fovY;
+		Vector look, up, normal;
+		
+		void initialize(void);
+
 
 };
 
