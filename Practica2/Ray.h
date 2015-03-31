@@ -14,23 +14,26 @@ class Ray{
 		float collisionSphere(SceneSphere* sphere);
 
 		// Check if ray is intersecting with a triangle
-		float collisionTriangle(SceneTriangle* triangle, Vector* uvw);
+		float collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord);
 
 		// Returns the transparency to multiply to the color (0,0,0) total shadow, (1,1,1) no shadow
-		Vector collisionsShadow(Scene &scene);
+		Vector collisionShadow(Scene &scene, int ignoreObject);
+
+		// Return phong color
+		Vector phong(Vector diffuseMat, Vector specularMat, float shininess, Vector point, Vector normal, Vector eye, Scene &scene);
 
 		// Returns the color of the object intersected
-		Vector collisions(Scene &scene);
+		Vector collisions(Scene &scene, int ignoreObject);
 
 		//Getters
 		inline Vector getRayDirection(){ return direction; }
-		//inline Vector getIntersectionPoint(){ return origin+direction*alpha; }
-		inline float getAlpha(){ return alpha; }
+		inline Vector getIntersectionPoint(){ return origin + direction*minDistance; }
+		inline float getMinDistance(){ return minDistance; }
 	
 	private:	
 		Vector origin;
 		Vector direction;
-		float alpha;
+		float minDistance;
 		int collidedObject;
 
 		//Ray rebounds

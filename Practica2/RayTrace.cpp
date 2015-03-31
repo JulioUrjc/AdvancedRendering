@@ -22,19 +22,19 @@
 void RayTrace::initialize(){
 	Scene &la_escena = m_Scene;
 	Camera &la_camara = la_escena.GetCamera();
+	camPos = la_camara.GetPosition();
 
 	fovX = la_camara.GetFOV()* (Scene::WINDOW_WIDTH/Scene::WINDOW_HEIGHT) * M_PI / 180;
 	fovY = la_camara.GetFOV()* M_PI / 180; 
 
-	look = (la_camara.GetTarget() - la_camara.GetPosition()).Normalize();
+	look = (la_camara.GetTarget() - camPos).Normalize();
 	up = la_camara.GetUp().Normalize();
 	normal = up.Cross(look).Normalize();
 }
 
 // -- Main Functions --
 // - CalculatePixel - Returns the Computed Pixel for that screen coordinate
-Vector RayTrace::CalculatePixel (int screenX, int screenY)
-{
+Vector RayTrace::CalculatePixel (int screenX, int screenY){
    /* -- How to Implement a Ray Tracer --
 
    This computed pixel will take into account the camera and the scene
@@ -79,8 +79,9 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY)
       return Vector (0.0f, 0.0f, 0.0f);	// Off the screen, return black
    }
 
-   //Ray ray(cameraPosition, rayDirection, NUM_REFLECTIONS);
-   //return ray.testCollisions(m_Scene);
-   return Vector(0.0f, 0.0f, 0.0f);
+   Ray ray(camPos, rayDirection, REBOUNDS);	// REBOUNDS defined in RayTrace.h
+   return ray.collisions(m_Scene, -1);		// In the first rebounce not ignore any object
+
+   //return Vector(0.0f, 0.0f, 0.0f);
 
 }

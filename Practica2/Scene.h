@@ -195,6 +195,7 @@ class SceneTriangle : public SceneObject{
 		// -- Constructors & Destructors --
 		SceneTriangle (void) : SceneObject ("Triangle", SceneObjectType::Triangle) {}
 		SceneTriangle (std::string nm) : SceneObject (nm, SceneObjectType::Triangle) {}
+		Vector getGlobalVertex(int indice);
 };
 
 /*	SceneModel Class - The model scene object

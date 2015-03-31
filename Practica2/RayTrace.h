@@ -19,6 +19,9 @@
 #include "Utils.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "Ray.h"
+
+const int REBOUNDS = 4;
 
 /*
 	RayTrace Class - The class containing the function you will need to implement.This is the class with the function you need to implement
@@ -40,7 +43,8 @@ class RayTrace{
 		
 		float fovX, fovY;
 		Vector look, up, normal;
-		
+		Vector camPos;
+
 		void initialize(void);
 
 

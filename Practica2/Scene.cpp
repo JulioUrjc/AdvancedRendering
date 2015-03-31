@@ -18,8 +18,7 @@
 #include "Scene.h"
 
 
-bool Scene::Load (char *filename)
-{
+bool Scene::Load (char *filename){
 	XMLNode tempNode;
 
 	// Open the Scene XML File
@@ -275,18 +274,14 @@ bool Scene::Load (char *filename)
 						return false;
 					}
 
-					while (infile.good ())
-					{
+					while (infile.good ()){
 						infile.getline (line, MAX_LINE_LEN);
 						ParseOBJCommand (line, MAX_LINE_LEN, command, position);
 
-						if (strcmp (command,"v")==0)
-						{
+						if (strcmp (command,"v")==0){
 							Vector pos = ParseOBJVector (&(line[position]));
 							vertices.push_back (pos);
-						}
-						else if (strcmp (command,"vn")==0)
-						{
+						}else if (strcmp (command,"vn")==0){
 							Vector norm = ParseOBJVector (&(line[position]));
 							normals.push_back (norm);
 						}else if (strcmp (command,"f")==0){
@@ -294,8 +289,7 @@ bool Scene::Load (char *filename)
 							int v_index[3]; // vertex index
 							int n_index[3]; // normal index
 
-							if (!ParseOBJCoords (&(line[position]), num, v_index, n_index))
-							{
+							if (!ParseOBJCoords (&(line[position]), num, v_index, n_index)){
 								printf ("Error parsing faces in .obj file\n");
 								return false;
 							}
@@ -367,8 +361,7 @@ void Scene::ParseOBJCommand (char *line, int max, char *command, int &position){
 	int j = 0;
 
 	while (i<max && line[i]==' ') i++;
-	while (i<max && line[i]!='\0' && line[i]!=' ')
-	{
+	while (i<max && line[i]!='\0' && line[i]!=' '){
 		command[j] = line[i];
 		j++; i++;
 	}
@@ -422,3 +415,22 @@ bool Scene::ParseOBJCoords (char *str, int &num, int v_index[3], int n_index[3])
 	return true;
 }
 
+Vector SceneTriangle::getGlobalVertex(int indice){
+
+	glm::vec4 vertexI(vertex[indice].x, vertex[indice].y, vertex[indice].z, vertex[indice].w);
+
+	//Rotate
+	glm::mat4 Rx = glm::rotate(glm::mat4(), rotation.x, glm::vec3(1, 0, 0));
+	glm::mat4 Ry = glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0));
+	glm::mat4 Rz = glm::rotate(glm::mat4(), rotation.z, glm::vec3(0, 0, 1));
+
+	//Scale
+	glm::mat4 Scale = glm::scale(glm::mat4(), glm::vec3(scale.x, scale.y, scale.z));
+
+	//Translate
+	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(position.x, position.y, position.z));
+
+	glm::vec4 globalVertex = Translate*Rx*Ry*Rz*Scale*vertexI;
+
+	return Vector(globalVertex.x, globalVertex.y, globalVertex.z);
+}

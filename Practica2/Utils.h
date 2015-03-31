@@ -297,61 +297,60 @@ public:
 	This class keeps the camera vectors together and adds a bit of functionality around it
 	NOTE: This is unoptimized code for better readability
 */
-class Camera
-{
-public:
-	Vector position;
-	Vector target;
-	Vector up;
-	float fieldOfView;
-	float nearClip, farClip;
+class Camera{
+	public:
+		Vector position;
+		Vector target;
+		Vector up;
+		float fieldOfView;
+		float nearClip, farClip;
 
-	// -- Constructors & Destructors --
-	// - Default Constructor - Initializes to Vector <0, 0, 0>
-	Camera (void) {}
+		// -- Constructors & Destructors --
+		// - Default Constructor - Initializes to Vector <0, 0, 0>
+		Camera (void) {}
 
-	// - Parameter Constructor - Initializes to Vector <a, b, c>
-	Camera (Vector p, Vector t, Vector u) { position = p; target = t; up = u; }
+		// - Parameter Constructor - Initializes to Vector <a, b, c>
+		Camera (Vector p, Vector t, Vector u) { position = p; target = t; up = u; }
 
-	// - Default Destructor -
-	~Camera ()	{}
+		// - Default Destructor -
+		~Camera ()	{}
 
-	// -- Accessor Functions --
-	// - GetPosition - Returns the position vector of the camera
-	Vector GetPosition (void) { return position; }
+		// -- Accessor Functions --
+		// - GetPosition - Returns the position vector of the camera
+		Vector GetPosition (void) { return position; }
 
-	// - SetPosition - Sets the position vector of the camera
-	void SetPosition (const Vector vec) { position = vec; }
+		// - SetPosition - Sets the position vector of the camera
+		void SetPosition (const Vector vec) { position = vec; }
 
-	// - GetTarget - Returns the target vector of the camera
-	Vector GetTarget (void) { return target; }
+		// - GetTarget - Returns the target vector of the camera
+		Vector GetTarget (void) { return target; }
 
-	// - SetTarget - Sets the target vector of the camera
-	void SetTarget (const Vector vec) { target = vec; }
+		// - SetTarget - Sets the target vector of the camera
+		void SetTarget (const Vector vec) { target = vec; }
 
-	// - GetUp - Returns the up vector of the camera
-	Vector GetUp (void) { return up; }
+		// - GetUp - Returns the up vector of the camera
+		Vector GetUp (void) { return up; }
 
-	// - SetUp - Sets the up vector of the camera
-	void SetUp (const Vector vec) { up = vec; }
+		// - SetUp - Sets the up vector of the camera
+		void SetUp (const Vector vec) { up = vec; }
 
-	// - GetFOV - Returns the Field of View
-	float GetFOV (void) { return fieldOfView; }
+		// - GetFOV - Returns the Field of View
+		float GetFOV (void) { return fieldOfView; }
 
-	// - SetFOV - Sets of Field of View
-	void SetFOV (float fov) { fieldOfView = fov; }
+		// - SetFOV - Sets of Field of View
+		void SetFOV (float fov) { fieldOfView = fov; }
 
-	// - GetNearClip - Returns the Near-Clip Distance
-	float GetNearClip (void) { return nearClip; }
+		// - GetNearClip - Returns the Near-Clip Distance
+		float GetNearClip (void) { return nearClip; }
 
-	// - SetNearClip - Sets the Near-Clip Distance
-	void SetNearClip (float nc) { nearClip = nc; }
+		// - SetNearClip - Sets the Near-Clip Distance
+		void SetNearClip (float nc) { nearClip = nc; }
 
-	// - GetFarClip - Returns the Far-Clip Distance
-	float GetFarClip (void) { return farClip; }
+		// - GetFarClip - Returns the Far-Clip Distance
+		float GetFarClip (void) { return farClip; }
 
-	// - SetNearClip - Sets the Near-Clip Distance
-	void SetFarClip (float fc) { farClip = fc; }
+		// - SetNearClip - Sets the Near-Clip Distance
+		void SetFarClip (float fc) { farClip = fc; }
 };
 
 
