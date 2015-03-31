@@ -10,32 +10,7 @@ Ray::Ray(Vector origin, Vector direction, int numRebounds){
 //Check if ray is intersecting with a sphere
 float Ray::collisionSphere(SceneSphere* sphere){
 
-	//Translate and scale sphere.
-	Vector center = sphere->getGlobalCenter();
-	float radius = sphere->getGlobalRadius();
-
-	//Vector from sphere center to ray origin (C - P)
-	Vector toCenter = center - origin;
-	float distance = toCenter.Dot(toCenter) - pow(radius, 2);
-
-	// if ray origin is outside the sphere
-	if (distance>0){
-		float projection = toCenter.Dot(direction);
-		//Check if sphere is in front of the camera, using the angle
-		if (projection >= 0){
-			float p2 = pow(projection,2);
-
-			
-			if (distance == p2){				// Ray tangent to the sphere
-				return projection;
-			}else if (distance < p2){			// Ray throw the sphere	
-				float sq = sqrt(p2 - distance);
-				
-				return glm::min(projection - sq, projection + sq);	// return the min (nearest)
-			}
-		}
-	}
-	return -1;
+	
 }
 
 Vector Ray::testCollisions(Scene &scene){
