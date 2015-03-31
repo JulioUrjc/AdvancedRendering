@@ -55,6 +55,8 @@
 
 #include "Utils.h"
 #include "pic.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 // XML Parser by Frank Vanden Berghen
 // Available: http://iridia.ulb.ac.be/~fvandenb/tools/xmlParser.html
@@ -172,6 +174,9 @@ class SceneSphere : public SceneObject{
 		std::string material;
 		Vector center;
 		float radius;
+
+		inline Vector getGlobalCenter(){ return center + position; }
+		inline float getGlobalRadius(){ return radius * (scale.x+scale.y+scale.z)/3; }
 
 		// -- Constructors & Destructors --
 		SceneSphere (void) : SceneObject ("Sphere", SceneObjectType::Sphere) {}

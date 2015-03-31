@@ -10,47 +10,31 @@ Ray::Ray(Vector origin, Vector direction, int numRebounds){
 //Check if ray is intersecting with a sphere
 float Ray::collisionSphere(SceneSphere* sphere){
 
-	//Translate and scale sphere. No rotations, it's a sphere!
-	Vector center = sphere->getTransformedCenter();
+	//Translate and scale sphere.
+	Vector center = sphere->getGlobalCenter();
+	float radius = sphere->getGlobalRadius();
 
-	//It's implicit, so use a mean coord
-	float radius = sphere->getTransformedRadius();
-
-	//Vector from ray origin to sphere center (C - O)
+	//Vector from sphere center to ray origin (C - P)
 	Vector toCenter = center - origin;
+	float distance = toCenter.Dot(toCenter) - pow(radius, 2);
 
-	float dist = toCenter.Dot(toCenter) - radius * radius;
-
-	//Just if ray origin is outside the sphere
-	if (dist > 0)
-	{
+	// if ray origin is outside the sphere
+	if (distance>0){
 		float projection = toCenter.Dot(direction);
-
 		//Check if sphere is in front of the camera, using the angle
-		if (projection >= 0)
-		{
-			float p2 = projection * projection;
+		if (projection >= 0){
+			float p2 = pow(projection,2);
 
-			//Ray tangent to the sphere
-			float t;
-			if (dist == p2)
-			{
-				t = projection;
-				return t;
-			}
-
-			//Else, just solve the ecuation
-			else if (dist < p2)
-			{
-				float sq = sqrt(p2 - dist);
-
-				//2 solutions, so return the min (nearest)
-				t = min(projection - sq, projection + sq);
-				return t;
+			
+			if (distance == p2){				// Ray tangent to the sphere
+				return projection;
+			}else if (distance < p2){			// Ray throw the sphere	
+				float sq = sqrt(p2 - distance);
+				
+				return glm::min(projection - sq, projection + sq);	// return the min (nearest)
 			}
 		}
 	}
-
 	return -1;
 }
 
