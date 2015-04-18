@@ -8,29 +8,74 @@ Ray::Ray(Vector origin, Vector direction, int numRebounds){
 }
 
 //Check if ray is intersecting with a sphere
-float Ray::collisionSphere(SceneSphere* sphere){
+//float Ray::collisionSphere(SceneSphere* sphere){
+//
+//	//Translate and scale sphere.
+//	Vector center = sphere->getGlobalCenter();
+//	float radius = sphere->getGlobalRadius();
+//
+//	//Vector from sphere center to ray origin (C - P)
+//	Vector toCenter = origin - center;
+//
+//	float a = direction.Dot(direction);
+//	float b = 2 * direction.Dot(origin);
+//	float c = origin.Dot(origin) - pow(radius, 2);
+//	// -b +/- sqrt(b^2-4ac)/ 2a
+//	float disc = pow(b, 2) - 4 * a*c;
+//
+//	if (disc >= 0){
+//		if (disc == 0){			//Hay una solución, rayo tangente a la esfera
+//			return -b / 2*a;
+//		}else{					//Hay dos soluciones, rayo secante
+//			float sqrt = glm::sqrt(disc);
+//			return glm::min((-b-sqrt) / 2*a, (-b+sqrt) / 2*a);
+//		}
+//	}
+//	return -1;
+//}
 
-	//Translate and scale sphere.
+float Ray::collisionSphere(SceneSphere* sphere){
+	//Translate and scale sphere. No rotations, it's a sphere!
 	Vector center = sphere->getGlobalCenter();
+
+	//It's implicit, so use a mean coord
 	float radius = sphere->getGlobalRadius();
 
-	//Vector from sphere center to ray origin (C - P)
-	Vector toCenter = origin - center;
+	//Vector from ray origin to sphere center (C - O)
+	Vector toCenter = center - origin;
 
-	float a = direction.Dot(direction);
-	float b = 2 * direction.Dot(origin);
-	float c = origin.Dot(origin) - pow(radius, 2);
-	// -b +/- sqrt(b^2-4ac)/ 2a
-	float disc = pow(b, 2) - 4 * a*c;
+	float dist = toCenter.Dot(toCenter) - radius * radius;
 
-	if (disc >= 0){
-		if (disc == 0){			//Hay una solución, rayo tangente a la esfera
-			return -b / 2*a;
-		}else{					//Hay dos soluciones, rayo secante
-			float sqrt = glm::sqrt(disc);
-			return glm::min((-b-sqrt) / 2*a, (-b+sqrt) / 2*a);
+	//Just if ray origin is outside the sphere
+	if (dist > 0)
+	{
+		float projection = toCenter.Dot(direction);
+
+		//Check if sphere is in front of the camera, using the angle
+		if (projection >= 0)
+		{
+			float p2 = projection * projection;
+
+			//Ray tangent to the sphere
+			float t;
+			if (dist == p2)
+			{
+				t = projection;
+				return t;
+			}
+
+			//Else, just solve the ecuation
+			else if (dist < p2)
+			{
+				float sq = sqrt(p2 - dist);
+
+				//2 solutions, so return the min (nearest)
+				t = glm::min(projection - sq, projection + sq);
+				return t;
+			}
 		}
 	}
+
 	return -1;
 }
 
@@ -86,6 +131,44 @@ float Ray::collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord){
 	}
 	 
 	return -1;	//Line intersection?
+}
+
+// Return if ray is intersecting with a model
+float Ray::testCollisionModel(SceneModel* model, int &modelTriangle, Vector* uvw, bool showBoundingSpheres, bool useBs)
+{
+	float alpha = INFINITY;
+	//float t = -1;
+	//Vector uvwTemp;
+	//modelTriangle = -1;
+
+	////First, check collision with bounding sphere
+	//SceneSphere boundingSphere = model->boundingSphere;
+	//float collides = (collisionSphere(&boundingSphere));
+
+	////Show bounding spheres
+	//if (showBoundingSpheres && useBs){
+	//	modelTriangle = 0;
+	//	return collides;
+	//}
+
+	//if (collides>0 && collides < INFINITY || !useBs)
+	//{
+	//	//For each triangle in model
+	//	for (int i = 0; i<model->GetNumTriangles(); i++)
+	//	{
+	//		t = collisionTriangle(model->GetTriangle(i), &uvwTemp);
+
+	//		if (t>0 && t<alpha)
+	//		{
+	//			alpha = t;
+	//			uvw->x = uvwTemp.x;
+	//			uvw->y = uvwTemp.y;
+	//			uvw->z = uvwTemp.z;
+	//			modelTriangle = i;
+	//		}
+	//	}
+	//}
+	return alpha;
 }
 
 Vector Ray::collisionShadow(Scene &scene, int ignoreObject){

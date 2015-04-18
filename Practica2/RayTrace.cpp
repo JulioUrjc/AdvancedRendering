@@ -70,7 +70,7 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY){
 	float width2  = Scene::WINDOW_WIDTH  / 2;
 	float height2 = Scene::WINDOW_HEIGHT / 2;
 
-	float alpha = tanf(fovX/2) * ((screenX-width2)/width2);
+	float alpha = tanf(fovX/2) * ((width2-screenX)/width2);  // width2-screenX si no sale en forma de espejo
 	float beta  = tanf(fovY/2) * ((screenY-height2)/height2);
 
 	Vector rayDirection = (look + normal*alpha + up*beta).Normalize();
@@ -83,5 +83,4 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY){
    return ray.collisions(m_Scene, -1);		// In the first rebounce not ignore any object
 
    //return Vector(0.0f, 0.0f, 0.0f);
-
 }

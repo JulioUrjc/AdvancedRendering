@@ -46,7 +46,5 @@ class RayTrace{
 		Vector camPos;
 
 		void initialize(void);
-
-
 };
 

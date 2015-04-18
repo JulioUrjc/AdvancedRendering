@@ -43,11 +43,9 @@ bool Scene::Load (char *filename){
 	// Load the Lights
 	printf ("Loading Lights...\n");
 	tempNode = sceneXML.getChildNode("light_list");
-	if (!tempNode.isEmpty ())
-	{
+	if (!tempNode.isEmpty ()){
 		unsigned int numLights = tempNode.nChildNode ("light");
-		for (unsigned int n = 0; n < numLights; n++)
-		{
+		for (unsigned int n = 0; n < numLights; n++){
 			XMLNode tempLightNode = tempNode.getChildNode("light", n);
 			if (tempLightNode.isEmpty ())
 				return false;
@@ -64,11 +62,9 @@ bool Scene::Load (char *filename){
 	// Load the Materials
 	printf ("Loading Materials...\n");
 	tempNode = sceneXML.getChildNode("material_list");
-	if (!tempNode.isEmpty ())
-	{
+	if (!tempNode.isEmpty ()){
 		unsigned int numMaterials = tempNode.nChildNode ("material");
-		for (unsigned int n = 0; n < numMaterials; n++)
-		{
+		for (unsigned int n = 0; n < numMaterials; n++){
 			XMLNode tempMaterialNode = tempNode.getChildNode("material", n);
 			if (tempMaterialNode.isEmpty ())
 				return false;
@@ -82,8 +78,7 @@ bool Scene::Load (char *filename){
 			tempMaterial->reflective = ParseColor (tempMaterialNode.getChildNode("reflective"));
 			tempMaterial->refraction_index = ParseColor (tempMaterialNode.getChildNode("refraction_index"));
 
-			if (tempMaterial->texture != "")
-			{
+			if (tempMaterial->texture != ""){
 				if (!tempMaterial->LoadTexture ())
 					return false;
 			}
@@ -95,16 +90,13 @@ bool Scene::Load (char *filename){
 	// Load the Objects
 	printf ("Loading Objects...\n");
 	tempNode = sceneXML.getChildNode("object_list");
-	if (!tempNode.isEmpty ())
-	{
+	if (!tempNode.isEmpty ()){
 		unsigned int numObjects = tempNode.nChildNode ();
-		for (unsigned int n = 0; n < numObjects; n++)
-		{
+		for (unsigned int n = 0; n < numObjects; n++){
 			XMLNode tempObjectNode = tempNode.getChildNode(n);
 			if (tempObjectNode.isEmpty ())
 				return false;
-			if (!strcasecmp(tempObjectNode.getName (), "sphere"))
-			{
+			if (!strcasecmp(tempObjectNode.getName (), "sphere")){
 				// Load a Sphere
 				SceneSphere *tempSphere = new SceneSphere ();
 				tempSphere->name = CHECK_ATTR(tempObjectNode.getAttribute("name"));
@@ -115,9 +107,7 @@ bool Scene::Load (char *filename){
 				tempSphere->position = ParseXYZ (tempObjectNode.getChildNode("position"));
 				tempSphere->center = ParseXYZ (tempObjectNode.getChildNode("center"));
 				m_ObjectList.push_back (tempSphere);
-			}
-			else if (!strcasecmp(tempObjectNode.getName (), "triangle"))
-			{
+			}else if (!strcasecmp(tempObjectNode.getName (), "triangle")){
 				// Load a Triangle
 				XMLNode vertexNode;
 				SceneTriangle *tempTriangle = new SceneTriangle ();
@@ -151,14 +141,11 @@ bool Scene::Load (char *filename){
 				tempTriangle->v[2] = atof (CHECK_ATTR(vertexNode.getChildNode("texture").getAttribute("v")));
 
 				m_ObjectList.push_back (tempTriangle);
-			}
-			else if (!strcasecmp(tempObjectNode.getName (), "model"))
-			{
+			}else if (!strcasecmp(tempObjectNode.getName (), "model")){
 				// Load a Model
 				SceneModel *tempModel = new SceneModel ();
 				tempModel->filename = CHECK_ATTR(tempObjectNode.getAttribute("filename"));
-				if (tempModel->filename == "")
-				{
+				if (tempModel->filename == ""){
 					printf ("No Specified Model filename\n");
 					return false;
 				}
@@ -170,20 +157,16 @@ bool Scene::Load (char *filename){
 				tempModel->position = ParseXYZ (tempObjectNode.getChildNode("position"));
 				
 				// Check the file format
-				if (tempModel->filename.substr (tempModel->filename.length() - 4, 4) == ".3ds")
-				{
+				if (tempModel->filename.substr (tempModel->filename.length() - 4, 4) == ".3ds"){
 					// Load the list of triangles from the .3ds
 					C3DS sceneObj;
-					if (!sceneObj.Create((char *)tempModel->filename.c_str()))
-					{
+					if (!sceneObj.Create((char *)tempModel->filename.c_str())){
 						printf ("Error loading .3ds file\n");
 						return false;
 					}
 
-					for (unsigned int obj = 0; obj < (unsigned int)sceneObj.m_iNumMeshs; obj++)
-					{
-						for (unsigned int n = 0; n < (unsigned int)sceneObj.m_pMeshs[obj].iNumFaces; n++)
-						{
+					for (unsigned int obj = 0; obj < (unsigned int)sceneObj.m_iNumMeshs; obj++){
+						for (unsigned int n = 0; n < (unsigned int)sceneObj.m_pMeshs[obj].iNumFaces; n++){
 							SceneTriangle tempTriangle;
 
 							Vector v1, v2, v3;
@@ -208,13 +191,10 @@ bool Scene::Load (char *filename){
 							tempTriangle.vertex[0] = v1;
 							tempTriangle.normal[0] = normal;
 							// Texture Coords
-							if (sceneObj.m_pMeshs[obj].bTextCoords)
-							{
+							if (sceneObj.m_pMeshs[obj].bTextCoords){
 								tempTriangle.u[0] = sceneObj.m_pMeshs[obj].pTexs[sceneObj.m_pMeshs[obj].pFaces[n].corner[0]].tu;
 								tempTriangle.v[0] = sceneObj.m_pMeshs[obj].pTexs[sceneObj.m_pMeshs[obj].pFaces[n].corner[0]].tv;
-							}
-							else
-							{
+							}else{
 								tempTriangle.u[0] = 0.0f;
 								tempTriangle.v[0] = 0.0f;
 							}
@@ -224,13 +204,10 @@ bool Scene::Load (char *filename){
 							tempTriangle.vertex[1] = v2;
 							tempTriangle.normal[1] = normal;
 							// Texture Coords
-							if (sceneObj.m_pMeshs[obj].bTextCoords)
-							{
+							if (sceneObj.m_pMeshs[obj].bTextCoords){
 								tempTriangle.u[1] = sceneObj.m_pMeshs[obj].pTexs[sceneObj.m_pMeshs[obj].pFaces[n].corner[1]].tu;
 								tempTriangle.v[1] = sceneObj.m_pMeshs[obj].pTexs[sceneObj.m_pMeshs[obj].pFaces[n].corner[1]].tv;
-							}
-							else
-							{
+							}else{
 								tempTriangle.u[1] = 0.0f;
 								tempTriangle.v[1] = 0.0f;
 							}
@@ -240,13 +217,10 @@ bool Scene::Load (char *filename){
 							tempTriangle.vertex[2] = v3;
 							tempTriangle.normal[2] = normal;
 							// Texture Coords
-							if (sceneObj.m_pMeshs[obj].bTextCoords)
-							{
+							if (sceneObj.m_pMeshs[obj].bTextCoords){
 								tempTriangle.u[2] = sceneObj.m_pMeshs[obj].pTexs[sceneObj.m_pMeshs[obj].pFaces[n].corner[2]].tu;
 								tempTriangle.v[2] = sceneObj.m_pMeshs[obj].pTexs[sceneObj.m_pMeshs[obj].pFaces[n].corner[2]].tv;
-							}
-							else
-							{
+							}else{
 								tempTriangle.u[2] = 0.0f;
 								tempTriangle.v[2] = 0.0f;
 							}
@@ -256,9 +230,7 @@ bool Scene::Load (char *filename){
 					}
 
 					sceneObj.Release();
-				}
-				else if (tempModel->filename.substr (tempModel->filename.length() - 4, 4) == ".obj")
-				{
+				}else if (tempModel->filename.substr (tempModel->filename.length() - 4, 4) == ".obj"){
 					// The following code is a modified version of code from the old RayTracer Code rt_trimesh.cpp
 					char line[MAX_LINE_LEN];
 					char command[MAX_LINE_LEN];
@@ -268,8 +240,7 @@ bool Scene::Load (char *filename){
 
 					std::ifstream infile (tempModel->filename.c_str());
 
-					if (infile.fail())
-					{
+					if (infile.fail()){
 						printf ("Error loading .obj file\n");
 						return false;
 					}
