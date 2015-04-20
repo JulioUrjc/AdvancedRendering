@@ -17,16 +17,16 @@
 
 #include "Scene.h"
 #include "RayTrace.h"
-
+#define PI 3.141592
 
 void RayTrace::initialize(){
 	Scene &la_escena = m_Scene;
 	Camera &la_camara = la_escena.GetCamera();
 	camPos = la_camara.GetPosition();
-
-	fovX = la_camara.GetFOV()* (Scene::WINDOW_WIDTH/Scene::WINDOW_HEIGHT) * M_PI / 180;
+	
+	fovX = la_camara.GetFOV()* ((float)Scene::WINDOW_WIDTH / (float)Scene::WINDOW_HEIGHT) * M_PI / 180;
 	fovY = la_camara.GetFOV()* M_PI / 180; 
-
+	
 	look = (la_camara.GetTarget() - camPos).Normalize();
 	up = la_camara.GetUp().Normalize();
 	normal = up.Cross(look).Normalize();
@@ -67,13 +67,14 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY){
 
 	initialize();
 	
-	float width2  = Scene::WINDOW_WIDTH  / 2;
-	float height2 = Scene::WINDOW_HEIGHT / 2;
+	float width2 = ((float)Scene::WINDOW_WIDTH) / 2;
+	float height2 = ((float)Scene::WINDOW_HEIGHT) / 2;
 
 	float alpha = tanf(fovX/2) * ((width2-screenX)/width2);  // width2-screenX si no sale en forma de espejo
 	float beta  = tanf(fovY/2) * ((screenY-height2)/height2);
 
 	Vector rayDirection = (look + normal*alpha + up*beta).Normalize();
+	
 
    if ((screenX <0 || screenX>Scene::WINDOW_WIDTH-1) || (screenY<0 || screenY>Scene::WINDOW_HEIGHT-1)){  
       return Vector (0.0f, 0.0f, 0.0f);	// Off the screen, return black

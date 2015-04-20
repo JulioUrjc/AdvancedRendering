@@ -296,12 +296,10 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 
 			if (obj->IsSphere())	{
 				distance = collisionSphere((SceneSphere*)obj);
-			}
-			else if (obj->IsTriangle()){
+			}else if (obj->IsTriangle()){
 				distance = collisionTriangle((SceneTriangle*)obj, &barycCoord);
-			}
-			else{
-				//distance = testCollisionModel((SceneModel*)obj, modObject, &intersecCoord, scene.showBoundingSpheres, scene.useBs);
+			}else{
+				//distance = collisionModel((SceneModel*)obj, modObject, &intersecCoord, scene.showBoundingSpheres, scene.useBs);
 			}
 
 			//If closer
