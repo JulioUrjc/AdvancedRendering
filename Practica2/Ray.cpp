@@ -7,14 +7,14 @@ Ray::Ray(Vector origin, Vector direction, int numRebounds){
 	restRebounds = numRebounds;
 }
 
-//Check if ray is intersecting with a sphere
+// Return if ray is intersecting with a sphere
 //float Ray::collisionSphere(SceneSphere* sphere){
 //
-//	//Translate and scale sphere.
+//	//Translate and scale sphere
 //	Vector center = sphere->getGlobalCenter();
 //	float radius = sphere->getGlobalRadius();
 //
-//	//Vector from sphere center to ray origin (C - P)
+//	// Vector from sphere center to ray origin (C - P)
 //	Vector toCenter = origin - center;
 //
 //	float a = direction.Dot(direction);
@@ -34,48 +34,34 @@ Ray::Ray(Vector origin, Vector direction, int numRebounds){
 //	return -1;
 //}
 
+// Return if ray is intersecting with a sphere
 float Ray::collisionSphere(SceneSphere* sphere){
-	//Translate and scale sphere. No rotations, it's a sphere!
+	
+	// Translate and scale sphere
 	Vector center = sphere->getGlobalCenter();
-
-	//It's implicit, so use a mean coord
 	float radius = sphere->getGlobalRadius();
 
-	//Vector from ray origin to sphere center (C - O)
+	// Vector from ray origin to center (C - P)
 	Vector toCenter = center - origin;
-
 	float dist = toCenter.Dot(toCenter) - radius * radius;
 
-	//Just if ray origin is outside the sphere
-	if (dist > 0)
-	{
+	
+	if (dist > 0){												// If ray origin is outside the sphere
 		float projection = toCenter.Dot(direction);
-
-		//Check if sphere is in front of the camera, using the angle
-		if (projection >= 0)
-		{
+		if (projection >= 0){									// If sphere is in front of the camera, using the angle
 			float p2 = projection * projection;
 
-			//Ray tangent to the sphere
 			float t;
-			if (dist == p2)
-			{
+			if (dist == p2){									// Ray tangent to the sphere
 				t = projection;
 				return t;
-			}
-
-			//Else, just solve the ecuation
-			else if (dist < p2)
-			{
+			}else if (dist < p2){								// Solve the ecuation
 				float sq = sqrt(p2 - dist);
-
-				//2 solutions, so return the min (nearest)
-				t = glm::min(projection - sq, projection + sq);
+				t = glm::min(projection - sq, projection + sq);	// 2 solutions return the min
 				return t;
 			}
 		}
 	}
-
 	return -1;
 }
 
@@ -98,33 +84,33 @@ float Ray::collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord){
 
 	det = edge1.Dot(pvec);
 
-	//No intersection
+	// No intersection
 	if ((det>-epsilon) && (det<epsilon))
 		return -1;
 
 	inv_det = 1/det;
 	tvec = origin - pointA;
 
-	//Calculate u
+	// Calculate u
 	u = (tvec.Dot(pvec))*inv_det;
 
-	//No intersection
+	// No intersection
 	if (u<0.0f || u>1.0f)
 		return -1;
 
 	qvec = tvec.Cross(edge1);
 
-	//Calculate v
+	// Calculate v
 	v = (direction.Dot(qvec))*inv_det;
 
-	//No intersection
+	// No intersection
 	if ((v<0.0f) || ((u + v)>1.0f))
 		return -1;
 
-	//Calculate t
+	// Calculate t
 	float t = (edge2.Dot(qvec))*inv_det;
 
-	//INTERSECTION!
+	// INTERSECTION!
 	if (t>epsilon){
 		*intersecCoord = Vector(u, v, 1 - u - v);
 		return t;
@@ -134,36 +120,33 @@ float Ray::collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord){
 }
 
 // Return if ray is intersecting with a model
-float Ray::testCollisionModel(SceneModel* model, int &modelTriangle, Vector* uvw, bool showBoundingSpheres, bool useBs)
-{
+float Ray::collisionExternModel(SceneModel* model, int &modelTriangle, Vector* intersecCoord, bool showSpheres, bool useBs){
+
 	float alpha = INFINITY;
 	//float t = -1;
-	//Vector uvwTemp;
+	//Vector intersecCoordAux;
 	//modelTriangle = -1;
 
 	////First, check collision with bounding sphere
 	//SceneSphere boundingSphere = model->boundingSphere;
 	//float collides = (collisionSphere(&boundingSphere));
 
-	////Show bounding spheres
-	//if (showBoundingSpheres && useBs){
+	////Show Spheres
+	//if (showSpheres && useBs){
 	//	modelTriangle = 0;
 	//	return collides;
 	//}
 
-	//if (collides>0 && collides < INFINITY || !useBs)
-	//{
+	//if (collides>0 && collides<INFINITY || !useBs){
 	//	//For each triangle in model
-	//	for (int i = 0; i<model->GetNumTriangles(); i++)
-	//	{
-	//		t = collisionTriangle(model->GetTriangle(i), &uvwTemp);
+	//	for (int i = 0; i<model->GetNumTriangles(); i++){
+	//		t = collisionTriangle(model->GetTriangle(i), &intersecCoordAux);
 
-	//		if (t>0 && t<alpha)
-	//		{
+	//		if (t>0 && t<alpha){
 	//			alpha = t;
-	//			uvw->x = uvwTemp.x;
-	//			uvw->y = uvwTemp.y;
-	//			uvw->z = uvwTemp.z;
+	//			intersecCoord->x = intersecCoordAux.x;
+	//			intersecCoord->y = intersecCoordAux.y;
+	//			intersecCoord->z = intersecCoordAux.z;
 	//			modelTriangle = i;
 	//		}
 	//	}
@@ -281,7 +264,7 @@ Vector Ray::phong(Vector diffuseMat, Vector specularMat, float shininess, Vector
 
 Vector Ray::collisions(Scene &scene, int ignoreObject){
 
-	//int modelObject;
+	// int modelObject;
 	int object = -1;
 	int modelTriangle = -1;
 
@@ -299,11 +282,11 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 			}else if (obj->IsTriangle()){
 				distance = collisionTriangle((SceneTriangle*)obj, &barycCoord);
 			}else{
-				//distance = collisionModel((SceneModel*)obj, modObject, &intersecCoord, scene.showBoundingSpheres, scene.useBs);
+				//distance = collisionExternModel((SceneModel*)obj, modObject, &barycCoord, scene.showBoundingSpheres, scene.useBs);
 			}
 
 			//If closer
-			if (distance > 0 && distance < minDistance){
+			if (distance>0 && distance<minDistance){
 				minDistance = distance;
 				object = i;
 				modelTriangle = modObject;
@@ -406,34 +389,34 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 		}
 
 		//Refraction
-		if (transparent.Magnitude() > 0){
-			//Using glm to refract the ray
-			glm::vec3 vDirection(direction.x, direction.y, direction.z);
-			glm::vec3 vNormal(normal.x, normal.y, normal.z);
+		//if (transparent.Magnitude() > 0){
+		//	//Using glm to refract the ray
+		//	glm::vec3 vDirection(direction.x, direction.y, direction.z);
+		//	glm::vec3 vNormal(normal.x, normal.y, normal.z);
 
-			//Red component of refraction
-			glm::vec3 redRefraction = glm::refract(vDirection, vNormal, refraction.x);
-			Vector refractedRed = Vector(redRefraction.x, redRefraction.y, redRefraction.z, 0);
-			Ray redRay(getIntersectionPoint(), refractedRed, restRebounds - 1);
-			Vector redRefractedColor = redRay.collisions(scene, collidedObject)*Vector(1, 0, 0);
+		//	//Red component of refraction
+		//	glm::vec3 redRefraction = glm::refract(vDirection, vNormal, refraction.x);
+		//	Vector refractedRed = Vector(redRefraction.x, redRefraction.y, redRefraction.z, 0);
+		//	Ray redRay(getIntersectionPoint(), refractedRed, restRebounds - 1);
+		//	Vector redRefractedColor = redRay.collisions(scene, collidedObject)*Vector(1, 0, 0);
 
-			//Green component of refraction
-			glm::vec3 greenRefraction = glm::refract(vDirection, vNormal, refraction.y);
-			Vector refractedGreen = Vector(greenRefraction.x, greenRefraction.y, greenRefraction.z, 0);
-			Ray greenRay(getIntersectionPoint(), refractedGreen, restRebounds - 1);
-			Vector greenRefractedColor = greenRay.collisions(scene, collidedObject)*Vector(0, 1, 0);
+		//	//Green component of refraction
+		//	glm::vec3 greenRefraction = glm::refract(vDirection, vNormal, refraction.y);
+		//	Vector refractedGreen = Vector(greenRefraction.x, greenRefraction.y, greenRefraction.z, 0);
+		//	Ray greenRay(getIntersectionPoint(), refractedGreen, restRebounds - 1);
+		//	Vector greenRefractedColor = greenRay.collisions(scene, collidedObject)*Vector(0, 1, 0);
 
-			//Blue component of refraction
-			glm::vec3 blueRefraction = glm::refract(vDirection, vNormal, refraction.y);
-			Vector refractedBlue = Vector(blueRefraction.x, blueRefraction.y, blueRefraction.z, 0);
-			Ray blueRay(getIntersectionPoint(), refractedBlue, restRebounds - 1);
-			Vector blueRefractedColor = blueRay.collisions(scene, collidedObject)*Vector(0, 0, 1);
+		//	//Blue component of refraction
+		//	glm::vec3 blueRefraction = glm::refract(vDirection, vNormal, refraction.y);
+		//	Vector refractedBlue = Vector(blueRefraction.x, blueRefraction.y, blueRefraction.z, 0);
+		//	Ray blueRay(getIntersectionPoint(), refractedBlue, restRebounds - 1);
+		//	Vector blueRefractedColor = blueRay.collisions(scene, collidedObject)*Vector(0, 0, 1);
+		//	
+		//	Vector refractedColor = redRefractedColor + greenRefractedColor + blueRefractedColor;
 
-			Vector refractedColor = redRefractedColor + greenRefractedColor + blueRefractedColor;
-
-			Vector inverseTransparent = Vector(1-transparent.x, 1-transparent.y, 1-transparent.z);
-			return refractedColor*transparent + myColor*inverseTransparent;
-		}
+		//	Vector inverseTransparent = Vector(1-transparent.x, 1-transparent.y, 1-transparent.z);
+		//	return refractedColor*transparent + myColor*inverseTransparent;
+		//}
 
 		//There's been a collision and it's not reflective or refractive, so return my color
 		return myColor;

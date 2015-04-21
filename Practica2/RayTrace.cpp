@@ -17,7 +17,6 @@
 
 #include "Scene.h"
 #include "RayTrace.h"
-#define PI 3.141592
 
 void RayTrace::initialize(){
 	Scene &la_escena = m_Scene;
@@ -28,8 +27,8 @@ void RayTrace::initialize(){
 	fovY = la_camara.GetFOV()* M_PI / 180; 
 	
 	look = (la_camara.GetTarget() - camPos).Normalize();
-	up = la_camara.GetUp().Normalize();
-	normal = up.Cross(look).Normalize();
+	normal = la_camara.GetUp().Cross(look).Normalize();
+	up = look.Cross(normal).Normalize();
 }
 
 // -- Main Functions --
@@ -70,7 +69,7 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY){
 	float width2 = ((float)Scene::WINDOW_WIDTH) / 2;
 	float height2 = ((float)Scene::WINDOW_HEIGHT) / 2;
 
-	float alpha = tanf(fovX/2) * ((width2-screenX)/width2);  // width2-screenX si no sale en forma de espejo
+	float alpha = tanf(fovX/2) * ((width2-screenX)/width2);
 	float beta  = tanf(fovY/2) * ((screenY-height2)/height2);
 
 	Vector rayDirection = (look + normal*alpha + up*beta).Normalize();

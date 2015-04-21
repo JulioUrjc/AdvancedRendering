@@ -17,7 +17,7 @@ class Ray{
 		float collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord);
 
 		// Return if ray is intersecting with a model
-		float testCollisionModel(SceneModel* model, int &modelTriangle, Vector* uvw, bool showBoundingSpheres, bool useBs);
+		float collisionExternModel(SceneModel* model, int &modelTriangle, Vector* intersecCoord, bool showSpheres, bool useBs);
 
 		// Returns the transparency to multiply to the color (0,0,0) total shadow, (1,1,1) no shadow
 		Vector collisionShadow(Scene &scene, int ignoreObject);
