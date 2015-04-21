@@ -42,12 +42,12 @@ float Ray::collisionSphere(SceneSphere* sphere){
 	float radius = sphere->getGlobalRadius();
 
 	// Vector from ray origin to center (C - P)
-	Vector toCenter = center - origin;
-	float dist = toCenter.Dot(toCenter) - radius * radius;
+	Vector vtoCenter = center - origin;
+	float dist = vtoCenter.Dot(vtoCenter) - pow(radius, 2);
 
 	
-	if (dist > 0){												// If ray origin is outside the sphere
-		float projection = toCenter.Dot(direction);
+	if (dist>0){												// If ray origin is outside the sphere
+		float projection = vtoCenter.Dot(direction);
 		if (projection >= 0){									// If sphere is in front of the camera, using the angle
 			float p2 = projection * projection;
 
@@ -175,7 +175,7 @@ Vector Ray::collisionShadow(Scene &scene, int ignoreObject){
 			}else if (obj->IsTriangle()){
 				distance = collisionTriangle((SceneTriangle*)obj, &barycCoord);
 			}else if (obj->IsModel()){
-				//distance = testCollisionModel((SceneModel*)so, modelObject, &uvw, scene.showBoundingSpheres, scene.useBs);
+				//distance = collisionExternModel((SceneModel*)so, modelObject, &barycCoord, scene.showBoundingSpheres, scene.useBs);
 			}
 
 			//If closer
