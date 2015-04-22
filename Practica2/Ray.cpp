@@ -1,5 +1,5 @@
 #include "Ray.h"
-
+#include <iostream>
 // Constructor
 Ray::Ray(Vector origin, Vector direction, int numRebounds){
 	this->origin = origin;
@@ -120,38 +120,26 @@ float Ray::collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord){
 }
 
 // Return if ray is intersecting with a model
-float Ray::collisionExternModel(SceneModel* model, int &modelTriangle, Vector* intersecCoord, bool showSpheres, bool useBs){
+float Ray::collisionExternModel(SceneModel* model, int &modelTriangle, Vector* intersecCoord){
 
-	float alpha = INFINITY;
-	//float t = -1;
-	//Vector intersecCoordAux;
-	//modelTriangle = -1;
+	float minDistance = INFINITY;
+	float dist = -1.0f;
+	Vector intersecCoordAux;
+	modelTriangle = -1;
+	//std::cout << model->GetNumTriangles() << std::endl;
+	////For each triangle in model
+	for (unsigned int i = 0; i<model->GetNumTriangles(); i++){
+		dist = collisionTriangle(model->GetTriangle(i), &intersecCoordAux);
 
-	////First, check collision with bounding sphere
-	//SceneSphere boundingSphere = model->boundingSphere;
-	//float collides = (collisionSphere(&boundingSphere));
-
-	////Show Spheres
-	//if (showSpheres && useBs){
-	//	modelTriangle = 0;
-	//	return collides;
-	//}
-
-	//if (collides>0 && collides<INFINITY || !useBs){
-	//	//For each triangle in model
-	//	for (int i = 0; i<model->GetNumTriangles(); i++){
-	//		t = collisionTriangle(model->GetTriangle(i), &intersecCoordAux);
-
-	//		if (t>0 && t<alpha){
-	//			alpha = t;
-	//			intersecCoord->x = intersecCoordAux.x;
-	//			intersecCoord->y = intersecCoordAux.y;
-	//			intersecCoord->z = intersecCoordAux.z;
-	//			modelTriangle = i;
-	//		}
-	//	}
-	//}
-	return alpha;
+		if (dist>0 && dist < minDistance){
+			minDistance = dist;
+			intersecCoord->x = intersecCoordAux.x;
+			intersecCoord->y = intersecCoordAux.y;
+			intersecCoord->z = intersecCoordAux.z;
+			modelTriangle = i;
+		}
+	}
+	return minDistance;
 }
 
 Vector Ray::collisionShadow(Scene &scene, int ignoreObject){
@@ -175,7 +163,7 @@ Vector Ray::collisionShadow(Scene &scene, int ignoreObject){
 			}else if (obj->IsTriangle()){
 				distance = collisionTriangle((SceneTriangle*)obj, &barycCoord);
 			}else if (obj->IsModel()){
-				//distance = collisionExternModel((SceneModel*)so, modelObject, &barycCoord, scene.showBoundingSpheres, scene.useBs);
+				distance = collisionExternModel((SceneModel*)obj, object, &barycCoord);
 			}
 
 			//If closer
@@ -268,7 +256,7 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 	int object = -1;
 	int modelTriangle = -1;
 
-	barycCoord = Vector(0, 0, 0);
+	Vector barycCoordAux(0, 0, 0);
 	minDistance = INFINITY;
 
 	for (int i = 0; i<scene.GetNumObjects(); ++i){
@@ -280,16 +268,17 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 			if (obj->IsSphere())	{
 				distance = collisionSphere((SceneSphere*)obj);
 			}else if (obj->IsTriangle()){
-				distance = collisionTriangle((SceneTriangle*)obj, &barycCoord);
-			}else{
-				//distance = collisionExternModel((SceneModel*)obj, modObject, &barycCoord, scene.showBoundingSpheres, scene.useBs);
+				distance = collisionTriangle((SceneTriangle*)obj, &barycCoordAux);
+			}else if(obj->IsModel()){
+				distance = collisionExternModel((SceneModel*)obj, modObject, &barycCoordAux);
 			}
 
-			//If closer
+			// If is min distance
 			if (distance>0 && distance<minDistance){
 				minDistance = distance;
 				object = i;
 				modelTriangle = modObject;
+				barycCoord = barycCoordAux;
 			}
 		}
 	} 
@@ -301,8 +290,7 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 		SceneObject *intersectObject = scene.GetObject(object);
 
 		// Phong collor
-		Vector myColor, reflective, transparent, refraction, normal;
-		
+		Vector color, reflective, transparent, refraction, normal;
 		// Get eye vector
 		Vector eye = (scene.GetCamera().GetPosition() - getIntersectionPoint()).Normalize();
 
@@ -318,16 +306,15 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 			refraction = material->refraction_index;
 			transparent = material->transparent;
 
-			myColor = phong(material->diffuse, material->specular, material->shininess, getIntersectionPoint(), normal, eye, scene);
+			color = phong(material->diffuse, material->specular, material->shininess, getIntersectionPoint(), normal, eye, scene);
 		
 		}else if (intersectObject->IsTriangle() || intersectObject->IsModel()){
 			
 			SceneTriangle *triangle;
-			//Get the triangle
-			if (intersectObject->IsTriangle())
+			// Get the triangle
+			if (intersectObject->IsTriangle()){
 				triangle = (SceneTriangle *)intersectObject;
-			else
-			{
+			}else{
 				triangle = ((SceneModel *)intersectObject)->GetTriangle(modelTriangle);
 			}
 
@@ -368,13 +355,13 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 			refraction = material0->refraction_index * barycCoord.z + material1->refraction_index * barycCoord.x + material2->refraction_index * barycCoord.y;
 			transparent = material0->transparent * barycCoord.z + material1->transparent * barycCoord.x + material2->transparent * barycCoord.y;
 
-			myColor = phong(diffuse, specular, shininess, getIntersectionPoint(), normal, eye, scene);
+			color = phong(diffuse, specular, shininess, getIntersectionPoint(), normal, eye, scene);
 		}
 
 		//Recursive rays
 		//If last recursion or not reflective, return object color
 		if (restRebounds == 0)
-			return myColor;
+			return color;
 
 		//If not, throw another ray
 		if (reflective.Magnitude() > 0){
@@ -385,7 +372,7 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 			Vector reflectedColor = newRay.collisions(scene, collidedObject);
 
 			Vector inverseReflective = Vector(1 - reflective.x, 1 - reflective.y, 1 - reflective.z);
-			return reflectedColor*reflective + myColor*inverseReflective;
+			return reflectedColor*reflective + color*inverseReflective;
 		}
 
 		//Refraction
@@ -418,10 +405,10 @@ Vector Ray::collisions(Scene &scene, int ignoreObject){
 		//	return refractedColor*transparent + myColor*inverseTransparent;
 		//}
 
-		//There's been a collision and it's not reflective or refractive, so return my color
-		return myColor;
+		// There's been a collision and it's not reflective or refractive, so return color
+		return color;
 	}
 
-	//If there's not a collision, return background
+	// If there's not a collision, return background
 	return scene.GetBackground().color;
 }

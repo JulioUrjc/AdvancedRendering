@@ -82,5 +82,5 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY){
    Ray ray(camPos, rayDirection, REBOUNDS);	// REBOUNDS defined in RayTrace.h
    return ray.collisions(m_Scene, -1);		// In the first rebounce not ignore any object
 
-   //return Vector(0.0f, 0.0f, 0.0f);
+   // return Vector(0.0f, 0.0f, 0.0f);
 }
