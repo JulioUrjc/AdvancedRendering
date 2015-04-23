@@ -74,7 +74,6 @@ Vector RayTrace::CalculatePixel (int screenX, int screenY){
 
 	Vector rayDirection = (look + normal*alpha + up*beta).Normalize();
 	
-
    if ((screenX <0 || screenX>Scene::WINDOW_WIDTH-1) || (screenY<0 || screenY>Scene::WINDOW_HEIGHT-1)){  
       return Vector (0.0f, 0.0f, 0.0f);	// Off the screen, return black
    }
