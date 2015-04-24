@@ -10,25 +10,25 @@ class Ray{
 	public:
 		Ray(Vector origin, Vector direction, int numRebounds);
 
-		// Check if ray is intersecting with a sphere
+		// Intersection with a sphere
 		float collisionSphere(SceneSphere* sphere);
 
-		// Check if ray is intersecting with a triangle
+		// Intersection with a triangle
 		float collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord);
 
-		// Return if ray is intersecting with a model
-		float collisionExternModel(SceneModel* model, int &modelTriangle, Vector* intersecCoord, bool showSpheres, bool useBs);
+		// Intersection with a model
+		float colExtModel(SceneModel* model, int &modelTriangle, Vector* intersecCoord);
 
-		// Returns the transparency to multiply to the color (0,0,0) total shadow, (1,1,1) no shadow
+		// Shadows
 		Vector collisionShadow(Scene &scene, int ignoreObject);
 
-		// Return phong color
-		Vector phong(Vector diffuseMat, Vector specularMat, float shininess, Vector point, Vector normal, Vector eye, Scene &scene);
+		// Phong
+		Vector phong(Vector diffuseMat, Vector specularMat, float shininess, Vector point, Vector normal, Vector look, Scene &scene);
 
-		// Returns the color of the object intersected
+		// Color of the object intersected
 		Vector collisions(Scene &scene, int ignoreObject);
 
-		//Getters
+		// Getters
 		inline Vector getRayDirection(){ return direction; }
 		inline Vector getIntersectionPoint(){ return origin + direction*minDistance; }
 		inline float getMinDistance(){ return minDistance; }
@@ -39,10 +39,7 @@ class Ray{
 		float minDistance;
 		int collidedObject;
 
-		//Ray rebounds
-		int restRebounds;
-
-		//Barycentric coordinates in triangle intersection
-		Vector barycCoord;
+		int restRebounds;	// Rest of ray rebounds
+		Vector barycCoord;	// Barycentric coordinates in triangle intersection
 };
 
