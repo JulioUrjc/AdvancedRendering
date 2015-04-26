@@ -22,7 +22,7 @@
 #include "Ray.h"
 
 const int REBOUNDS = 4;
-
+/* Clase que define el algoritmo RayTrace Raquel Peces y Julio Martín */
 /*
 	RayTrace Class - The class containing the function you will need to implement.This is the class with the function you need to implement
 */

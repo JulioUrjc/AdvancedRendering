@@ -2,14 +2,14 @@
 #include <iostream>
 /* Clase que define un rayo Raquel Peces y Julio Martín */
 
-// Constructor
+/* Constructor */
 Ray::Ray(Vector origin, Vector direction, int numRebounds){
 	this->origin = origin;
 	this->direction = direction;
 	restRebounds = numRebounds;
 }
 
-// Intersection with a sphere
+/* Intersection with a sphere */
 //float Ray::collisionSphere(SceneSphere* sphere){
 //
 //	//Translate and scale sphere
@@ -36,7 +36,7 @@ Ray::Ray(Vector origin, Vector direction, int numRebounds){
 //	return -1;
 //}
 
-// Intersection with a sphere
+/* Intersection with a sphere */
 float Ray::collisionSphere(SceneSphere* sphere){
 	
 	// Translate and scale sphere
@@ -64,7 +64,7 @@ float Ray::collisionSphere(SceneSphere* sphere){
 	return -1;
 }
 
-// Intersection with a triangle
+/* Intersection with a triangle */
 // Moller & Trumbore Method 2003 - Tema Traza de rayos transparencia 26
 float Ray::collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord){
 	Vector edge1, edge2, pvec, qvec, tvec;
@@ -112,10 +112,10 @@ float Ray::collisionTriangle(SceneTriangle* triangle, Vector* intersecCoord){
 		return t;
 	}
 	 
-	return -1;	//Line intersection?
+	return -1;	// Line
 }
 
-// Intersection whit a model
+/* Intersection whit a model */
 float Ray::colExtModel(SceneModel* m, int &mTriangle, Vector* intersecCoord){
 
 	float minDistance = INFINITY;
@@ -135,7 +135,7 @@ float Ray::colExtModel(SceneModel* m, int &mTriangle, Vector* intersecCoord){
 	return minDistance;
 }
 
-// Return shadows (0,0,0) shadow, (1,1,1) no shadow
+/* Return shadows (0,0,0) shadow, (1,1,1) no shadow */
 Vector Ray::collisionShadow(Scene &scene, int ignoredObject){
 	
 	Vector shadow(1,1,1);
@@ -183,7 +183,7 @@ Vector Ray::collisionShadow(Scene &scene, int ignoredObject){
 			else
 				tri = ((SceneModel*)intersObj)->GetTriangle(modTriangle);
 
-			// Interpolate material
+			// Material
 			SceneMaterial *mat0 = scene.GetMaterial(tri->material[0]);
 			SceneMaterial *mat1 = scene.GetMaterial(tri->material[1]);
 			SceneMaterial *mat2 = scene.GetMaterial(tri->material[2]);
@@ -194,7 +194,8 @@ Vector Ray::collisionShadow(Scene &scene, int ignoredObject){
 	return shadow;
 }
 
-Vector Ray::phong(Vector diffuseMat, Vector specularMat, float shininess, Vector point, Vector normal, Vector look, Scene &scene){
+/* Phong equation */
+Vector Ray::phong(Vector p, Vector normal, Vector look, Scene &scene, Vector diffuseMaterial, Vector specularMaterial, float shin){
 	
 	// Ambient light
 	Vector ambient = scene.GetBackground().ambientLight;
@@ -202,31 +203,31 @@ Vector Ray::phong(Vector diffuseMat, Vector specularMat, float shininess, Vector
 	ambient.y = glm::clamp(ambient.y, 0.0f, 1.0f);
 	ambient.z = glm::clamp(ambient.z, 0.0f, 1.0f);
 
-	Vector color = ambient * 0.3 * diffuseMat;
+	Vector color = ambient * 0.2 * diffuseMaterial;
 
 	// Lights
 	for(unsigned int i= 0; i<scene.GetNumLights(); i++){
 		
 		SceneLight *light = scene.GetLight(i);
-		Vector ray = (light->position - point).Normalize();
+		Vector ray = (light->position - p).Normalize();
 		
-		 Ray shadowRay(point, ray, 0);	// Throw ray to the light
-		 Vector shadow= shadowRay.collisionShadow(scene, collidedObject);
+		Ray shadowRay(p, ray, 0);			// Throw ray to the light
+		Vector shadow= shadowRay.collisionShadow(scene, collidedObject);
 
 		if (shadow.Magnitude()>0){
-			//Attenuation
-			float distance = (light->position - point).Magnitude();
+			// Attenuation
+			float distance = (light->position - p).Magnitude();
 			float att = glm::min(1.0f / (light->attenuationConstant + light->attenuationLinear*distance + light->attenuationQuadratic*distance*distance), 1.0f);
 
 			// Specular
-			Vector reflected = normal*ray.Dot(normal) * 2 - ray;
-			Vector specular = specularMat * pow(reflected.Dot(look), shininess);
+			Vector reflectRay = normal*ray.Dot(normal) * 2 - ray;
+			Vector specular = specularMaterial * pow(reflectRay.Dot(look), shin);
 			specular.x = glm::clamp(specular.x, 0.0f, 1.0f);
 			specular.y = glm::clamp(specular.y, 0.0f, 1.0f);
 			specular.z = glm::clamp(specular.z, 0.0f, 1.0f);
 
 			// Diffuse
-			Vector diffuse = diffuseMat * ray.Dot(normal);
+			Vector diffuse = diffuseMaterial * ray.Dot(normal);
 			diffuse.x = glm::clamp(diffuse.x, 0.0f, 1.0f);
 			diffuse.y = glm::clamp(diffuse.y, 0.0f, 1.0f);
 			diffuse.z = glm::clamp(diffuse.z, 0.0f, 1.0f);
@@ -240,6 +241,7 @@ Vector Ray::phong(Vector diffuseMat, Vector specularMat, float shininess, Vector
 	return color;
 }
 
+/* Principal method */
 Vector Ray::collisions(Scene &scene, int ignoredObject){
 
 	int object = -1;
@@ -292,7 +294,7 @@ Vector Ray::collisions(Scene &scene, int ignoredObject){
 			refraction = mat->refraction_index;
 			transparency = mat->transparent;
 
-			color = phong(mat->diffuse, mat->specular, mat->shininess, getIntersectionPoint(), normal, look, scene);
+			color = phong(getIntersectionPoint(), normal, look, scene, mat->diffuse, mat->specular, mat->shininess);
 		
 		}else if(intersectObject->IsTriangle() || intersectObject->IsModel()){	
 			SceneTriangle *tri;
@@ -328,7 +330,7 @@ Vector Ray::collisions(Scene &scene, int ignoredObject){
 			     refraction= mat0->refraction_index* barycCoord.z + mat1->refraction_index* barycCoord.x + mat2->refraction_index* barycCoord.y;
 			   transparency= mat0->transparent     * barycCoord.z + mat1->transparent     * barycCoord.x + mat2->transparent     * barycCoord.y;
 
-			color = phong(diffuse, specular, shininess, getIntersectionPoint(), normal, look, scene);
+			   color = phong(getIntersectionPoint(), normal, look, scene, diffuse, specular, shininess);
 		}
 
 		/* Reflective */

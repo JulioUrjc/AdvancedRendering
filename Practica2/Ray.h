@@ -23,7 +23,7 @@ class Ray{
 		Vector collisionShadow(Scene &scene, int ignoreObject);
 
 		// Phong
-		Vector phong(Vector diffuseMat, Vector specularMat, float shininess, Vector point, Vector normal, Vector look, Scene &scene);
+		Vector phong(Vector p, Vector normal, Vector look, Scene &scene, Vector diffuseMaterial, Vector specularMaterial, float shin);
 
 		// Color of the object intersected
 		Vector collisions(Scene &scene, int ignoreObject);

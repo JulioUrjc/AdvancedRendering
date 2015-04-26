@@ -17,6 +17,7 @@
 
 #include "Scene.h"
 #include "RayTrace.h"
+/* Clase que define el algoritmo RayTrace Raquel Peces y Julio Martín */
 
 void RayTrace::initialize(){
 	Scene &la_escena = m_Scene;
